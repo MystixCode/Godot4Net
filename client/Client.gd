@@ -8,13 +8,13 @@ func _ready():
 	multiplayer.server_disconnected.connect(_server_disconnected)
 
 func _on_connect_pressed():
-		$"UI/VBox/Connect".disabled = true
-		print("Connecting..")
-		var peer := ENetMultiplayerPeer.new()
-		var ip : String = $UI/VBox/IP.text
-		var port : int = $UI/VBox/Port.value
-		peer.create_client(ip, port)
-		multiplayer.set_multiplayer_peer(peer)
+	$"UI/VBox/Connect".disabled = true
+	print("Connecting..")
+	var peer := ENetMultiplayerPeer.new()
+	var ip : String = $UI/VBox/IP.text
+	var port : int = $UI/VBox/Port.value
+	peer.create_client(ip, port)
+	multiplayer.set_multiplayer_peer(peer)
 
 func _connected_ok():
 	$UI.hide()
