@@ -9,4 +9,4 @@ Some issues to fix are:
  - interpolation rotation
  - prediction
  
-<img src="/screenshot.png" width="50%" height="50%">
+<img src="/screenshot.png" width="100%" height="100%">
