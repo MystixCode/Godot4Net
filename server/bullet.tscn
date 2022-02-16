@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://cq7k5b0b75ckq"]
+
+[ext_resource type="Script" path="res://bullet2.gd" id="1_j1vs3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_swsmw"]
+albedo_color = Color(0.490196, 0.87451, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_xt4lc"]
+material = SubResource( "StandardMaterial3D_swsmw" )
+radius = 0.1
+height = 0.2
+rings = 4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4dy5y"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rcu6p"]
+properties/0/path = NodePath(":position")
+properties/0/spawn = true
+properties/0/sync = true
+
+[node name="Bullet" type="RigidDynamicBody3D"]
+script = ExtResource( "1_j1vs3" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource( "SphereMesh_xt4lc" )
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource( "SphereShape3D_4dy5y" )
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("..")
+resource = SubResource( "SceneReplicationConfig_rcu6p" )
+
+[connection signal="body_entered" from="." to="." method="_on_bullet_body_entered"]

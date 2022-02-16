@@ -1,0 +1,109 @@
+[gd_scene load_steps=7 format=3 uid="uid://c0nfmv164jp1u"]
+
+[ext_resource type="Script" path="res://Client.gd" id="1_r7a63"]
+[ext_resource type="PackedScene" uid="uid://6als47lffj87" path="res://Player.tscn" id="2_w8eqy"]
+[ext_resource type="Script" path="res://BulletSpawner.gd" id="3_a0hoj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_avj65"]
+albedo_color = Color(0.266667, 0.172549, 0.0745098, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_j7ojr"]
+material = SubResource( "StandardMaterial3D_avj65" )
+size = Vector3(20, 0.1, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y4spg"]
+size = Vector3(20, 0.1, 20)
+
+[node name="Main" type="Node3D"]
+script = ExtResource( "1_r7a63" )
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 0.961262, 0.275637, 0, -0.275637, 0.961262, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource( "BoxMesh_j7ojr" )
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource( "BoxShape3D_y4spg" )
+
+[node name="Players" type="MultiplayerSpawner" parent="."]
+replication = [ExtResource( "2_w8eqy" )]
+spawn_path = NodePath(".")
+auto_spawn = true
+
+[node name="Bullets" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath(".")
+script = ExtResource( "3_a0hoj" )
+
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="UI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -118.0
+offset_right = 74.0
+offset_bottom = 118.0
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_anchors_": false,
+"_edit_use_custom_anchors": false
+}
+
+[node name="IP" type="TextEdit" parent="UI/VBox"]
+offset_right = 148.0
+offset_bottom = 44.0
+size_flags_vertical = 3
+text = "localhost"
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="Port" type="SpinBox" parent="UI/VBox"]
+offset_top = 48.0
+offset_right = 148.0
+offset_bottom = 92.0
+size_flags_vertical = 3
+max_value = 65535.0
+value = 4242.0
+
+[node name="Prediction" type="CheckButton" parent="UI/VBox"]
+offset_top = 96.0
+offset_right = 148.0
+offset_bottom = 140.0
+size_flags_vertical = 3
+text = "Prediction"
+
+[node name="Interpolation" type="CheckButton" parent="UI/VBox"]
+offset_top = 144.0
+offset_right = 148.0
+offset_bottom = 188.0
+size_flags_vertical = 3
+text = "Interpolation"
+
+[node name="Connect" type="Button" parent="UI/VBox"]
+offset_top = 192.0
+offset_right = 148.0
+offset_bottom = 236.0
+size_flags_vertical = 3
+text = "Connect"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="UI/VBox/Connect" to="." method="_on_connect_pressed"]

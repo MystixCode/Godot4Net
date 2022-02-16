@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://bkr8x4plbrtjp"]
+
+[ext_resource type="Script" path="res://Server.gd" id="1_v5pqd"]
+[ext_resource type="PackedScene" uid="uid://rg8h2fmwrtju" path="res://Player.tscn" id="2_kb02k"]
+[ext_resource type="Script" path="res://BulletSpawner.gd" id="3_tm8w3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qevhg"]
+size = Vector3(20, 0.1, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8rwwt"]
+albedo_color = Color(0.235294, 0.145098, 0.0745098, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ri3e7"]
+material = SubResource( "StandardMaterial3D_8rwwt" )
+size = Vector3(20, 0.1, 20)
+
+[node name="Main" type="Node3D"]
+script = ExtResource( "1_v5pqd" )
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 0.961262, 0.275637, 0, -0.275637, 0.961262, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource( "BoxShape3D_qevhg" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource( "BoxMesh_ri3e7" )
+skeleton = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 0.80002, 0.599974, 0, -0.599974, 0.80002, 0, 10.0043, 13.872)
+current = true
+
+[node name="Players" type="MultiplayerSpawner" parent="."]
+replication = [ExtResource( "2_kb02k" )]
+spawn_path = NodePath(".")
+auto_spawn = true
+
+[node name="Bullets" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath(".")
+script = ExtResource( "3_tm8w3" )

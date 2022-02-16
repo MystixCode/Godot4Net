@@ -1,0 +1,148 @@
+[gd_scene load_steps=11 format=3 uid="uid://6als47lffj87"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_tijic"]
+[ext_resource type="Script" path="res://CameraArm.gd" id="2_5mybt"]
+[ext_resource type="Script" path="res://Inputs.gd" id="4_o1t5r"]
+[ext_resource type="Texture2D" uid="uid://deqys0qlek7tr" path="res://crosshair.png" id="5_17n5t"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ucx8u"]
+albedo_color = Color(0.356863, 0.619608, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_28t71"]
+material = SubResource( "StandardMaterial3D_ucx8u" )
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vbef3"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i3vol"]
+properties/0/path = NodePath(":synced_position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(":synced_rotation_y")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath(":synced_camera_arm_rotation_x")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath(":synced_player_name")
+properties/3/spawn = true
+properties/3/sync = false
+properties/4/path = NodePath(":synced_health")
+properties/4/spawn = true
+properties/4/sync = true
+properties/5/path = NodePath(":synced_mana")
+properties/5/spawn = true
+properties/5/sync = true
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2klq5"]
+properties/0/path = NodePath(":motion")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(":mouseDelta")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath(":jump")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath(":shoot")
+properties/3/spawn = true
+properties/3/sync = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_ef7a8"]
+size = Vector3(0.8, 0.2, 0.5)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource( "1_tijic" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource( "CapsuleMesh_28t71" )
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource( "CapsuleShape3D_vbef3" )
+
+[node name="CameraArm" type="SpringArm3D" parent="."]
+spring_length = 3.0
+script = ExtResource( "2_5mybt" )
+
+[node name="Camera3D" type="Camera3D" parent="CameraArm"]
+h_offset = 1.0
+v_offset = 1.5
+
+[node name="Position3D" type="Position3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("..")
+resource = SubResource( "SceneReplicationConfig_i3vol" )
+
+[node name="Inputs" type="Node" parent="."]
+script = ExtResource( "4_o1t5r" )
+
+[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="Inputs"]
+root_path = NodePath("..")
+resource = SubResource( "SceneReplicationConfig_2klq5" )
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+mesh = SubResource( "BoxMesh_ef7a8" )
+
+[node name="Crosshair" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource( "5_17n5t" )
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugUI" type="Control" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="DebugUI"]
+offset_right = 40.0
+offset_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label1" type="Label" parent="DebugUI/VBox"]
+offset_right = 40.0
+offset_bottom = 26.0
+text = "test"
+
+[node name="Label2" type="Label" parent="DebugUI/VBox"]
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 56.0
+text = "test"
+
+[node name="Label3" type="Label" parent="DebugUI/VBox"]
+offset_top = 60.0
+offset_right = 40.0
+offset_bottom = 86.0
+text = "test"
+
+[node name="Label4" type="Label" parent="DebugUI/VBox"]
+offset_top = 90.0
+offset_right = 40.0
+offset_bottom = 116.0
+text = "test"
+
+[node name="Label5" type="Label" parent="DebugUI/VBox"]
+offset_top = 120.0
+offset_right = 40.0
+offset_bottom = 143.0
+
+[node name="Label6" type="Label" parent="DebugUI/VBox"]
+offset_top = 147.0
+offset_right = 40.0
+offset_bottom = 170.0
