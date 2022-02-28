@@ -1,5 +1,5 @@
 # Godot4Net
-This is a godot 4.0.2 alpha test project to checkout the new network sync code. \
+This is a godot 4.0.3 alpha test project to checkout the new network sync code. \
 Server and client are separated into two projects and its 3D.
 
 Some issues to fix are:
