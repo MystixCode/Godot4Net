@@ -45,9 +45,6 @@ script = ExtResource( "3_a0hoj" )
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBox" type="VBoxContainer" parent="UI"]
 anchor_left = 0.5
@@ -55,18 +52,19 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -74.0
-offset_top = -118.0
+offset_top = -65.0
 offset_right = 74.0
-offset_bottom = 118.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
 __meta__ = {
-"_edit_layout_mode": 0,
-"_edit_use_anchors_": false,
+"_edit_layout_mode": 1,
 "_edit_use_custom_anchors": false
 }
 
 [node name="IP" type="TextEdit" parent="UI/VBox"]
 offset_right = 148.0
-offset_bottom = 44.0
+offset_bottom = 40.0
 size_flags_vertical = 3
 text = "localhost"
 __meta__ = {
@@ -75,31 +73,17 @@ __meta__ = {
 }
 
 [node name="Port" type="SpinBox" parent="UI/VBox"]
-offset_top = 48.0
+offset_top = 44.0
 offset_right = 148.0
-offset_bottom = 92.0
+offset_bottom = 85.0
 size_flags_vertical = 3
 max_value = 65535.0
 value = 4242.0
 
-[node name="Prediction" type="CheckButton" parent="UI/VBox"]
-offset_top = 96.0
-offset_right = 148.0
-offset_bottom = 140.0
-size_flags_vertical = 3
-text = "Prediction"
-
-[node name="Interpolation" type="CheckButton" parent="UI/VBox"]
-offset_top = 144.0
-offset_right = 148.0
-offset_bottom = 188.0
-size_flags_vertical = 3
-text = "Interpolation"
-
 [node name="Connect" type="Button" parent="UI/VBox"]
-offset_top = 192.0
+offset_top = 89.0
 offset_right = 148.0
-offset_bottom = 236.0
+offset_bottom = 130.0
 size_flags_vertical = 3
 text = "Connect"
 __meta__ = {

@@ -1,6 +1,6 @@
 extends Node
 
-var mouseDelta := Vector2()
+var mouse_motion := Vector2()
 var motion := Vector2()
 var jump := false
 var shoot := false
@@ -13,4 +13,4 @@ func update():
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		mouseDelta = event.relative
+		mouse_motion = event.relative

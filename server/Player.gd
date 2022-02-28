@@ -23,8 +23,8 @@ func _physics_process(delta):
 	synced_position = position
 	synced_rotation_y = rotation.y
 
-	var rot : Vector3 = Vector3($"Inputs".mouseDelta.y, $"Inputs".mouseDelta.x, 0) * mouse_sensitivity * delta
-	$"Inputs".mouseDelta = Vector2()
+	var rot : Vector3 = Vector3($"Inputs".mouse_motion.y, $"Inputs".mouse_motion.x, 0) * mouse_sensitivity * delta
+	$"Inputs".mouse_motion = Vector2()
 	
 	$CameraArm.rotation.x-= rot.x
 	synced_camera_arm_rotation_x = $CameraArm.rotation.x
@@ -33,11 +33,11 @@ func _physics_process(delta):
 	
 	# Add the gravity.
 	if not is_on_floor():
-		motion_velocity.y -= gravity * delta
+		velocity.y -= gravity * delta
 
 #	#Handle Jump.
 	if $Inputs.jump == true and is_on_floor():
-		motion_velocity.y = jump_force
+		velocity.y = jump_force
 		synced_mana-=10
 
 	#Handle Shoot
@@ -46,11 +46,11 @@ func _physics_process(delta):
 
 	var direction := (transform.basis * Vector3($Inputs.motion.y, 0, $Inputs.motion.x)).normalized()
 	if direction:
-		motion_velocity.x = direction.x * speed
-		motion_velocity.z = direction.z * speed
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
 	else:
-		motion_velocity.x = move_toward(motion_velocity.x, 0, speed)
-		motion_velocity.z = move_toward(motion_velocity.z, 0, speed)
+		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.z = move_toward(velocity.z, 0, speed)
 
 	move_and_slide()
 

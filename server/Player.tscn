@@ -36,13 +36,13 @@ properties/5/sync = true
 properties/0/path = NodePath(":motion")
 properties/0/spawn = true
 properties/0/sync = true
-properties/1/path = NodePath(":mouseDelta")
+properties/1/path = NodePath(":jump")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath(":jump")
+properties/2/path = NodePath(":shoot")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath(":shoot")
+properties/3/path = NodePath(":mouse_motion")
 properties/3/spawn = true
 properties/3/sync = true
 
