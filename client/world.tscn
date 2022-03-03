@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://m5k3wol611p2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mr352"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g84gx"]
+albedo_color = Color(0.196078, 0.121569, 0.054902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sh4e3"]
+material = SubResource( "StandardMaterial3D_g84gx" )
+size = Vector3(100, 1, 100)
+
+[node name="World" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource( "BoxShape3D_mr352" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource( "BoxMesh_sh4e3" )
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.961262, 0.275637, 0, -0.275637, 0.961262, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.968392, 0.249434, 0, -0.249434, 0.968392, 0, 42.8285, 84.2081)
