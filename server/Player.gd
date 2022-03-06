@@ -17,7 +17,7 @@ func _ready():
 	$Inputs.set_multiplayer_authority(str(name).to_int())
 
 	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name):
-			camera.current = true
+		camera.current = true
 
 func _physics_process(delta):
 	synced_position = position
