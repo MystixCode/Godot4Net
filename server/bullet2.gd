@@ -8,7 +8,7 @@ var damage : int = 50
 
 @onready var player := get_node("../../Players/" + str(from_player))
 @onready var camera := player.get_node("CameraArm/Camera3D")
-@onready var ch_pos : Vector2 = player.get_node("Crosshair").rect_position + player.get_node("Crosshair").rect_size * 0.5
+@onready var ch_pos : Vector2 = player.get_node("Crosshair").position + player.get_node("Crosshair").size * 0.5
 @onready var ray_from = player.get_node("Position3D/").global_transform.origin
 @onready var ray_dir : Vector3 = camera.project_ray_normal(ch_pos)
 
