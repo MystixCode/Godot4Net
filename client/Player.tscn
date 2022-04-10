@@ -96,9 +96,6 @@ offset_right = 16.0
 offset_bottom = 16.0
 texture = ExtResource( "5_17n5t" )
 stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="DebugUI" type="Control" parent="."]
 offset_right = 40.0
@@ -107,9 +104,6 @@ offset_bottom = 40.0
 [node name="VBox" type="VBoxContainer" parent="DebugUI"]
 offset_right = 40.0
 offset_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label1" type="Label" parent="DebugUI/VBox"]
 offset_right = 40.0

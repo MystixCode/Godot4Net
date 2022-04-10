@@ -32,20 +32,12 @@ offset_right = 74.0
 offset_bottom = 65.0
 grow_horizontal = 2
 grow_vertical = 2
-__meta__ = {
-"_edit_layout_mode": 1,
-"_edit_use_custom_anchors": false
-}
 
 [node name="IP" type="TextEdit" parent="UI/VBox"]
 offset_right = 148.0
 offset_bottom = 40.0
 size_flags_vertical = 3
 text = "localhost"
-__meta__ = {
-"_edit_layout_mode": 0,
-"_edit_use_custom_anchors": false
-}
 
 [node name="Port" type="SpinBox" parent="UI/VBox"]
 offset_top = 44.0
@@ -61,9 +53,6 @@ offset_right = 148.0
 offset_bottom = 130.0
 size_flags_vertical = 3
 text = "Connect"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="World" parent="." instance=ExtResource( "4_pvxl8" )]
 

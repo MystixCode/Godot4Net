@@ -94,6 +94,3 @@ offset_right = 16.0
 offset_bottom = 16.0
 texture = ExtResource( "4_w18ha" )
 stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
