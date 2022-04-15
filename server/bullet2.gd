@@ -5,6 +5,7 @@ var time_alive: float = 5
 var direction := Vector3()
 var bullet_velocity : float = 10
 var damage : int = 50
+var synced_position: Vector3
 
 @onready var player := get_node("../../Players/" + str(from_player))
 @onready var camera := player.get_node("CameraArm/Camera3D")
@@ -13,7 +14,6 @@ var damage : int = 50
 @onready var ray_dir : Vector3 = camera.project_ray_normal(ch_pos)
 
 func _ready():
-	
 #	TODO manage to hit center of crosshair somehow..
 #	var shoot_target
 
@@ -43,6 +43,7 @@ func _process(delta):
 #		$anim.play("explode")
 		queue_free()
 	var col = move_and_collide(delta * direction * bullet_velocity)
+	synced_position = position
 	if (col):
 #		print("collided")
 		if (col.get_collider() and col.get_collider().has_method("damage")):
@@ -50,6 +51,7 @@ func _process(delta):
 		$CollisionShape3D.disabled=true
 		queue_free()
 #		$anim.play("explode")
+
 
 func _on_bullet_body_entered(body):
 	print("got into body" + str(body))

@@ -42,7 +42,11 @@ func _physics_process(delta):
 
 	#Handle Shoot
 	if $Inputs.shoot == true:
-		get_node("../../Bullets").spawn([$"Position3D".global_transform.origin, str(name).to_int()])
+		var bullet_data: Dictionary = {
+			"synced_position": $"Position3D".global_transform.origin,
+			"name": str(name).to_int()
+		}
+		get_node("../../Bullets").spawn(bullet_data)
 
 	var direction := (transform.basis * Vector3($Inputs.motion.y, 0, $Inputs.motion.x)).normalized()
 	if direction:
