@@ -55,6 +55,7 @@ auto_spawn = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("..")
+replication_interval = 0.1
 resource = ExtResource( "3_q3bqn" )
 
 [node name="BulletSpawner" type="MultiplayerSpawner" parent="."]

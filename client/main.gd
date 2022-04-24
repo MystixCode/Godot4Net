@@ -5,6 +5,7 @@ var global_states : Dictionary
 @export var global_state : Dictionary = {
 	"player": {},
 	"bullet": {},
+	"moving_cube": {},
 	"other": {}
 }
 var tickid : int = 0

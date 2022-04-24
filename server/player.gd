@@ -9,7 +9,7 @@ var player_state : Array
 var speed := 5.0
 var jump_force := 4.5
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
-var mouse_sensitivity : float = 2
+var mouse_sensitivity : float = 1
 
 @onready var camera : Camera3D = $CameraArm/Camera3D
 @onready var b_res := preload("res://bullet.tscn")
@@ -53,7 +53,7 @@ func _physics_process(delta):
 			var b := b_res.instantiate()
 			b.position = $"Position3D".global_transform.origin
 			b.from_player = player_id
-			b.name = str(player_id) + "_" + str(randi()%1001+1)
+			#b.name = str(player_id) + "_" + str(randi()%1001+1)
 			get_node("/root/Main/BulletSpawner").add_child(b, true)
 			
 		var motion = $Inputs.input_state[name][0]
@@ -73,6 +73,5 @@ func _physics_process(delta):
 		get_node("/root/Main").global_state["player"][name] = player_state
 
 func damage(_dmg : int):
-	print("dmg")
 	player_health -= _dmg
-	print(str(name) + " Health: " + str(player_health))
+	print(str(name) + " health: " + str(player_health))

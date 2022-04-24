@@ -29,7 +29,7 @@ func _physics_process(delta):
 	get_node("/root/Main").global_state["bullet"][name] = bullet_state
 
 func _on_bullet_body_entered(body):
-	print(str(name) + " collided with " + str(body))
+	print(str(name) + " collided with " + str(body.name))
 	if body is CharacterBody3D:
 		body.damage(10)
 
