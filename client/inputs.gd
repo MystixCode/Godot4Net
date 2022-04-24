@@ -18,6 +18,6 @@ func update(player_id):
 	#print("motion: " + str(motion))
 	input_state[str(player_id)] = [motion, mouse_motion, jump, shoot]
 	mouse_motion = Vector2()
-	
+
 #func _physics_process(_delta):
 #	print(input_state)

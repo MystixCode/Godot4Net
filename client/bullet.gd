@@ -1,10 +1,9 @@
-extends RigidDynamicBody3D
+extends Area3D
 
 var from_player : int
-var synced_position : Vector3
+var bullet_state : Array
 
 func _physics_process(delta):
-	
-	if synced_position:
-		#print(synced_position)
-		position=synced_position
+	if get_node("/root/Main").global_state["bullet"].has(name):
+		bullet_state = get_node("/root/Main").global_state["bullet"][name]
+		position = bullet_state[1]

@@ -38,8 +38,8 @@ func _physics_process(_delta):
 	$Inputs.update(player_id)
 
 	#Set player to player_state info from server
-	if get_node("/root/Main").global_state.has(name):
-		player_state = get_node("/root/Main").global_state[name]
+	if get_node("/root/Main").global_state["player"].has(name):
+		player_state = get_node("/root/Main").global_state["player"][name]
 		position = player_state[1]
 		rotation.y = player_state[2].x
 		$CameraArm.rotation.x = player_state[2].y

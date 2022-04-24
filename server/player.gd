@@ -12,6 +12,7 @@ var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var mouse_sensitivity : float = 2
 
 @onready var camera : Camera3D = $CameraArm/Camera3D
+@onready var b_res := preload("res://bullet.tscn")
 
 func _ready():
 #	Engine.physics_ticks_per_second=144
@@ -46,14 +47,15 @@ func _physics_process(delta):
 			player_mana-=10
 			print(str(name) + " mana: " + str(player_mana))
 
-	#Handle Shoot
-#	if $Inputs.shoot == true:
-#		var bullet_data: Dictionary = {
-#			"synced_position": $"Position3D".global_transform.origin,
-#			"name": str(name).to_int()
-#		}
-#		get_node("../../Bullets").spawn(bullet_data)
-
+		#Handle Shoot
+		var shoot = $Inputs.input_state[name][3]
+		if shoot == true:
+			var b := b_res.instantiate()
+			b.position = $"Position3D".global_transform.origin
+			b.from_player = player_id
+			b.name = str(player_id) + "_" + str(randi()%1001+1)
+			get_node("/root/Main/BulletSpawner").add_child(b, true)
+			
 		var motion = $Inputs.input_state[name][0]
 
 		var direction := (transform.basis * Vector3(motion.y, 0, motion.x)).normalized()
@@ -68,9 +70,9 @@ func _physics_process(delta):
 
 		#Add player_state to global_state after physic calculations
 		player_state = [player_name, position, Vector2(rotation.y, $CameraArm.rotation.x), player_health, player_mana]
-		get_node("/root/Main").global_state[name] = player_state
+		get_node("/root/Main").global_state["player"][name] = player_state
 
 func damage(_dmg : int):
 	print("dmg")
-#	synced_health -= dmg
-#	print(str(name) + " Health: " + str(synced_health))
+	player_health -= _dmg
+	print(str(name) + " Health: " + str(player_health))
