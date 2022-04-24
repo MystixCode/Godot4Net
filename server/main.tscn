@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://cr1ccslpiofsa"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_02d2m"]
+[ext_resource type="PackedScene" uid="uid://m5k3wol611p2" path="res://world.tscn" id="2_fbfjn"]
+[ext_resource type="PackedScene" uid="uid://dn5cc5t5qj4bk" path="res://player.tscn" id="3_h02jj"]
+[ext_resource type="SceneReplicationConfig" uid="uid://b2y7ro3idk00x" path="res://sync_conf.tres" id="3_l16nr"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource( "1_02d2m" )
+
+[node name="World" parent="." instance=ExtResource( "2_fbfjn" )]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+replication = [ExtResource( "3_h02jj" )]
+spawn_path = NodePath(".")
+auto_spawn = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("..")
+resource = ExtResource( "3_l16nr" )

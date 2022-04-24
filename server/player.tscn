@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://dn5cc5t5qj4bk"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_8fm8p"]
+[ext_resource type="Script" path="res://inputs.gd" id="2_3fknp"]
+[ext_resource type="SceneReplicationConfig" uid="uid://dnkjbgstxs77y" path="res://sync_input_conf.tres" id="2_fv1qd"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_428ye"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_hsa1h"]
+size = Vector3(0.8, 0.2, 0.5)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6h873"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource( "1_8fm8p" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource( "CapsuleMesh_428ye" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+mesh = SubResource( "BoxMesh_hsa1h" )
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource( "CapsuleShape3D_6h873" )
+
+[node name="CameraArm" type="SpringArm3D" parent="."]
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraArm"]
+h_offset = 1.0
+v_offset = 1.5
+
+[node name="Inputs" type="Node" parent="."]
+script = ExtResource( "2_3fknp" )
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Inputs"]
+root_path = NodePath("..")
+resource = ExtResource( "2_fv1qd" )
