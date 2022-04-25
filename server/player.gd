@@ -71,6 +71,13 @@ func _physics_process(delta):
 		#Add player_state to global_state after physic calculations
 		player_state = [player_name, position, Vector2(rotation.y, $CameraArm.rotation.x), player_health, player_mana]
 		get_node("/root/Main").global_state["player"][name] = player_state
+		
+		
+#		# after calling move_and_slide()
+#		for index in get_slide_collision_count():
+#			var collision = get_slide_collision(index)
+#			if collision.get_collider().is_in_group("bodies"):
+#				collision.get_collider().apply_central_impulse(-collision.normal * 100)
 
 func damage(_dmg : int):
 	player_health -= _dmg

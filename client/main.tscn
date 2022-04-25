@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dvrmma38sp0y5"]
+[gd_scene load_steps=7 format=3 uid="uid://dvrmma38sp0y5"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1xpwx"]
 [ext_resource type="PackedScene" uid="uid://m5k3wol611p2" path="res://world.tscn" id="2_6i5c8"]
+[ext_resource type="PackedScene" uid="uid://batut7xoe832j" path="res://chat.tscn" id="2_rjgph"]
 [ext_resource type="PackedScene" uid="uid://wrncck41r62g" path="res://player.tscn" id="3_iorcb"]
 [ext_resource type="SceneReplicationConfig" uid="uid://b2y7ro3idk00x" path="res://sync_conf.tres" id="3_q3bqn"]
 [ext_resource type="PackedScene" uid="uid://nfvxfmq171qq" path="res://bullet.tscn" id="5_7k4eq"]
@@ -45,6 +46,8 @@ offset_right = 148.0
 offset_bottom = 130.0
 size_flags_vertical = 3
 text = "Connect"
+
+[node name="chat" parent="UI" instance=ExtResource( "2_rjgph" )]
 
 [node name="World" parent="." instance=ExtResource( "2_6i5c8" )]
 

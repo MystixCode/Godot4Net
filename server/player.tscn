@@ -13,6 +13,7 @@ size = Vector3(0.8, 0.2, 0.5)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6h873"]
 
 [node name="Player" type="CharacterBody3D"]
+floor_block_on_wall = false
 script = ExtResource( "1_8fm8p" )
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

@@ -6,6 +6,7 @@ var global_states : Dictionary
 	"player": {},
 	"bullet": {},
 	"moving_cube": {},
+	"rigid_cube": {},
 	"other": {}
 }
 var tickid : int = 0

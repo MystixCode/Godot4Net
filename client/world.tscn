@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://m5k3wol611p2"]
+[gd_scene load_steps=21 format=3 uid="uid://m5k3wol611p2"]
 
 [ext_resource type="Script" path="res://moving_cube.gd" id="1_v76r5"]
+[ext_resource type="Script" path="res://rigid_cube.gd" id="2_hc6g5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mr352"]
 size = Vector3(100, 1, 100)
@@ -49,6 +50,10 @@ size = Vector3(3, 1, 20)
 [sub_resource type="BoxMesh" id="BoxMesh_4hhui"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3jflg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dqw3m"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dikle"]
 
 [node name="World" type="Node3D"]
 
@@ -114,3 +119,14 @@ mesh = SubResource( "BoxMesh_4hhui" )
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MovingCube1"]
 shape = SubResource( "BoxShape3D_3jflg" )
+
+[node name="RigidCube1" type="RigidDynamicBody3D" parent="."]
+transform = Transform3D(0.625, 0.649519, 0.433013, -0.433013, 0.75, -0.5, -0.649519, 0.125, 0.75, 0, 30, 0)
+can_sleep = false
+script = ExtResource( "2_hc6g5" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidCube1"]
+mesh = SubResource( "BoxMesh_dqw3m" )
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidCube1"]
+shape = SubResource( "BoxShape3D_dikle" )
