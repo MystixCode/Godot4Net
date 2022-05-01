@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/chat.gd" id="1_h4214"]
+
+[node name="chat" type="Node"]
+script = ExtResource( "1_h4214" )
+
+[node name="vbox" type="VBoxContainer" parent="."]
+minimum_size = Vector2(100, 0)
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -235.0
+offset_right = 194.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="output" type="RichTextLabel" parent="vbox"]
+minimum_size = Vector2(0, 200)
+offset_right = 194.0
+offset_bottom = 200.0
+
+[node name="input" type="LineEdit" parent="vbox"]
+offset_top = 204.0
+offset_right = 194.0
+offset_bottom = 235.0
+placeholder_text = "Chat here.."
+
+[connection signal="text_submitted" from="vbox/input" to="." method="_on_input_text_submitted"]

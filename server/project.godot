@@ -11,6 +11,10 @@ config_version=5
 [application]
 
 config/name="Server"
+<<<<<<< HEAD
+run/main_scene="res://scenes/main.tscn"
+=======
 run/main_scene="res://main.tscn"
+>>>>>>> cad2a6eba6d3e559da4703b0ef5feab4ba3bdc2c
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
