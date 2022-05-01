@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=10 format=3 uid="uid://boutii2qfslqn"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_h1uym"]
 [ext_resource type="Script" path="res://scripts/camera_arm.gd" id="2_77pim"]
 [ext_resource type="Script" path="res://scripts/inputs.gd" id="4_403v4"]
-[ext_resource type="Texture2D" uid="uid://deqys0qlek7tr" path="res://crosshair.png" id="4_klffw"]
+[ext_resource type="Texture2D" uid="uid://cjl62wt232xax" path="res://crosshair.png" id="4_klffw"]
 [ext_resource type="SceneReplicationConfig" uid="uid://b2ro1t7sycbek" path="res://sync_input_conf.tres" id="5_httrv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ucx8u"]

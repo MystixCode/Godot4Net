@@ -1,8 +1,4 @@
-<<<<<<< HEAD:client/scenes/bullet.tscn
 [gd_scene load_steps=5 format=3]
-=======
-[gd_scene load_steps=5 format=3 uid="uid://nfvxfmq171qq"]
->>>>>>> cad2a6eba6d3e559da4703b0ef5feab4ba3bdc2c:client/bullet.tscn
 
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_f3uit"]
 

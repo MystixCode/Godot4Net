@@ -3,7 +3,7 @@
 .import/
 export.cfg
 export_presets.cfg
-*.import
+#*.import
 
 # Mono-specific ignores
 .mono/

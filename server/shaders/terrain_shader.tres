@@ -1,10 +1,10 @@
 [gd_resource type="VisualShader" load_steps=26 format=3 uid="uid://c5knryltnquw8"]
 
-[ext_resource type="Texture2D" uid="uid://djdbh0kqq217w" path="res://textures/ground/Ground_B.png" id="1_2j55y"]
-[ext_resource type="Texture2D" uid="uid://bcbisumywh5q5" path="res://textures/grass_1/grass_1_color.png" id="1_jxjpa"]
-[ext_resource type="Texture2D" uid="uid://hw0kdyom6kvb" path="res://textures/ground/Ground_R.png" id="2_rmrjc"]
-[ext_resource type="Texture2D" uid="uid://decqrr1aq45pr" path="res://textures/ground/Ground_N.png" id="3_6p5ku"]
-[ext_resource type="Texture2D" uid="uid://d3b0uxer1i7fp" path="res://textures/sand_1/sand_1_color.png" id="5_tembl"]
+[ext_resource type="Texture2D" uid="uid://nv5j0ncg7c72" path="res://textures/ground/Ground_B.png" id="1_2j55y"]
+[ext_resource type="Texture2D" uid="uid://e5dx8et24kyg" path="res://textures/grass_1/grass_1_color.png" id="1_jxjpa"]
+[ext_resource type="Texture2D" uid="uid://hpk1r3gldjjs" path="res://textures/ground/Ground_R.png" id="2_rmrjc"]
+[ext_resource type="Texture2D" uid="uid://h2m73pyo030g" path="res://textures/ground/Ground_N.png" id="3_6p5ku"]
+[ext_resource type="Texture2D" uid="uid://c2hpc56iwwqwa" path="res://textures/sand_1/sand_1_color.png" id="5_tembl"]
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_25xyk"]
 default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(50, 50, 0)]

@@ -1,12 +1,8 @@
-<<<<<<< HEAD:server/scenes/bullet.tscn
+
 [gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_f3uit"]
-=======
-[gd_scene load_steps=5 format=3 uid="uid://nfvxfmq171qq"]
 
-[ext_resource type="Script" path="res://bullet.gd" id="1_f3uit"]
->>>>>>> cad2a6eba6d3e559da4703b0ef5feab4ba3bdc2c:server/bullet.tscn
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_swsmw"]
 albedo_color = Color(0.490196, 0.87451, 0, 1)
