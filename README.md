@@ -5,26 +5,39 @@ With global_state replication
 
 
 
-## Download, build and run
-### Create git directory
+## Install godot 4 alpha
+
 ```bash
+# Create git directory
 mkdir -p /home/$USER/git
 cd /home/$USER/git
-```
-### Download Godot4Net from master branch
-```bash
+# Download Godot4Net from master branch
 git clone https://github.com/MystixCode/Godot4Net.git
-```
-### Install godot4
-```bash
-chmod u+x /home/$USER/git/Godot4Net/install_godot.sh && /
-bash /home/$USER/git/Godot4Net/install_godot.sh
+# Build and install godot4 and export tools
+chmod u+x /home/$USER/git/Godot4Net/build_godot.sh && /
+bash /home/$USER/git/Godot4Net/build_godot.sh
 ```
 
-### Install Godot4Net
+## Install Godot4Net
+
+### Set export templates
+You need to open both projects with the godot editor atleast once and set the export templates:
+
+1 open godot editor --> /home/$USER/git/godot/bin/godot.linuxbsd.tools.64\
+2 import client project -->/home/$USER/git/Godot4Net/client/project.godot\
+3 Project>Export>add>Linux/X11\
+4 Click the embed PCK checkbox\
+
+1 open godot editor --> /home/$USER/git/godot/bin/godot.linuxbsd.tools.64\
+2 import server project -->/home/$USER/git/Godot4Net/server/project.godot\
+3 Project>Export>add>Linux/X11\
+4 Click the embed PCK checkbox\
+
+<img src="img/build.png" width="50%" height="50%">
+
 ```bash
-chmod u+x /home/$USER/git/Godot4Net/install_Godot4Net.sh && /
-bash /home/$USER/git/Godot4Net/install_Godot4Net.sh
+chmod u+x /home/$USER/git/Godot4Net/build_client_server.sh && /
+bash /home/$USER/git/Godot4Net/build_client_server.sh
 ```
 ## Info
 ### global_state{} example

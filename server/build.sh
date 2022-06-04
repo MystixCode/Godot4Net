@@ -1,12 +1,6 @@
 #!/bin/bash
 
-GODOT_PATH=/home/$USER/Git/godot
-GODOT_BIN=$GODOT_PATH/bin/godot.linuxbsd.tools.64
+#build server
 
-#build
-#$GODOT_BIN --path ./server --export "Linux/X11"
-$GODOT_BIN --path ./server --export-debug "Linux/X11"    # --headless
-
-#run it
-#--headless --debug --print-fps
-#$GODOT_BIN --path ./server --verbose --headless
+#/home/$USER/git/godot/bin/godot.linuxbsd.tools.64 --path /home/$USER/git/Godot4Net/server --export-debug "Linux/X11"    # --headless
+/home/$USER/git/godot/bin/godot.linuxbsd.tools.64 --path /home/$USER/git/Godot4Net/server --export "Linux/X11"    # --headless
