@@ -10,7 +10,7 @@ With global_state replication
 ```bash
 # Create git directory
 mkdir -p /home/$USER/git && /
-cd /home/$USER/git
+cd /home/$USER/git && /
 
 # Build and install godot4 and export tools
 chmod u+x /home/$USER/git/Godot4Net/build_godot.sh && /
