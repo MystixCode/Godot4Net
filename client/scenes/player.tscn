@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/camera_arm.gd" id="2_77pim"]
 [ext_resource type="Script" path="res://scripts/inputs.gd" id="4_403v4"]
 [ext_resource type="Texture2D" uid="uid://cjl62wt232xax" path="res://crosshair.png" id="4_klffw"]
-[ext_resource type="SceneReplicationConfig" uid="uid://b2ro1t7sycbek" path="res://sync_input_conf.tres" id="5_httrv"]
+[ext_resource type="SceneReplicationConfig" uid="uid://b2ro1t7sycbek" path="res://sync_input_conf.tres" id="5_db6d2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ucx8u"]
 albedo_color = Color(0.356863, 0.619608, 1, 1)
@@ -34,6 +34,7 @@ script = ExtResource( "2_77pim" )
 [node name="Camera3D" type="Camera3D" parent="CameraArm"]
 h_offset = 1.0
 v_offset = 1.5
+far = 3000.0
 
 [node name="Position3D" type="Position3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1)
@@ -95,5 +96,4 @@ offset_bottom = 158.0
 script = ExtResource( "4_403v4" )
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Inputs"]
-root_path = NodePath("..")
-resource = ExtResource( "5_httrv" )
+congiruation = ExtResource( "5_db6d2" )

@@ -35,20 +35,20 @@ uniform float 	uv_sampler_strength = 0.04; 					// UV shifting strength
 uniform sampler2D normalmap_a_sampler : hint_normal;			// Normalmap sampler A
 uniform sampler2D normalmap_b_sampler : hint_normal;			// Normalmap sampler B
 
-uniform sampler2D foam_sampler : hint_black;					// Foam sampler
+uniform sampler2D foam_sampler : hint_default_black;					// Foam sampler
 uniform float 	foam_level 		 = 0.5;							// Foam level -> distance from the object (0.0 - 0.5)
 
 // Volume settings:
 uniform float 	refraction 		 = 0.075;						// Refraction of the water
 
-uniform vec4 	color_deep : hint_color;						// Color for deep places in the water, medium to dark blue
-uniform vec4 	color_shallow : hint_color;						// Color for lower places in the water, bright blue - green
+uniform vec4 	color_deep : source_color;						// Color for deep places in the water, medium to dark blue
+uniform vec4 	color_shallow :source_color;						// Color for lower places in the water, bright blue - green
 uniform float 	beers_law		 = 2.0;							// Beers law value, regulates the blending size to the deep water level
 uniform float 	depth_offset	 = -0.75;						// Offset for the blending
 
 // Projector for the water caustics:
 uniform mat4	projector;										// Projector matrix, mostly the matric of the sun / directlight
-uniform sampler2DArray caustic_sampler : hint_black;			// Caustic sampler, (Texture array with 16 Textures for the animation)
+uniform sampler2DArray caustic_sampler : hint_default_black;			// Caustic sampler, (Texture array with 16 Textures for the animation)
 
 
 // Vertex -> Fragment:

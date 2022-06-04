@@ -3,26 +3,31 @@ This is a godot 4 alpha test project to checkout the new network sync code. \
 Server and client are separated into two projects and its 3D.
 With global_state replication
 
-Some issues to fix are:
- - interpolation (supposed to be added to godot core)
 
-Get started on deb based distributions
+
+## Download, build and run
+### Create git directory
 ```bash
-#Install build dependencies
-sudo apt-get install build-essential scons pkg-config libx11-dev libxcursor-dev libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev yasm
-
-#Download godot 4 from master branch
-git clone https://github.com/godotengine/godot.git
-cd godot
-
-#Compile godot editor
-scons -j16 platform=linuxbsd
-
-#Compile godot export tools
-scons -j16 platform=x11 tools=no target=release_debug bits=64
+mkdir -p /home/$USER/git
+cd /home/$USER/git
+```
+### Download Godot4Net from master branch
+```bash
+git clone https://github.com/MystixCode/Godot4Net.git
+```
+### Install godot4
+```bash
+chmod u+x /home/$USER/git/Godot4Net/install_godot.sh && /
+bash /home/$USER/git/Godot4Net/install_godot.sh
 ```
 
-global_state{} example
+### Install Godot4Net
+```bash
+chmod u+x /home/$USER/git/Godot4Net/install_Godot4Net.sh && /
+bash /home/$USER/git/Godot4Net/install_Godot4Net.sh
+```
+## Info
+### global_state{} example
 ```bash
 {
     player:{
@@ -46,3 +51,5 @@ global_state{} example
     }
 }
 ```
+### Tested on:
+- Debian GNU/Linux 11 (bullseye)

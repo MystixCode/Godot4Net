@@ -75,7 +75,7 @@ input_name = "uv"
 
 [resource]
 code = "shader_type spatial;
-uniform sampler2D tex_frg_8 : hint_albedo;
+uniform sampler2D tex_frg_8 : source_color;
 
 
 

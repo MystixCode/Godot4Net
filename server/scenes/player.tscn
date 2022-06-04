@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_8fm8p"]
 [ext_resource type="Texture2D" uid="uid://cok2ecqcecxg5" path="res://crosshair.png" id="2_6q24f"]
-[ext_resource type="SceneReplicationConfig" uid="uid://dnkjbgstxs77y" path="res://sync_input_conf.tres" id="2_cnrnw"]
 [ext_resource type="Script" path="res://scripts/inputs.gd" id="2_e0j8x"]
+[ext_resource type="SceneReplicationConfig" uid="uid://dnkjbgstxs77y" path="res://sync_input_conf.tres" id="4_roqwg"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_428ye"]
 
@@ -53,7 +53,7 @@ metadata/_edit_use_custom_anchors = false
 
 [node name="Inputs" type="Node" parent="."]
 script = ExtResource( "2_e0j8x" )
+input_state = {}
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Inputs"]
-root_path = NodePath("..")
-resource = ExtResource( "2_cnrnw" )
+congiruation = ExtResource( "4_roqwg" )

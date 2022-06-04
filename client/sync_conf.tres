@@ -1,6 +1,6 @@
 [gd_resource type="SceneReplicationConfig" format=3 uid="uid://b2y7ro3idk00x"]
 
 [resource]
-properties/0/path = NodePath(":global_state")
+properties/0/path = NodePath(".:global_state")
 properties/0/spawn = true
 properties/0/sync = true

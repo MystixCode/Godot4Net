@@ -42,4 +42,4 @@ func _connected_fail():
 func _physics_process(_delta):
 	tickid += 1
 #	print("tickid: " + str(tickid))
-	print(global_state)
+#	print(global_state)

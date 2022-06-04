@@ -11,9 +11,9 @@ data = PackedVector3Array(-584.772, 1.6618, 584.831, -584.723, 1.1573, 602.154, 
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_xp6jo"]
 material = ExtResource( "4_8e1gg" )
-size = Vector2(1200, 1200)
-subdivide_width = 256
-subdivide_depth = 256
+size = Vector2(6000, 6000)
+subdivide_width = 512
+subdivide_depth = 512
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kh6kc"]
 albedo_color = Color(0.403922, 0.113725, 0.101961, 1)
@@ -91,7 +91,7 @@ mesh = ExtResource( "3_w6g1m" )
 shape = SubResource( "ConcavePolygonShape3D_3tb4y" )
 
 [node name="Water" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 60, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 111.277, 0)
 mesh = SubResource( "PlaneMesh_xp6jo" )
 
 [node name="Cube1" type="StaticBody3D" parent="."]

@@ -1,10 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bdaw6751wxtnw"]
+[gd_scene load_steps=4 format=3 uid="uid://bdaw6751wxtnw"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_nycj2"]
 [ext_resource type="PackedScene" uid="uid://brw7np14pq70e" path="res://scenes/world.tscn" id="2_47n7y"]
-[ext_resource type="PackedScene" uid="uid://6fpn6cbdggvl" path="res://scenes/player.tscn" id="3_s2bbw"]
-[ext_resource type="SceneReplicationConfig" uid="uid://b2y7ro3idk00x" path="res://sync_conf.tres" id="4_6hk8g"]
-[ext_resource type="PackedScene" path="res://scenes/bullet.tscn" id="5_0p7c2"]
+[ext_resource type="SceneReplicationConfig" uid="uid://b2y7ro3idk00x" path="res://sync_conf.tres" id="3_smye3"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource( "1_nycj2" )
@@ -12,16 +10,15 @@ script = ExtResource( "1_nycj2" )
 [node name="World" parent="." instance=ExtResource( "2_47n7y" )]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-replication = [ExtResource( "3_s2bbw" )]
+_spawnable_scenes = PackedStringArray("res://scenes/player.tscn")
 spawn_path = NodePath(".")
 auto_spawn = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-root_path = NodePath("..")
 replication_interval = 0.1
-resource = ExtResource( "4_6hk8g" )
+congiruation = ExtResource( "3_smye3" )
 
 [node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
-replication = [ExtResource( "5_0p7c2" )]
+_spawnable_scenes = PackedStringArray("res://scenes/bullet.tscn")
 spawn_path = NodePath(".")
 auto_spawn = true
