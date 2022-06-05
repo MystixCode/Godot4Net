@@ -15,6 +15,10 @@ run/main_scene="res://scenes/main.tscn"
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
 
+[filesystem]
+
+import/fbx/enabled=false
+
 [input]
 
 move_forward={

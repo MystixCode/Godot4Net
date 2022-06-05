@@ -31,19 +31,16 @@ You need to open both projects with the godot editor atleast once and set the ex
 3. Project>Export>Add>Linux/X11
 4. Click the embed PCK checkbox
 
-<br>
-
-1. open godot editor --> /home/$USER/git/godot/bin/godot.linuxbsd.tools.64
-2. import server project --> /home/$USER/git/Godot4Net/server/project.godot
-3. Project>Export>Add>Linux/X11
-4. Click the embed PCK checkbox
+repeat those steps with the server project
 
 <img src="img/build.png" width="30%" height="30%">
 
 ```bash
-chmod u+x /home/$USER/git/Godot4Net/build_client_server.sh && /
-bash /home/$USER/git/Godot4Net/build_client_server.sh
+#build and run client and server
+chmod u+x /home/$USER/git/Godot4Net/build_run_client_server.sh && /
+bash /home/$USER/git/Godot4Net/build_run_client_server.sh
 ```
+
 ## Info
 ### global_state{} example
 ```bash
