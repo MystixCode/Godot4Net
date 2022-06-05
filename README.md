@@ -5,7 +5,7 @@ With global_state replication
 
 
 
-## Install godot 4 alpha
+## Install
 
 ```bash
 # Create git directory
@@ -20,8 +20,6 @@ chmod u+x /home/$USER/git/Godot4Net/build_godot.sh && /
 bash /home/$USER/git/Godot4Net/build_godot.sh
 ```
 
-## Install Godot4Net
-
 You need to open both projects with the godot editor atleast once and set the export templates:
 
 1. open godot editor --> /home/$USER/git/godot/bin/godot.linuxbsd.tools.64
@@ -30,8 +28,6 @@ You need to open both projects with the godot editor atleast once and set the ex
 4. Click the embed PCK checkbox
 
 repeat those steps with the server project
-
-<img src="img/build.png" width="30%" height="30%">
 
 ```bash
 #build and run client and server
