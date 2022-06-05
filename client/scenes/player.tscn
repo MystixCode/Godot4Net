@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/camera_arm.gd" id="2_77pim"]
 [ext_resource type="Script" path="res://scripts/inputs.gd" id="4_403v4"]
 [ext_resource type="Texture2D" uid="uid://cjl62wt232xax" path="res://crosshair.png" id="4_klffw"]
+[ext_resource type="SceneReplicationConfig" uid="uid://b2ro1t7sycbek" path="res://sync_input_conf.tres" id="5_gtynp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ucx8u"]
 albedo_color = Color(0.356863, 0.619608, 1, 1)
@@ -15,11 +16,6 @@ material = SubResource( "StandardMaterial3D_ucx8u" )
 
 [sub_resource type="BoxMesh" id="BoxMesh_ef7a8"]
 size = Vector3(0.8, 0.2, 0.5)
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7m6jv"]
-properties/0/path = NodePath(".:input_state")
-properties/0/spawn = true
-properties/0/sync = true
 
 [node name="Player" type="CharacterBody3D"]
 floor_block_on_wall = false
@@ -101,4 +97,4 @@ offset_bottom = 158.0
 script = ExtResource( "4_403v4" )
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Inputs"]
-configuration = SubResource( "SceneReplicationConfig_7m6jv" )
+replication_config = ExtResource( "5_gtynp" )

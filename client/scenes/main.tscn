@@ -56,7 +56,7 @@ auto_spawn = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
-configuration = ExtResource( "4_12huq" )
+replication_config = ExtResource( "4_12huq" )
 
 [node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/bullet.tscn")

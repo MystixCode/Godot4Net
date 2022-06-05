@@ -22,7 +22,8 @@ scons -j16 platform=x11 tools=no target=release bits=64
 
 #Copy export presets to .local
 #cp bin/godot.linuxbsd.debug.64 /home/$USER/.local/share/godot/templates/4.0.alpha/linux_x11_64_debug
-cp bin/godot.linuxbsd.opt.64 /home/$USER/.local/share/godot/templates/4.0.alpha/linux_x11_64_release
+mkdir -p /home/$USER/.local/share/godot/templates/4.0.alpha
+cp /home/$USER/git/godot/bin/godot.linuxbsd.tools.64 /home/$USER/.local/share/godot/templates/4.0.alpha/linux_x11_64_release
 
 #run godot4 editor
 #godot/bin/godot.linuxbsd.tools.64
