@@ -12,17 +12,15 @@ With global_state replication
 mkdir -p /home/$USER/git && /
 cd /home/$USER/git && /
 
+# Download Godot4Net from master branch
+git clone https://github.com/MystixCode/Godot4Net.git && /
+
 # Build and install godot4 and export tools
 chmod u+x /home/$USER/git/Godot4Net/build_godot.sh && /
 bash /home/$USER/git/Godot4Net/build_godot.sh
 ```
 
 ## Install Godot4Net
-
-```bash
-# Download Godot4Net from master branch
-git clone https://github.com/MystixCode/Godot4Net.git
-```
 
 You need to open both projects with the godot editor atleast once and set the export templates:
 
