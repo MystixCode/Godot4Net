@@ -60,6 +60,7 @@ texture = ExtResource( "4_klffw" )
 stretch_mode = 5
 
 [node name="DebugUI" type="Control" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 

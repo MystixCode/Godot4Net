@@ -26,5 +26,6 @@ cp bin/godot.linuxbsd.opt.64 /home/$USER/.local/share/godot/templates/4.0.alpha/
 
 #run godot4 editor
 #godot/bin/godot.linuxbsd.tools.64
-nohup /home/$USER/git/godot/bin/godot.linuxbsd.tools.64 &>/dev/null &
-nohup /home/$USER/git/godot/bin/godot.linuxbsd.tools.64 &>/dev/null &
+nohup /home/$USER/git/godot/bin/godot.linuxbsd.tools.64 --path=/home/$USER/git/Godot4Net/server --editor &>/dev/null &
+nohup /home/$USER/git/godot/bin/godot.linuxbsd.tools.64 --path=/home/$USER/git/Godot4Net/client --editor &>/dev/null &
+

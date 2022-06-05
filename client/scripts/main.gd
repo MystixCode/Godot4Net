@@ -1,6 +1,7 @@
 extends Node
 
 const p_res := preload("res://../scenes/player.tscn")
+const w_res := preload("res://../scenes/world.tscn")
 var global_states : Dictionary
 @export var global_state : Dictionary = {
 	"player": {},
@@ -29,7 +30,9 @@ func _on_connect_pressed():
 func _connected_ok():
 	get_node("/root/Main/UI").hide()
 	print("Connected as player: " + str(multiplayer.get_unique_id()))
-
+	var w := w_res.instantiate()
+	add_child(w, true)
+	$UI/VBox.free()
 func _server_disconnected():
 	print("Server disconnected")
 
