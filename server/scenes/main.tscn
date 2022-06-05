@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_nycj2"]
 [ext_resource type="PackedScene" uid="uid://brw7np14pq70e" path="res://scenes/world.tscn" id="2_47n7y"]
-[ext_resource type="SceneReplicationConfig" uid="uid://b2y7ro3idk00x" path="res://sync_conf.tres" id="3_smye3"]
+[ext_resource type="SceneReplicationConfig" uid="uid://b2y7ro3idk00x" path="res://sync_conf.tres" id="3_4crho"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource( "1_nycj2" )
@@ -16,7 +16,7 @@ auto_spawn = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
-congiruation = ExtResource( "3_smye3" )
+configuration = ExtResource( "3_4crho" )
 
 [node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/bullet.tscn")

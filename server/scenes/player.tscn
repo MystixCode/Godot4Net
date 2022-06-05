@@ -1,9 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://6fpn6cbdggvl"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_8fm8p"]
-[ext_resource type="Texture2D" path="res://crosshair.png" id="2_6q24f"]
+[ext_resource type="Texture2D" uid="uid://cok2ecqcecxg5" path="res://crosshair.png" id="2_6q24f"]
 [ext_resource type="Script" path="res://scripts/inputs.gd" id="2_e0j8x"]
-[ext_resource type="SceneReplicationConfig" path="res://sync_input_conf.tres" id="4_roqwg"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_428ye"]
 
@@ -11,6 +10,11 @@
 size = Vector3(0.8, 0.2, 0.5)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6h873"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ldose"]
+properties/0/path = NodePath(".:input_state")
+properties/0/spawn = true
+properties/0/sync = true
 
 [node name="Player" type="CharacterBody3D"]
 floor_block_on_wall = false
@@ -56,4 +60,4 @@ script = ExtResource( "2_e0j8x" )
 input_state = {}
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Inputs"]
-congiruation = ExtResource( "4_roqwg" )
+configuration = SubResource( "SceneReplicationConfig_ldose" )
