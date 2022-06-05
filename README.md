@@ -20,14 +20,10 @@ chmod u+x /home/$USER/git/Godot4Net/build_godot.sh && /
 bash /home/$USER/git/Godot4Net/build_godot.sh
 ```
 
-You need to open both projects with the godot editor atleast once and set the export templates:
+You need to open both projects with the godot editor atleast once:
 
-1. open godot editor --> /home/$USER/git/godot/bin/godot.linuxbsd.tools.64
-2. import client project --> /home/$USER/git/Godot4Net/client/project.godot
-3. Project>Export>Add>Linux/X11
-4. Click the embed PCK checkbox
-
-repeat those steps with the server project
+import client project --> /home/$USER/git/Godot4Net/client/ \
+import server project --> /home/$USER/git/Godot4Net/server/
 
 ```bash
 #build and run client and server
