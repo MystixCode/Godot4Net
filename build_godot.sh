@@ -17,7 +17,7 @@ cd godot
 scons -j16 platform=linuxbsd
 
 #Compile godot export tools
-scons -j16 platform=x11 tools=no target=debug bits=64
+#scons -j16 platform=x11 tools=no target=debug bits=64
 scons -j16 platform=x11 tools=no target=release bits=64
 
 #Copy export presets to .local
