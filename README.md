@@ -26,11 +26,11 @@ You need to open both projects with the godot editor atleast once and save and e
 ```bash
 # Build client and server
 chmod u+x /home/$USER/git/Godot4Net/build_client_server.sh && /
-bash /home/$USER/git/Godot4Net/build_client_server.sh
+bash /home/$USER/git/Godot4Net/build_client_server.sh -s false
 
 # Run client and server
 chmod u+x /home/$USER/git/Godot4Net/run_client_server.sh && /
-bash /home/$USER/git/Godot4Net/run_client_server.sh
+bash /home/$USER/git/Godot4Net/run_client_server.sh -s true
 ```
 
 ## Info
