@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://2xvhpkopgjii"]
+
+[ext_resource type="Script" path="res://assets/player/player.gd" id="1_028fb"]
+[ext_resource type="Script" path="res://assets/player/inputs.gd" id="2_nfste"]
+[ext_resource type="Script" path="res://assets/player/camera_arm.gd" id="3_i1mhu"]
+[ext_resource type="Texture2D" uid="uid://dxiustr6k53jf" path="res://assets/terrain/textures/crosshair/crosshair.png" id="4_ijkkv"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nskj3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qp3en"]
+size = Vector3(0.8, 0.2, 0.5)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_n2h5y"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6w211"]
+properties/0/path = NodePath(".:input_state")
+properties/0/spawn = true
+properties/0/sync = true
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource( "1_028fb" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource( "CapsuleMesh_nskj3" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+mesh = SubResource( "BoxMesh_qp3en" )
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource( "CapsuleShape3D_n2h5y" )
+
+[node name="Inputs" type="Node" parent="."]
+script = ExtResource( "2_nfste" )
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Inputs"]
+replication_config = SubResource( "SceneReplicationConfig_6w211" )
+
+[node name="CameraArm" type="SpringArm3D" parent="."]
+spring_length = 3.0
+script = ExtResource( "3_i1mhu" )
+
+[node name="Camera3D" type="Camera3D" parent="CameraArm"]
+h_offset = 1.0
+v_offset = 1.5
+
+[node name="Position3D" type="Position3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1)
+
+[node name="Crosshair" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+texture = ExtResource( "4_ijkkv" )
+stretch_mode = 5

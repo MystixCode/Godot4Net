@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://b151fdycmiyqd"]
+
+[ext_resource type="PackedScene" uid="uid://cdu0gb04nu76g" path="res://assets/water/water.tscn" id="1_7c0s4"]
+[ext_resource type="PackedScene" uid="uid://cm3rh7qoucmym" path="res://assets/terrain/terrain.tscn" id="2_sr5km"]
+[ext_resource type="PackedScene" uid="uid://5h22v37tduvx" path="res://assets/moving_cube/moving_cube.tscn" id="3_upffb"]
+[ext_resource type="PackedScene" uid="uid://b3lfjxltn7heg" path="res://assets/rigid_cube/rigid_cube.tscn" id="4_i0ddw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nai3p"]
+sky_top_color = Color(0.211765, 0.313726, 0.552941, 1)
+sky_horizon_color = Color(0.545098, 0.686275, 0.811765, 1)
+sky_curve = 0.130583
+ground_bottom_color = Color(0.545098, 0.686275, 0.811765, 1)
+ground_horizon_color = Color(0.545098, 0.686275, 0.811765, 1)
+
+[sub_resource type="Sky" id="Sky_x3rfr"]
+sky_material = SubResource( "ProceduralSkyMaterial_nai3p" )
+
+[sub_resource type="Environment" id="Environment_vp38x"]
+background_mode = 2
+sky = SubResource( "Sky_x3rfr" )
+ambient_light_color = Color(0.501961, 0.501961, 0.501961, 1)
+ambient_light_sky_contribution = 0.05
+tonemap_mode = 2
+tonemap_white = 10.0
+ssao_enabled = true
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( "Environment_vp38x" )
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.64145, 0.412198, -0.64702, 0, 0.843391, 0.5373, 0.767165, -0.344651, 0.540993, 0, 200, 0)
+light_energy = 2.0
+shadow_enabled = true
+
+[node name="Water" parent="." instance=ExtResource( "1_7c0s4" )]
+
+[node name="Terrain" parent="." instance=ExtResource( "2_sr5km" )]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -95.787, 0)
+
+[node name="MovingCube1" parent="." instance=ExtResource( "3_upffb" )]
+
+[node name="RigidCube1" parent="." instance=ExtResource( "4_i0ddw" )]
