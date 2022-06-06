@@ -17,7 +17,7 @@ git clone https://github.com/MystixCode/Godot4Net.git && /
 
 # Build and install godot4 and export tools
 chmod u+x /home/$USER/git/Godot4Net/build_godot.sh && /
-bash /home/$USER/git/Godot4Net/build_godot.sh
+bash /home/$USER/git/Godot4Net/build_godot.sh -s true
 ```
 
 You need to open both projects with the godot editor atleast once and save and exit:
