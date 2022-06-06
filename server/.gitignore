@@ -1,5 +1,2 @@
 # Godot 4+ specific ignores
 .godot/
-Server.x86_64
-Server.sh
-icon.png.import

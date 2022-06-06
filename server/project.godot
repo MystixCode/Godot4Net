@@ -11,10 +11,6 @@ config_version=5
 [application]
 
 config/name="Server"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://assets/main/main.tscn"
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
-
-[filesystem]
-
-import/fbx/enabled=false

@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bd7uifbiu5ykr"]
+
+[ext_resource type="Script" path="res://assets/rigid_cube/rigid_cube.gd" id="1_05j7d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_maoaf"]
+albedo_color = Color(0.0156863, 0.690196, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cptmt"]
+material = SubResource( "StandardMaterial3D_maoaf" )
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ue1lt"]
+
+[node name="RigidCube1" type="RigidDynamicBody3D"]
+transform = Transform3D(0.625, 0.649519, 0.433013, -0.433013, 0.75, -0.5, -0.649519, 0.125, 0.75, 0, 200, -10)
+script = ExtResource( "1_05j7d" )
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource( "BoxMesh_cptmt" )
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource( "BoxShape3D_ue1lt" )
