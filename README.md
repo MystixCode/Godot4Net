@@ -20,15 +20,17 @@ chmod u+x /home/$USER/git/Godot4Net/build_godot.sh && /
 bash /home/$USER/git/Godot4Net/build_godot.sh
 ```
 
-You need to open both projects with the godot editor atleast once:
+You need to open both projects with the godot editor atleast once and save and exit:
 
-import client project --> /home/$USER/git/Godot4Net/client/ \
-import server project --> /home/$USER/git/Godot4Net/server/
 
 ```bash
-#build and run client and server
-chmod u+x /home/$USER/git/Godot4Net/build_run_client_server.sh && /
-bash /home/$USER/git/Godot4Net/build_run_client_server.sh
+# Build client and server
+chmod u+x /home/$USER/git/Godot4Net/build_client_server.sh && /
+bash /home/$USER/git/Godot4Net/build_client_server.sh
+
+# Run client and server
+chmod u+x /home/$USER/git/Godot4Net/run_client_server.sh && /
+bash /home/$USER/git/Godot4Net/run_client_server.sh
 ```
 
 ## Info
