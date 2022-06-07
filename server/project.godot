@@ -14,3 +14,7 @@ config/name="Server"
 run/main_scene="res://assets/main/main.tscn"
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
