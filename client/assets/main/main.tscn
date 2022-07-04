@@ -12,7 +12,7 @@ properties/0/spawn = true
 properties/0/sync = true
 
 [node name="Main" type="Node3D"]
-script = ExtResource( "1_j6eev" )
+script = ExtResource("1_j6eev")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://assets/player/player.tscn")
@@ -21,7 +21,7 @@ auto_spawn = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
-replication_config = SubResource( "SceneReplicationConfig_wv5w5" )
+replication_config = SubResource("SceneReplicationConfig_wv5w5")
 
 [node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://assets/bullet/bullet.tscn")
@@ -32,10 +32,10 @@ auto_spawn = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="UIUserLogin" parent="UI" instance=ExtResource( "2_ta7kc" )]
+[node name="UIUserLogin" parent="UI" instance=ExtResource("2_ta7kc")]
 
-[node name="UIUserAdd" parent="UI" instance=ExtResource( "4_c8api" )]
+[node name="UIUserAdd" parent="UI" instance=ExtResource("4_c8api")]
 
-[node name="UIConnect" parent="UI" instance=ExtResource( "2_de6xh" )]
+[node name="UIConnect" parent="UI" instance=ExtResource("2_de6xh")]
 
-[node name="UIUserEdit" parent="UI" instance=ExtResource( "5_jidvx" )]
+[node name="UIUserEdit" parent="UI" instance=ExtResource("5_jidvx")]

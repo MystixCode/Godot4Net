@@ -20,7 +20,7 @@ func _ready():
 
 func _on_connect_pressed():
 	get_node("/root/Main/UI/UIConnect/VBox/Connect").disabled = true
-	print("Connecting..")
+	print("Connecting to game server..")
 	var peer := ENetMultiplayerPeer.new()
 	var ip : String = get_node("/root/Main/UI/UIConnect/VBox/IP").text
 	var port : int = get_node("/root/Main/UI/UIConnect/VBox/Port").value

@@ -9,7 +9,7 @@ properties/0/spawn = true
 properties/0/sync = true
 
 [node name="Main" type="Node3D"]
-script = ExtResource( "1_0feqv" )
+script = ExtResource("1_0feqv")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://assets/player/player.tscn")
@@ -18,11 +18,11 @@ auto_spawn = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
-replication_config = SubResource( "SceneReplicationConfig_wqymt" )
+replication_config = SubResource("SceneReplicationConfig_wqymt")
 
 [node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://assets/bullet/bullet.tscn")
 spawn_path = NodePath(".")
 auto_spawn = true
 
-[node name="World" parent="." instance=ExtResource( "2_hhc4y" )]
+[node name="World" parent="." instance=ExtResource("2_hhc4y")]

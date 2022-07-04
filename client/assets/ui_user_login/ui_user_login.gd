@@ -1,6 +1,7 @@
 extends Node
 
 func _on_login_pressed():
+	print("Login user...")
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.connect("request_completed", _http_request_completed)
@@ -8,14 +9,14 @@ func _on_login_pressed():
 	var username = $VBox/Username.text
 	var password = $VBox/Password.text
 	var salt = "ReplaceThis"
-	var hash = Marshalls.utf8_to_base64( (password+salt).sha256_text() )
+	var myhash = Marshalls.utf8_to_base64( (password+salt).sha256_text() )
 	
-	var body = JSON.new().stringify({"name": username, "hash": hash})
+	var body = JSON.new().stringify({"name": username, "hash": myhash})
 	var error = http_request.request("https://httpbin.org/post", [], true, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
 
-func _http_request_completed(result, response_code, headers, body):
+func _http_request_completed(_result, response_code, headers, body):
 	var my_json = JSON.new()
 	var parse_result = my_json.parse(body.get_string_from_utf8())
 	if parse_result != OK:
