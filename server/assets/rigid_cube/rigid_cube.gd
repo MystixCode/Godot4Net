@@ -1,4 +1,4 @@
-extends RigidDynamicBody3D
+extends RigidBody3D
 
 var rigid_cube_state  : Array
 

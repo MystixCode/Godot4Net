@@ -1,36 +1,31 @@
 # Godot4Net
-This is a godot 4 alpha test project to checkout the new network sync code. \
+This is a godot4 test/example project implementing multiplayer networking with a states array. \
 Server and client are separated into two projects and its 3D.
-With global_state replication
 
-
-
-## Install
+## Install newest godot4
 
 ```bash
-# Create git directory
-mkdir -p /home/$USER/git && /
-cd /home/$USER/git && /
+chmod u+x /home/$USER/<your_git_dir>/Godot4Net/build_godot.sh && /
+bash /home/$USER/<your_git_dir>/Godot4Net/build_godot.sh
+```
+## Open client an server project
 
-# Download Godot4Net from master branch
-git clone https://github.com/MystixCode/Godot4Net.git && /
+### start godot
 
-# Build and install godot4 and export tools
-chmod u+x /home/$USER/git/Godot4Net/build_godot.sh && /
-bash /home/$USER/git/Godot4Net/build_godot.sh -s true
+doubleclick in a file browser
+```bash
+/home/$USER/<your_git_dir>/godot/bin/godot.linuxbsd.opt.tools.x86_64
 ```
 
-You need to open both projects with the godot editor atleast once and save and exit:
-
-
+or just type godot in a console
 ```bash
-# Build client and server
-chmod u+x /home/$USER/git/Godot4Net/build_client_server.sh && /
-bash /home/$USER/git/Godot4Net/build_client_server.sh -s false
+godot
+```
 
-# Run client and server
-chmod u+x /home/$USER/git/Godot4Net/run_client_server.sh && /
-bash /home/$USER/git/Godot4Net/run_client_server.sh -s true
+### import projects
+```bash
+/home/$USER/<your_git_dir>/Godot4Net/client/
+/home/$USER/<your_git_dir>/Godot4Net/server/
 ```
 
 ## Info
