@@ -4,11 +4,11 @@ const p_res := preload("res://../assets/player/player.tscn")
 var port := 4242
 var global_states : Dictionary
 @export var global_state : Dictionary = {
-	"player": {},
-	"bullet": {},
-	"moving_cube": {},
-	"rigid_cube": {},
-	"other": {}
+#	"player": {},
+#	"bullet": {},
+#	"moving_cube": {},
+#	"rigid_cube": {},
+#	"other": {}
 }
 var tickid : int = 0
 
@@ -42,4 +42,9 @@ func player_disconnected(id):
 func _physics_process(_delta):
 	tickid += 1
 #	print("tickid: " + str(tickid))
-#	print(global_state)
+	print(global_state)
+	
+	# if global_state has empty "player" category --> erase it
+	for cat in global_state:
+		if global_state[cat] == {}:
+			global_state.erase(cat)

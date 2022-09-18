@@ -15,6 +15,11 @@ func _process(delta):
 	pos = cos(vel*length)
 	position.x += pos
 	
-	#Add moving_cube_state to global_state after physic calculations
 	moving_cube_state = [position]
+	
+	#if moving_cube doesnt exist add it to global_state
+	if !get_node("/root/Main").global_state.has("moving_cube"):
+		get_node("/root/Main").global_state["moving_cube"] = {}
+	
+	# add moving_cube_state to global_state
 	get_node("/root/Main").global_state["moving_cube"][name] = moving_cube_state

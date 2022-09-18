@@ -26,6 +26,12 @@ func _physics_process(delta):
 
 	#Add bullet_state to global_state after physic calculations
 	bullet_state = [from_player, position]
+	
+	#if bullet doesnt exist add it to global_state
+	if !get_node("/root/Main").global_state.has("bullet"):
+		get_node("/root/Main").global_state["bullet"] = {}
+	
+	# add bullet_state to global_state
 	get_node("/root/Main").global_state["bullet"][name] = bullet_state
 
 func _on_bullet_body_entered(body):

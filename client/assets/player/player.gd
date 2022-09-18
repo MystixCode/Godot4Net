@@ -37,7 +37,11 @@ func _physics_process(_delta):
 	
 	$Inputs.update(player_id)
 
-	#Set player to player_state info from server
+	# if category player doesnt exist in global_state add it
+	if !get_node("/root/Main").global_state.has("player"):
+		get_node("/root/Main").global_state["player"] = {}
+
+	# add global player_state into vars
 	if get_node("/root/Main").global_state["player"].has(name):
 		player_state = get_node("/root/Main").global_state["player"][name]
 		position = player_state[1]

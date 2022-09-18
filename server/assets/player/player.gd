@@ -70,6 +70,13 @@ func _physics_process(delta):
 
 		#Add player_state to global_state after physic calculations
 		player_state = [player_name, position, Vector2(rotation.y, $CameraArm.rotation.x), player_health, player_mana]
+		
+		
+		#if player doesnt exist add it to global_state
+		if !get_node("/root/Main").global_state.has("player"):
+			get_node("/root/Main").global_state["player"] = {}
+		
+		# add player_state to global_state
 		get_node("/root/Main").global_state["player"][name] = player_state
 		
 		
