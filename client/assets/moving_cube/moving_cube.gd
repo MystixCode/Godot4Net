@@ -1,6 +1,5 @@
 extends StaticBody3D
 
-
 var from_player : int
 var moving_cube_state : Array
 

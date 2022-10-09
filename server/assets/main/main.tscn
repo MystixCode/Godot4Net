@@ -16,11 +16,11 @@ _spawnable_scenes = PackedStringArray("res://assets/player/player.tscn")
 spawn_path = NodePath(".")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_interval = 0.1
+replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_wqymt")
 
 [node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://assets/bullet/bullet.tscn")
+_spawnable_scenes = PackedStringArray("res://assets/bullet/bullet.tscn", "res://assets/newbullet/bullet.tscn")
 spawn_path = NodePath(".")
 
 [node name="World" parent="." instance=ExtResource("2_hhc4y")]

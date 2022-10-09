@@ -6,16 +6,16 @@
 albedo_color = Color(1, 0.333333, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_upq42"]
-material = SubResource( "StandardMaterial3D_6tgf4" )
+material = SubResource("StandardMaterial3D_6tgf4")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ahru3"]
 
 [node name="MovingCube1" type="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 160, 0)
-script = ExtResource( "1_mrnbi" )
+script = ExtResource("1_mrnbi")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource( "BoxMesh_upq42" )
+mesh = SubResource("BoxMesh_upq42")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource( "BoxShape3D_ahru3" )
+shape = SubResource("BoxShape3D_ahru3")

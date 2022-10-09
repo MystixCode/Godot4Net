@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://pob3n1nu3o8j"]
+
+[ext_resource type="Script" path="res://assets/mob/mob.gd" id="1_ibkrc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dphlv"]
+albedo_color = Color(0.662745, 0.00392157, 0.913725, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_o1if6"]
+material = SubResource("StandardMaterial3D_dphlv")
+
+[sub_resource type="BoxMesh" id="BoxMesh_fr3pf"]
+size = Vector3(0.8, 0.2, 0.5)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6c6uk"]
+
+[node name="mob" type="CharacterBody3D" node_paths=PackedStringArray("target_location")]
+script = ExtResource("1_ibkrc")
+target_location = NodePath("")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_o1if6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+mesh = SubResource("BoxMesh_fr3pf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_6c6uk")

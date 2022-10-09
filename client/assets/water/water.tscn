@@ -12,26 +12,26 @@ subdivide_depth = 512
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h4870"]
 render_priority = 0
-shader = ExtResource( "1_dxgn7" )
-shader_param/beers_law = 2.0
-shader_param/color_deep = Color(0.247059, 0.439216, 0.505882, 1)
-shader_param/color_shallow = Color(0.258824, 0.462745, 0.541176, 1)
-shader_param/depth_offset = -0.75
-shader_param/foam_level = 0.5
-shader_param/normalmap_a_sampler = ExtResource( "2_yxjg4" )
-shader_param/normalmap_b_sampler = ExtResource( "3_oiugh" )
-shader_param/projector = null
-shader_param/refraction = 0.075
-shader_param/sampler_direction = Vector2(0.05, 0.04)
-shader_param/sampler_scale = Vector2(0.1, 0.1)
-shader_param/uv_sampler = ExtResource( "4_un5qc" )
-shader_param/uv_sampler_scale = Vector2(0.25, 0.25)
-shader_param/uv_sampler_strength = 0.04
-shader_param/wave_a = null
-shader_param/wave_b = null
-shader_param/wave_c = null
-shader_param/wave_speed = 0.5
+shader = ExtResource("1_dxgn7")
+shader_parameter/beers_law = 2.0
+shader_parameter/color_deep = Color(0.247059, 0.439216, 0.505882, 1)
+shader_parameter/color_shallow = Color(0.258824, 0.462745, 0.541176, 1)
+shader_parameter/depth_offset = -0.75
+shader_parameter/foam_level = 0.5
+shader_parameter/normalmap_a_sampler = ExtResource("2_yxjg4")
+shader_parameter/normalmap_b_sampler = ExtResource("3_oiugh")
+shader_parameter/projector = null
+shader_parameter/refraction = 0.075
+shader_parameter/sampler_direction = Vector2(0.05, 0.04)
+shader_parameter/sampler_scale = Vector2(0.1, 0.1)
+shader_parameter/uv_sampler = ExtResource("4_un5qc")
+shader_parameter/uv_sampler_scale = Vector2(0.25, 0.25)
+shader_parameter/uv_sampler_strength = 0.04
+shader_parameter/wave_a = null
+shader_parameter/wave_b = null
+shader_parameter/wave_c = null
+shader_parameter/wave_speed = 0.5
 
 [node name="Water" type="MeshInstance3D"]
-mesh = SubResource( "PlaneMesh_ptj0y" )
-surface_material_override/0 = SubResource( "ShaderMaterial_h4870" )
+mesh = SubResource("PlaneMesh_ptj0y")
+surface_material_override/0 = SubResource("ShaderMaterial_h4870")
