@@ -17,23 +17,23 @@ properties/0/spawn = true
 properties/0/sync = true
 
 [node name="Player" type="CharacterBody3D"]
-script = ExtResource( "1_402s8" )
+script = ExtResource("1_402s8")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource( "CapsuleMesh_wfoiv" )
+mesh = SubResource("CapsuleMesh_wfoiv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
-mesh = SubResource( "BoxMesh_d1d88" )
+mesh = SubResource("BoxMesh_d1d88")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource( "CapsuleShape3D_gfvv4" )
+shape = SubResource("CapsuleShape3D_gfvv4")
 
 [node name="Inputs" type="Node" parent="."]
-script = ExtResource( "2_ub7gn" )
+script = ExtResource("2_ub7gn")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Inputs"]
-replication_config = SubResource( "SceneReplicationConfig_v6sgw" )
+replication_config = SubResource("SceneReplicationConfig_v6sgw")
 
 [node name="CameraArm" type="SpringArm3D" parent="."]
 spring_length = 3.0
@@ -42,10 +42,11 @@ spring_length = 3.0
 h_offset = 1.0
 v_offset = 1.5
 
-[node name="Position3D" type="Position3D" parent="."]
+[node name="Position3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1)
 
 [node name="Crosshair" type="TextureRect" parent="."]
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -54,5 +55,7 @@ offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
-texture = ExtResource( "3_yg8kl" )
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_yg8kl")
 stretch_mode = 3

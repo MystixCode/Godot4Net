@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5p0bgih8a188"]
+[gd_scene load_steps=9 format=3 uid="uid://c5p0bgih8a188"]
 
 [ext_resource type="PackedScene" uid="uid://bdfobcupaogw" path="res://assets/water/water.tscn" id="1_udmok"]
 [ext_resource type="PackedScene" uid="uid://cda1xn45v657" path="res://assets/terrain/terrain.tscn" id="2_a0one"]
 [ext_resource type="PackedScene" uid="uid://bvpvtmnku47ur" path="res://assets/moving_cube/moving_cube.tscn" id="3_ljq1y"]
 [ext_resource type="PackedScene" uid="uid://bd7uifbiu5ykr" path="res://assets/rigid_cube/rigid_cube.tscn" id="4_df8jg"]
+[ext_resource type="PackedScene" uid="uid://pob3n1nu3o8j" path="res://assets/mob/mob.tscn" id="5_kylel"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_w2r3g"]
 sky_top_color = Color(0.211765, 0.313726, 0.552941, 1)
@@ -13,11 +14,11 @@ ground_bottom_color = Color(0.545098, 0.686275, 0.811765, 1)
 ground_horizon_color = Color(0.545098, 0.686275, 0.811765, 1)
 
 [sub_resource type="Sky" id="Sky_kudvk"]
-sky_material = SubResource( "ProceduralSkyMaterial_w2r3g" )
+sky_material = SubResource("ProceduralSkyMaterial_w2r3g")
 
 [sub_resource type="Environment" id="Environment_em7kb"]
 background_mode = 2
-sky = SubResource( "Sky_kudvk" )
+sky = SubResource("Sky_kudvk")
 ambient_light_color = Color(0.501961, 0.501961, 0.501961, 1)
 ambient_light_sky_contribution = 0.05
 ssao_enabled = true
@@ -25,18 +26,21 @@ ssao_enabled = true
 [node name="World" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( "Environment_em7kb" )
+environment = SubResource("Environment_em7kb")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.64145, 0.412198, -0.64702, 0, 0.843391, 0.5373, 0.767165, -0.344651, 0.540993, 0, 200, 0)
 light_energy = 2.0
 shadow_enabled = true
 
-[node name="Water" parent="." instance=ExtResource( "1_udmok" )]
+[node name="Water" parent="." instance=ExtResource("1_udmok")]
 
-[node name="Terrain" parent="." instance=ExtResource( "2_a0one" )]
+[node name="Terrain" parent="." instance=ExtResource("2_a0one")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -95.787, 0)
 
-[node name="MovingCube1" parent="." instance=ExtResource( "3_ljq1y" )]
+[node name="MovingCube1" parent="." instance=ExtResource("3_ljq1y")]
 
-[node name="RigidCube1" parent="." instance=ExtResource( "4_df8jg" )]
+[node name="RigidCube1" parent="." instance=ExtResource("4_df8jg")]
+
+[node name="mob" parent="." instance=ExtResource("5_kylel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 57.7, 0)

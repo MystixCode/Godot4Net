@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8jcyrrl1gab7"]
+[gd_scene load_steps=6 format=3 uid="uid://c8jcyrrl1gab7"]
 
 [ext_resource type="Script" path="res://assets/bullet/bullet.gd" id="1_0ddwm"]
+[ext_resource type="AudioStream" uid="uid://chi1p4gouh5js" path="res://assets/mixkit-short-laser-gun-shot-1670.wav" id="2_ewmay"]
+[ext_resource type="AudioStream" uid="uid://puuddf5onu0g" path="res://assets/mixkit-shatter-shot-explosion-1693.wav" id="3_pj6um"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_0pjmh"]
 radius = 0.1
@@ -11,10 +13,20 @@ rings = 4
 radius = 0.1
 
 [node name="Bullet" type="Area3D"]
-script = ExtResource( "1_0ddwm" )
+script = ExtResource("1_0ddwm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource( "SphereMesh_0pjmh" )
+mesh = SubResource("SphereMesh_0pjmh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource( "SphereShape3D_r3lm7" )
+shape = SubResource("SphereShape3D_r3lm7")
+
+[node name="AudioStreamPlayer3d" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_ewmay")
+bus = &"New Bus 2"
+
+[node name="AudioStreamPlayer3d2" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_pj6um")
+bus = &"New Bus"
+
+[connection signal="body_entered" from="." to="." method="_on_bullet_body_entered"]

@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://dou6ktciha523"]
+
+[ext_resource type="Script" path="res://assets/newbullet/bullet.gd" id="1_7tda5"]
+[ext_resource type="AudioStream" uid="uid://chi1p4gouh5js" path="res://assets/mixkit-short-laser-gun-shot-1670.wav" id="2_pvnxr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2m7u2"]
+albedo_color = Color(0.305882, 0.717647, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_nafve"]
+material = SubResource("StandardMaterial3D_2m7u2")
+radius = 0.1
+height = 0.2
+rings = 4
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dstp7"]
+radius = 0.1
+
+[node name="Bullet" type="Area3D"]
+script = ExtResource("1_7tda5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_nafve")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_dstp7")
+
+[node name="AudioStreamPlayer3d" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_pvnxr")

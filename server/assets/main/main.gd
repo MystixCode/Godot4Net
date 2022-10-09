@@ -42,7 +42,7 @@ func player_disconnected(id):
 func _physics_process(_delta):
 	tickid += 1
 #	print("tickid: " + str(tickid))
-	print(global_state)
+#	print(global_state)
 	
 	# if global_state has empty "player" category --> erase it
 	for cat in global_state:
