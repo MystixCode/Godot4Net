@@ -5,16 +5,15 @@ Server and client are separated into two projects and its 3D.
 ## Install newest godot4
 
 ```bash
-chmod u+x /home/$USER/<your_git_dir>/Godot4Net/build_godot.sh && /
 bash /home/$USER/<your_git_dir>/Godot4Net/build_godot.sh
 ```
-## Open client an server project
+## Open client and server project
 
 ### start godot
 
 doubleclick in a file browser
 ```bash
-/home/$USER/<your_git_dir>/godot/bin/godot.linuxbsd.opt.tools.x86_64
+/home/$USER/<your_git_dir>/godot/bin/godot.linuxbsd.editor.x86_64
 ```
 
 or just type godot in a console
