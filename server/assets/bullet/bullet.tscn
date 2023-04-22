@@ -11,12 +11,12 @@ rings = 4
 radius = 0.1
 
 [node name="Bullet" type="Area3D"]
-script = ExtResource( "1_5i723" )
+script = ExtResource("1_5i723")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource( "SphereMesh_nafve" )
+mesh = SubResource("SphereMesh_nafve")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource( "SphereShape3D_dstp7" )
+shape = SubResource("SphereShape3D_dstp7")
 
 [connection signal="body_entered" from="." to="." method="_on_bullet_body_entered"]

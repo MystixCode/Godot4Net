@@ -30,7 +30,7 @@ func _physics_process(delta):
 #		print("next: " + str(next))
 		if nav_agent.is_target_reachable() and not nav_agent.is_target_reached():
 #			print("is reachable")
-			var next_location = nav_agent.get_next_location()
+			var next_location = nav_agent.get_next_path_position()
 			if mode == "follow":
 				if !follow_targets.is_empty():
 					next_location = follow_targets.front().global_position
@@ -78,7 +78,8 @@ func _physics_process(delta):
 	get_node("/root/Main").global_state["mob"]["tzestname"] = mob_state
 
 func update_target_location(target_location):
-	nav_agent.set_target_location(target_location)
+#	nav_agent.set_target_location(target_location)
+	nav_agent.target_position = target_location
 
 func _on_area_3d_body_entered(body):
 #	print(body.get_path())

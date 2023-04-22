@@ -13,9 +13,8 @@ size = Vector3(0.8, 0.2, 0.5)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6c6uk"]
 
-[node name="mob" type="CharacterBody3D" node_paths=PackedStringArray("target_location")]
+[node name="mob" type="CharacterBody3D"]
 script = ExtResource("1_ibkrc")
-target_location = NodePath("")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_o1if6")

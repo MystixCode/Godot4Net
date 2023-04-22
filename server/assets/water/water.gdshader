@@ -59,7 +59,9 @@ varying vec3 	vertex_tangent;									// Vertex tangent -> Needed for refraction
 
 varying mat4 	inv_mvp; 										// Inverse ModelViewProjection matrix -> Needed for caustic projection
 
- 
+uniform sampler2D DEPTH_TEXTURE : hint_depth_texture, filter_linear_mipmap;
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+
 // Wave function:
 vec4 wave(vec4 parameter, vec2 position, float time, inout vec3 tangent, inout vec3 binormal)
 {

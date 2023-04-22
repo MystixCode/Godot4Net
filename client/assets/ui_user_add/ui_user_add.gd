@@ -13,9 +13,16 @@ func _on_register_pressed():
 	var salt = "ReplaceThis"
 	var myhash = Marshalls.utf8_to_base64( (password+salt).sha256_text() )
 	
-	var body = JSON.new().stringify({"name": username, "email": email, "hash": myhash })
-	var error = http_request.request("https://httpbin.org/post", [], true, HTTPClient.METHOD_POST, body)
-	if error != OK:
+#	var body = JSON.new().stringify({"name": username, "email": email, "hash": myhash })
+#	var error = http_request.request("https://httpbin.org/post", [], true, HTTPClient.METHOD_POST, body)
+#	if error != OK:
+#		push_error("An error occurred in the HTTP request.")
+		
+	var json = JSON.stringify({"name": username, "email": email, "hash": myhash })
+	var headers = ["Content-Type: application/json"]
+	var url = "https://httpbin.org/post"
+	var request = $HTTPRequest.request(url, headers, HTTPClient.METHOD_POST, json)
+	if request != OK:
 		push_error("An error occurred in the HTTP request.")
 
 func _http_request_completed(_result, response_code, headers, body):

@@ -6,16 +6,18 @@
 albedo_color = Color(0.0156863, 0.690196, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_cptmt"]
-material = SubResource( "StandardMaterial3D_maoaf" )
+material = SubResource("StandardMaterial3D_maoaf")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ue1lt"]
 
-[node name="RigidCube1" type="RigidDynamicBody3D"]
+[node name="RigidCube1" type="RigidBody3D"]
 transform = Transform3D(0.625, 0.649519, 0.433013, -0.433013, 0.75, -0.5, -0.649519, 0.125, 0.75, 0, 200, -10)
-script = ExtResource( "1_05j7d" )
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_05j7d")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource( "BoxMesh_cptmt" )
+mesh = SubResource("BoxMesh_cptmt")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource( "BoxShape3D_ue1lt" )
+shape = SubResource("BoxShape3D_ue1lt")

@@ -18,6 +18,8 @@ properties/0/spawn = true
 properties/0/sync = true
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+floor_block_on_wall = false
 script = ExtResource("1_028fb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

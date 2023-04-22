@@ -7,7 +7,7 @@ func _physics_process(_delta):
 	if !get_node("/root/Main").global_state.has("rigid_cube"):
 		get_node("/root/Main").global_state["rigid_cube"] = {}
 
-	# add global rigid_cube_state into vars
+	# add global rigid_cube_state into varsw
 	if get_node("/root/Main").global_state["rigid_cube"].has(name):
 		rigid_cube_state = get_node("/root/Main").global_state["rigid_cube"][name]
 		position = rigid_cube_state[0]
