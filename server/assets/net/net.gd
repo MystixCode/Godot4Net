@@ -143,7 +143,7 @@ func spawn_all_on_new(new_id):
 	print("spawn_all_on_new: " + str(data))
 
 
-func spawn_new_on_other(id):
+func spawn_new_on_other(_id):
 	var new_id = multiplayer.get_remote_sender_id()
 	var new_player = get_node("/root/main/players/" + str(new_id) + "/" + str(new_id))
 	var data: Dictionary = {}
