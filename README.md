@@ -34,4 +34,4 @@ There's a very limited cli. Server can be stopped by entering "stop", "quit" or 
 - player with custom bones, (mixamo? whats the license?) animations and root motion 
 
 ## Tested on:
-- Debian GNU/Linux 11 (bullseye)
+- Debian GNU/Linux 12 (bookworm)
