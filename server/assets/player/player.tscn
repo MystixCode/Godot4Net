@@ -31,12 +31,6 @@ mesh = SubResource("BoxMesh_d1d88")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_gfvv4")
 
-[node name="Inputs" type="Node" parent="."]
-script = ExtResource("2_ub7gn")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Inputs"]
-replication_config = SubResource("SceneReplicationConfig_v6sgw")
-
 [node name="CameraArm" type="SpringArm3D" parent="."]
 spring_length = 3.0
 
@@ -61,3 +55,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_yg8kl")
 stretch_mode = 3
+
+[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath(".")
+replication_config = SubResource("SceneReplicationConfig_v6sgw")
+script = ExtResource("2_ub7gn")

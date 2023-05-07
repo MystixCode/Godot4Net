@@ -36,7 +36,6 @@ grow_vertical = 2
 
 [node name="UIUserLogin" parent="UI" instance=ExtResource("2_ta7kc")]
 layout_mode = 1
-anchors_preset = 1
 grow_horizontal = 0
 
 [node name="UIUserAdd" parent="UI" instance=ExtResource("4_c8api")]
@@ -44,7 +43,6 @@ layout_mode = 0
 
 [node name="UIConnect" parent="UI" instance=ExtResource("2_de6xh")]
 layout_mode = 1
-anchors_preset = 8
 
 [node name="UIUserEdit" parent="UI" instance=ExtResource("5_jidvx")]
 layout_mode = 1

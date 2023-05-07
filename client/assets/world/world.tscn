@@ -1,9 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5p0bgih8a188"]
+[gd_scene load_steps=11 format=3 uid="uid://c5p0bgih8a188"]
 
 [ext_resource type="PackedScene" uid="uid://bdfobcupaogw" path="res://assets/water/water.tscn" id="1_udmok"]
 [ext_resource type="PackedScene" uid="uid://cda1xn45v657" path="res://assets/terrain/terrain.tscn" id="2_a0one"]
 [ext_resource type="PackedScene" uid="uid://bvpvtmnku47ur" path="res://assets/moving_cube/moving_cube.tscn" id="3_ljq1y"]
 [ext_resource type="PackedScene" uid="uid://bd7uifbiu5ykr" path="res://assets/rigid_cube/rigid_cube.tscn" id="4_df8jg"]
+[ext_resource type="PackedScene" uid="uid://ct0egdao3cd7g" path="res://assets/terrain_new/terrain_new.tscn" id="5_u3jwg"]
+[ext_resource type="PackedScene" uid="uid://bul1nbhutnctq" path="res://assets/tree_1/tree_1.tscn" id="6_l33sk"]
+[ext_resource type="PackedScene" uid="uid://mn2pbnsnbb3y" path="res://assets/grass_1/grass_1.tscn" id="7_5ipbm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_w2r3g"]
 sky_top_color = Color(0.211765, 0.313726, 0.552941, 1)
@@ -11,6 +14,9 @@ sky_horizon_color = Color(0.545098, 0.686275, 0.811765, 1)
 sky_curve = 0.130583
 ground_bottom_color = Color(0.545098, 0.686275, 0.811765, 1)
 ground_horizon_color = Color(0.545098, 0.686275, 0.811765, 1)
+ground_curve = 0.13
+sun_curve = 0.0861
+use_debanding = false
 
 [sub_resource type="Sky" id="Sky_kudvk"]
 sky_material = SubResource("ProceduralSkyMaterial_w2r3g")
@@ -19,8 +25,10 @@ sky_material = SubResource("ProceduralSkyMaterial_w2r3g")
 background_mode = 2
 sky = SubResource("Sky_kudvk")
 ambient_light_color = Color(0.501961, 0.501961, 0.501961, 1)
-ambient_light_sky_contribution = 0.05
-ssao_enabled = true
+ambient_light_sky_contribution = 0.3
+ambient_light_energy = 3.0
+tonemap_mode = 3
+tonemap_white = 6.0
 
 [node name="World" type="Node3D"]
 
@@ -28,15 +36,27 @@ ssao_enabled = true
 environment = SubResource("Environment_em7kb")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.64145, 0.412198, -0.64702, 0, 0.843391, 0.5373, 0.767165, -0.344651, 0.540993, 0, 200, 0)
-light_energy = 2.0
+transform = Transform3D(0.64145, 0.412198, -0.64702, 0, 0.843391, 0.5373, 0.767165, -0.344651, 0.540993, 0, 2209.39, 0)
 shadow_enabled = true
+shadow_bias = 0.7
 
 [node name="Water" parent="." instance=ExtResource("1_udmok")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 154, 0)
 
 [node name="Terrain" parent="." instance=ExtResource("2_a0one")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -95.787, 0)
+visible = false
 
 [node name="MovingCube1" parent="." instance=ExtResource("3_ljq1y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 650, 165, 63)
 
 [node name="RigidCube1" parent="." instance=ExtResource("4_df8jg")]
+transform = Transform3D(0.625, 0.649519, 0.433013, -0.433013, 0.75, -0.5, -0.649519, 0.125, 0.75, 690, 200, 20)
+
+[node name="Terrain_New" parent="." instance=ExtResource("5_u3jwg")]
+
+[node name="tree_1" parent="." instance=ExtResource("6_l33sk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 709.746, 163.147, 0)
+
+[node name="grass_1" parent="." instance=ExtResource("7_5ipbm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 698.398, 163.848, -11.1547)

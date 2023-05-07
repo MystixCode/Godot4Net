@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 // For this shader min. GODOT 3.1.1 is required, because 3.1 has a depth buffer bug!
 shader_type 	spatial;
-render_mode 	cull_back,diffuse_burley,specular_schlick_ggx, blend_mix;
+render_mode 	cull_disabled,diffuse_burley,specular_schlick_ggx, blend_mix;
 
 
 // Wave settings:
@@ -140,8 +140,12 @@ void fragment()
 	
 			
 	float 	depth_blend 				 = exp((depth+VERTEX.z + depth_offset) * -beers_law);
-			depth_blend 				 = clamp(1.0-depth_blend, 0.0, 1.0);	
+//			depth_blend 				 = clamp(1.0-depth_blend, 0.0, 1.0);
+			depth_blend 				 = clamp(1.0-depth_blend, 0.7, 0.9);
+//			depth_blend 				 = clamp(0.5, 0.0, 1.0);
+
 	float	depth_blend_pow				 = clamp(pow(depth_blend, 2.5), 0.0, 1.0);
+	
 
 	// Ground color:
 	vec3 	screen_color 				 = textureLod(SCREEN_TEXTURE, ref_uv, depth_blend_pow * 2.5).rgb;

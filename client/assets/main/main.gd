@@ -10,7 +10,6 @@ var global_states : Dictionary
 #	"rigid_cube": {},
 #	"other": {}
 }
-var tickid : int = 0
 
 func _ready():
 	get_node("/root/Main/UI/UIConnect/VBox/Connect").connect("pressed", _on_connect_pressed )
@@ -25,7 +24,10 @@ func _on_connect_pressed():
 	var ip : String = get_node("/root/Main/UI/UIConnect/VBox/IP").text
 	var port : int = get_node("/root/Main/UI/UIConnect/VBox/Port").value
 	peer.create_client(ip, port)
-	multiplayer.set_multiplayer_peer(peer)
+	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
+		OS.alert("Failed to start multiplayer client.")
+		return
+	multiplayer.multiplayer_peer = peer
 
 func _connected_ok():
 #	get_node("/root/Main/UI/UIConnect").hide()
@@ -33,6 +35,7 @@ func _connected_ok():
 	var w := w_res.instantiate()
 	add_child(w, true)
 	get_node("/root/Main/UI/UIConnect").free()
+	
 func _server_disconnected():
 	print("Server disconnected")
 
@@ -42,8 +45,5 @@ func _connected_fail():
 	multiplayer.set_multiplayer_peer(null) # Remove peer
 	print("Peer removed")
 
-func _physics_process(_delta):
-	tickid += 1
-#	print("tickid: " + str(tickid))
-
-	print(global_state)
+#func _physics_process(_delta):
+#	print(global_state)
