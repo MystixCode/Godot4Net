@@ -1,6 +1,13 @@
 extends Node
 
 var thread
+var input = ""
+
+func _notification(what):
+	if (what == NOTIFICATION_WM_CLOSE_REQUEST):
+		print("stopping cli")
+		input="stop"
+#		get_tree().quit()
 
 func _init():
 	for i in range(OS.get_cmdline_args().size()):
@@ -26,7 +33,7 @@ func _ready():
 
 
 func _thread_function():
-	var input = ""
+	
 	while input != "stop" && input != "quit" && input != "exit":
 #		printraw("gameserver$ ")
 		input = OS.read_string_from_stdin().strip_edges()
