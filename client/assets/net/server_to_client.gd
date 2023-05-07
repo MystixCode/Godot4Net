@@ -8,7 +8,7 @@ func preconfig(info):
 		get_node("/root/main/net").server[key] = info[key]
 
 	var map_res_path: String = "res://assets/maps/" + get_parent().server.map + ".tscn"
-	get_parent().change_map.call_deferred(load(map_res_path))
+	get_node("/root/main/ui/loading").load_map(map_res_path)
 
 	var id: int = multiplayer.get_unique_id()
 	get_node("/root/main/players/" + str(id) + "/client_to_server").done_preconfig.rpc_id(1)

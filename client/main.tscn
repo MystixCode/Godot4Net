@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cffuecdtwqbpa"]
+[gd_scene load_steps=6 format=3 uid="uid://cffuecdtwqbpa"]
 
 [ext_resource type="PackedScene" uid="uid://ce8omsi82yxmf" path="res://assets/ui/launcher/launcher.tscn" id="1_ixexp"]
 [ext_resource type="Script" path="res://assets/net/net.gd" id="2_3nswm"]
 [ext_resource type="PackedScene" uid="uid://v04uwtpoyvnt" path="res://assets/ui/debug/debug.tscn" id="2_5682x"]
 [ext_resource type="Script" path="res://assets/net/server_to_client.gd" id="3_4khsu"]
+[ext_resource type="PackedScene" uid="uid://btikmj8i5cs46" path="res://assets/ui/loading/loading.tscn" id="3_d60gv"]
 
 [node name="main" type="Node"]
 
@@ -14,6 +15,8 @@
 [node name="launcher" parent="ui" instance=ExtResource("1_ixexp")]
 
 [node name="debug" parent="ui" instance=ExtResource("2_5682x")]
+
+[node name="loading" parent="ui" instance=ExtResource("3_d60gv")]
 
 [node name="maps" type="Node" parent="."]
 

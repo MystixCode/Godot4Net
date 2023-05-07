@@ -88,17 +88,6 @@ func _server_disconnected():
 	get_node("/root/main/ui/launcher/panel/vbox/msg").text = "Connection lost"
 
 
-# Call this function deferred
-func change_map(scene: PackedScene):
-	# Remove old map if any.
-	if $/root/main/maps.get_children():
-		for map in $/root/main/maps.get_children():
-			$/root/main/maps.remove_child(map)
-			map.queue_free()
-	$/root/main/maps.add_child(scene.instantiate())
-	print("change map " + scene.resource_path)
-
-
 func print_net_info():
 	print("******************************************")
 	print("cl_tickrate:     " + str(cl_tickrate) + " ticks per second")
