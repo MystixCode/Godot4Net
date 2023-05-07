@@ -26,6 +26,7 @@ There's a very limited cli. Server can be stopped by entering "stop", "quit" or 
 - updaterate
 - shoot bullet
 - movingbody and rigidbody not networked yet
+- stop [x] server doesnt work. cli loop needs to be stopped first
 - chat
 - on server remove textures etc.
 - instancing grass, trees, stones
