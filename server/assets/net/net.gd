@@ -183,7 +183,7 @@ func free_player(id):
 		print("free_player(" + str(id) + ")")
 		#call free_player_on_client on all clients via server_to_client rpc
 		$server_to_client.free_player_on_client.rpc(id)
-		get_node("/root/main/players").get_node(str(id)).queue_free()
+		get_node("/root/main/players").remove_child(get_node("/root/main/players").get_node(str(id)))
 
 		#remove from table
 		var grid: GridContainer = get_node("../ui/table/GridContainer")

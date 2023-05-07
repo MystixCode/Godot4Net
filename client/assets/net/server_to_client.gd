@@ -51,7 +51,7 @@ func spawn_players_on_client(data):
 func free_player_on_client(id):
 	if get_node("/root/main/players").has_node(str(id)):
 		print("freeplayer(" + str(id) + ")")
-		get_node("/root/main/players").get_node(str(id)).queue_free()
+		get_node("/root/main/players").remove_child(get_node("/root/main/players").get_node(str(id)))
 
 
 @rpc("call_remote", "unreliable_ordered")

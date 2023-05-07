@@ -23,7 +23,6 @@ you can run the server headless
 There's a very limited cli. Server can be stopped by entering "stop", "quit" or "exit".
 
 ## Todo list
-- 1 or 2 bugfixes
 - updaterate
 - shoot bullet
 - movingbody and rigidbody not networked yet
