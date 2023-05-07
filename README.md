@@ -7,6 +7,8 @@ So theres more networking logic required now but it gives more control. This way
 
 Any help is appreciated <3
 
+<img src="screenshot.png" width="100%" height="100%">
+
 ## Import projects
 ```bash
 /home/$USER/<your_git_dir>/Godot4Net/client/
