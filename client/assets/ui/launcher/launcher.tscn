@@ -27,6 +27,19 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "GodotNet"
 
+[node name="version" type="Label" parent="panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -56.5
+offset_top = 92.0
+offset_right = 56.5
+offset_bottom = 129.0
+grow_horizontal = 2
+text = "alpha-0.0.1"
+horizontal_alignment = 1
+
 [node name="vbox" type="VBoxContainer" parent="panel"]
 layout_mode = 1
 anchors_preset = 8
