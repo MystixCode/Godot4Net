@@ -24,7 +24,6 @@ There's a very limited cli. Server can be stopped by entering "stop", "quit" or 
 
 ## Todo list
 - 1 or 2 bugfixes
-- loading map bar
 - updaterate
 - shoot bullet
 - movingbody and rigidbody not networked yet
