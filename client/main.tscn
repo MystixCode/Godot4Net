@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://cffuecdtwqbpa"]
+
+[ext_resource type="PackedScene" uid="uid://ce8omsi82yxmf" path="res://assets/ui/launcher/launcher.tscn" id="1_ixexp"]
+[ext_resource type="Script" path="res://assets/net/net.gd" id="2_3nswm"]
+[ext_resource type="PackedScene" uid="uid://v04uwtpoyvnt" path="res://assets/ui/debug/debug.tscn" id="2_5682x"]
+[ext_resource type="Script" path="res://assets/net/server_to_client.gd" id="3_4khsu"]
+
+[node name="main" type="Node"]
+
+[node name="players" type="Node" parent="."]
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[node name="launcher" parent="ui" instance=ExtResource("1_ixexp")]
+
+[node name="debug" parent="ui" instance=ExtResource("2_5682x")]
+
+[node name="maps" type="Node" parent="."]
+
+[node name="net" type="Node" parent="."]
+script = ExtResource("2_3nswm")
+
+[node name="server_to_client" type="Node" parent="net"]
+script = ExtResource("3_4khsu")

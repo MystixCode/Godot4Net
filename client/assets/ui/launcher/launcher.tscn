@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://ce8omsi82yxmf"]
+
+[ext_resource type="Script" path="res://assets/ui/launcher/launcher.gd" id="1_s5xd6"]
+
+[node name="launcher" type="CanvasLayer"]
+script = ExtResource("1_s5xd6")
+
+[node name="panel" type="Panel" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="title" type="Label" parent="panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -42.5
+offset_top = 60.0
+offset_right = 42.5
+offset_bottom = 86.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "GodotNet"
+
+[node name="vbox" type="VBoxContainer" parent="panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -81.5
+offset_right = 70.0
+offset_bottom = 81.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="server_ip" type="LineEdit" parent="panel/vbox"]
+layout_mode = 2
+text = "localhost"
+placeholder_text = "Server"
+alignment = 1
+
+[node name="server_port" type="SpinBox" parent="panel/vbox"]
+layout_mode = 2
+min_value = 1024.0
+max_value = 65535.0
+value = 4242.0
+alignment = 1
+
+[node name="connect" type="Button" parent="panel/vbox"]
+layout_mode = 2
+text = "Connect"
+
+[node name="msg" type="Label" parent="panel/vbox"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+
+[connection signal="pressed" from="panel/vbox/connect" to="." method="_on_connect_pressed"]

@@ -1,62 +1,35 @@
-[gd_scene load_steps=8 format=3 uid="uid://dtxb8ssfm2e5p"]
+[gd_scene load_steps=6 format=3 uid="uid://dbx2gi2mny360"]
 
-[ext_resource type="Script" path="res://assets/player/player.gd" id="1_402s8"]
-[ext_resource type="Script" path="res://assets/player/inputs.gd" id="2_ub7gn"]
-[ext_resource type="Texture2D" uid="uid://dndqcef45v0o1" path="res://assets/terrain/textures/crosshair/crosshair.png" id="3_yg8kl"]
+[ext_resource type="Script" path="res://assets/player/player.gd" id="1_15wb6"]
+[ext_resource type="Script" path="res://assets/player/inputs.gd" id="3_ut27v"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_wfoiv"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2nhbe"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_d1d88"]
-size = Vector3(0.8, 0.2, 0.5)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j1yju"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gfvv4"]
+[sub_resource type="BoxMesh" id="BoxMesh_hbdr7"]
+size = Vector3(0.8, 0.2, 0.8)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_v6sgw"]
-properties/0/path = NodePath(".:input_state")
-properties/0/spawn = true
-properties/0/sync = true
+[node name="player" type="CharacterBody3D"]
+script = ExtResource("1_15wb6")
 
-[node name="Player" type="CharacterBody3D"]
-collision_layer = 2
-floor_block_on_wall = false
-script = ExtResource("1_402s8")
+[node name="inputs" type="Node" parent="."]
+script = ExtResource("3_ut27v")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_wfoiv")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
-mesh = SubResource("BoxMesh_d1d88")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_2nhbe")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_gfvv4")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_j1yju")
 
-[node name="CameraArm" type="SpringArm3D" parent="."]
-spring_length = 3.0
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.920505, 0.390731, 0, -0.390731, 0.920505, 0, 2.245, 1.7)
+spring_length = 4.0
 
-[node name="Camera3D" type="Camera3D" parent="CameraArm"]
-h_offset = 1.0
-v_offset = 1.5
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
 
-[node name="Position3D" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1)
-
-[node name="Crosshair" type="TextureRect" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_yg8kl")
-stretch_mode = 3
-
-[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="."]
-root_path = NodePath(".")
-replication_config = SubResource("SceneReplicationConfig_v6sgw")
-script = ExtResource("2_ub7gn")
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.665, -0.3)
+mesh = SubResource("BoxMesh_hbdr7")

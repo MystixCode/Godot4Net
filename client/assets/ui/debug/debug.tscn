@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://v04uwtpoyvnt"]
+
+[node name="debug" type="CanvasLayer"]
+visible = false
+
+[node name="panel" type="PanelContainer" parent="."]
+offset_right = 234.0
+offset_bottom = 116.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="hbox" type="HBoxContainer" parent="panel"]
+layout_mode = 2
+
+[node name="keys" type="VBoxContainer" parent="panel/hbox"]
+layout_mode = 2
+
+[node name="id" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "id"
+
+[node name="player_name" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "player_name"
+
+[node name="mouse_motion" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "mouse_motion"
+
+[node name="keys_motion" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "keys_motion"
+
+[node name="zoom" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "zoom"
+
+[node name="sprint" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "sprint"
+
+[node name="jump" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "jump"
+
+[node name="shoot" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "shoot"
+
+[node name="server_to_client_authority" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "server_to_client_authority"
+
+[node name="client_to_server_authority" type="Label" parent="panel/hbox/keys"]
+layout_mode = 2
+text = "client_to_server_authority"
+
+[node name="values" type="VBoxContainer" parent="panel/hbox"]
+layout_mode = 2
+
+[node name="id" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "id"
+
+[node name="player_name" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "player_name"
+
+[node name="mouse_motion" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "mouse_motion"
+
+[node name="keys_motion" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "keys_motion"
+
+[node name="zoom" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "zoom"
+
+[node name="sprint" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "sprint"
+
+[node name="jump" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "jump"
+
+[node name="shoot" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "shoot"
+
+[node name="server_to_client_authority" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "server_to_client"
+
+[node name="client_to_server_authority" type="Label" parent="panel/hbox/values"]
+layout_mode = 2
+text = "client_to_server"

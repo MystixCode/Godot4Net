@@ -5,7 +5,7 @@ green=`echo -en "\e[32m"`
 lightblue=`echo -en "\e[94m"`
 normal=`echo -en "\e[0m"`
 
-version=4.0.beta
+version=4.0.2.stable
 git_dir=$HOME/git
 godot_dir=$git_dir/godot
 godot_editor_bin=godot.linuxbsd.editor.x86_64

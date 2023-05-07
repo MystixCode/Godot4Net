@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://bed3v375rkqc8"]
+
+[ext_resource type="Script" path="res://assets/net/net.gd" id="2_wfq42"]
+[ext_resource type="Script" path="res://assets/net/server_to_client.gd" id="4_6d8dt"]
+[ext_resource type="Script" path="res://assets/cli/cli.gd" id="5_vm2yw"]
+
+[node name="main" type="Node"]
+
+[node name="players" type="Node" parent="."]
+
+[node name="maps" type="Node" parent="."]
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[node name="table" type="CanvasLayer" parent="ui"]
+
+[node name="GridContainer" type="GridContainer" parent="ui/table"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/h_separation = 10
+
+[node name="net" type="Node" parent="."]
+script = ExtResource("2_wfq42")
+
+[node name="server_to_client" type="Node" parent="net"]
+script = ExtResource("4_6d8dt")
+
+[node name="cli" type="Node" parent="."]
+script = ExtResource("5_vm2yw")
