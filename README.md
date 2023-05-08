@@ -22,6 +22,56 @@ Godot_v4.0.2-stable_linux.x86_64 --display-driver headless --path <your_git_dir>
 ```
 There's a very limited cli. Server can be stopped by entering "stop", "quit" or "exit".
 
+## Additional info
+There are 2 state dictionaries: 
+
+states_udp gathers all data we want to sync unreliable but fast. \
+states_tcp gathers all data we want to sync reliable.
+
+Every object that gets synchronized adds its values to one of those dictionaries, if the values have changed.
+
+
+Because we gather all this data in two dictionaries we can easily use just one tcp and one udp rpc per server tick.
+If we have values that have changed to sync.
+(Its also planned to add a updaterate value)
+
+### states_udp
+
+example:
+```json
+{
+  "moving_cube":
+  {
+    "MovingCube1":
+    {
+      "position":"(623.7565, 165, 63)"
+    }
+  },
+  "player":
+  {
+    "1481316750":
+    {
+      "camera_arm_rotation":"(-0.072458, 0, 0)",
+      "position":"(807.2864, 163.6185, -71.30477)"
+    }
+  }
+}
+```
+### states_tcp
+
+example:
+```json
+{
+  "player":
+  {
+    "1481316750":
+    {
+      "camera_arm_scale":"(1, 1, 6)"
+    }
+  }
+}
+```
+
 ## Todo list
 * shoot bullet
 * updaterate
