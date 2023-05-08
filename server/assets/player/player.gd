@@ -6,7 +6,7 @@ var player_name: String
 var color: Color
 var ip: String
 var respawn_position: Vector3 = Vector3(randf_range(700.0, 705.0), 200.0, randf_range(5.0, 10.0))
-var oldpos: Transform3D
+var old_position: Vector3
 #Movement
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var movement_speed: float = 5.0
@@ -16,6 +16,10 @@ var speed: float
 var jump_force: float = 6
 #Rotation
 var mouse_sensitivity: float = 4.0
+var old_rotation: Vector3
+var old_camera_arm_rotation
+#Zoom
+var old_camera_arm_scale
 
 @onready var camera_arm =  $"SpringArm3D"
 @onready var camera = camera_arm.get_node("Camera3D")
@@ -30,7 +34,7 @@ func _ready():
 func _physics_process(delta):
 
 	if client_ready == true:
-		oldpos = global_transform
+#		old_position = global_transform
 		
 		#if u fall from map 
 		if position.y < -20:
@@ -89,33 +93,63 @@ func _physics_process(delta):
 			velocity.z = move_toward(velocity.z, 0, speed)
 		move_and_slide()
 
-		# output_udp
-		var newpos = global_transform
-		if newpos.origin.distance_to(oldpos.origin) >0.00001 or newpos.basis != oldpos.basis:
-			oldpos=newpos
-			for p in get_node("/root/main/players").get_children():
-				if p.get_node(str(p.name)).client_ready == true:
-					var output_udp: Dictionary = {
-						"id": int(str(name)),
-						"position": position,
-						"rotation": rotation,
-						"camera_arm_rotation": camera_arm.rotation}
-					var output_udp_json_string: String = JSON.stringify(output_udp)
-					$/root/main/net/server_to_client.send_output_to_client_unreliable.rpc_id(int(str(p.get_name())), output_udp_json_string)
-#					print("send udp: " + str(output_udp_json_string))
+		#UDP: add player_state_udp to states_udp
+		var player_state_udp: Dictionary = {}
+		if position.distance_to(old_position) >0.00001: # only add if changed enough
+			old_position=position
+			player_state_udp["position"] = position
+		if rotation != old_rotation: # only add if changed
+			old_rotation=rotation
+			player_state_udp["rotation"] = rotation
+		if camera_arm.rotation != old_camera_arm_rotation: # only add if changed
+			old_camera_arm_rotation = camera_arm.rotation
+			player_state_udp["camera_arm_rotation"] = camera_arm.rotation
+		if !player_state_udp.is_empty(): # only add if not empty
+			#if states_udp doesnt have player category add it to states_udp
+			if !get_node("/root/main/net").states_udp.has("player"):
+				get_node("/root/main/net").states_udp["player"] = {}
+			# add player_state to states_udp
+			get_node("/root/main/net").states_udp["player"][name] = player_state_udp
+
+		#TCP: add player_state_tcp to states_tcp
+		var player_state_tcp: Dictionary = {}
+		if camera_arm.scale != old_camera_arm_scale: # only add if changed
+			old_camera_arm_scale=camera_arm.scale
+			player_state_tcp["camera_arm_scale"] = camera_arm.scale
+		if !player_state_tcp.is_empty(): # only add if not empty
+			#if states_tcp doesnt have player category add it to states_udp
+			if !get_node("/root/main/net").states_tcp.has("player"):
+				get_node("/root/main/net").states_tcp["player"] = {}
+			# add player_state to states_tcp
+			get_node("/root/main/net").states_tcp["player"][name] = player_state_tcp
+			
+#		# output_udp
+#		var newpos = global_transform
+#		if newpos.origin.distance_to(oldpos.origin) >0.00001 or newpos.basis != oldpos.basis:
+#			oldpos=newpos
+#			for p in get_node("/root/main/players").get_children():
+#				if p.get_node(str(p.name)).client_ready == true:
+#					var output_udp: Dictionary = {
+#						"id": int(str(name)),
+#						"position": position,
+#						"rotation": rotation,
+#						"camera_arm_rotation": camera_arm.rotation}
+#					var output_udp_json_string: String = JSON.stringify(output_udp)
+#					$/root/main/net/server_to_client.send_output_to_client_unreliable.rpc_id(int(str(p.get_name())), output_udp_json_string)
+##					print("send udp: " + str(output_udp_json_string))
 
 		#output_tcp
-		if $inputs.zoom != $inputs.old_zoom:
-			$inputs.old_zoom = $inputs.zoom
-			for p in get_node("/root/main/players").get_children():
-				if p.get_node(str(p.name)).client_ready == true:
-#					Network.update_remote_states(int(str(self.name)))
-					var output_tcp: Dictionary = {
-						"id": int(str(name)),
-						"camera_arm_scale": camera_arm.scale}
-					var output_tcp_json_string: String = JSON.stringify(output_tcp)
-					$/root/main/net/server_to_client.send_output_to_client_reliable.rpc_id(int(str(p.get_name())), output_tcp_json_string)
-#					print("send tcp: " + str(output_tcp_json_string))
+#		if $inputs.zoom != $inputs.old_zoom:
+#			$inputs.old_zoom = $inputs.zoom
+#			for p in get_node("/root/main/players").get_children():
+#				if p.get_node(str(p.name)).client_ready == true:
+##					Network.update_remote_states(int(str(self.name)))
+#					var output_tcp: Dictionary = {
+#						"id": int(str(name)),
+#						"camera_arm_scale": camera_arm.scale}
+#					var output_tcp_json_string: String = JSON.stringify(output_tcp)
+#					$/root/main/net/server_to_client.send_output_to_client_reliable.rpc_id(int(str(p.get_name())), output_tcp_json_string)
+##					print("send tcp: " + str(output_tcp_json_string))
 
 		#Reset inputs (only some, $inputs.zoom should keep its value)
 		$inputs.mouse_motion = Vector2()	

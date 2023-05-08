@@ -55,20 +55,36 @@ func free_player_on_client(id):
 
 
 @rpc("call_remote", "unreliable_ordered")
-func send_output_to_client_unreliable(output_json_string: String):
-	var output: Dictionary = JSON.parse_string(output_json_string)
-	var id = int(output["id"])
-	var rotation = Vector3(str_to_var("Vector3" + output["rotation"]))
-	get_node("/root/main/players/" + str(id) + "/" + str(id)).rotation = rotation
-	var position = Vector3(str_to_var("Vector3" + output["position"]))
-	get_node("/root/main/players/" + str(id) + "/" + str(id)).position = position
-	var camera_arm_rotation = Vector3(str_to_var("Vector3" + output["camera_arm_rotation"]))
-	get_node("/root/main/players/" + str(id) + "/" + str(id) + "/SpringArm3D").rotation = camera_arm_rotation
+func send_output_to_client_unreliable(states_udp_json_string: String):
+	var states_udp: Dictionary = JSON.parse_string(states_udp_json_string)
+#	print("udp_received: " + str(states_udp))
+	for id in states_udp["player"]:
+		var player = get_node("/root/main/players/" + id + "/" + id)
+		if states_udp["player"][id].has("rotation"):
+			player.rotation = Vector3(str_to_var("Vector3" + states_udp["player"][id]["rotation"]))
+		if states_udp["player"][id].has("position"):
+			player.position = Vector3(str_to_var("Vector3" + states_udp["player"][id]["position"]))
+		if states_udp["player"][id].has("camera_arm_rotation"):
+			player.camera_arm.rotation = Vector3(str_to_var("Vector3" + states_udp["player"][id]["camera_arm_rotation"]))
+
+#	var rotation = Vector3(str_to_var("Vector3" + output["rotation"]))
+#	get_node("/root/main/players/" + str(id) + "/" + str(id)).rotation = rotation
+#	var position = Vector3(str_to_var("Vector3" + output["position"]))
+#	get_node("/root/main/players/" + str(id) + "/" + str(id)).position = position
+#	var camera_arm_rotation = Vector3(str_to_var("Vector3" + output["camera_arm_rotation"]))
+#	get_node("/root/main/players/" + str(id) + "/" + str(id) + "/SpringArm3D").rotation = camera_arm_rotation
 
 @rpc("call_remote", "reliable")
-func send_output_to_client_reliable(output_json_string: String):
-	var output: Dictionary = JSON.parse_string(output_json_string)
-	var id = int(output["id"])
-	var camera_arm_scale = Vector3(str_to_var("Vector3" + output["camera_arm_scale"]))
-#	print("received scale: " + str(camera_arm_scale))
-	get_node("/root/main/players/" + str(id) + "/" + str(id) + "/SpringArm3D").scale = camera_arm_scale
+func send_output_to_client_reliable(states_tcp_json_string: String):
+	var states_tcp: Dictionary = JSON.parse_string(states_tcp_json_string)
+#	print("tcp_received: " + str(states_tcp))
+	for id in states_tcp["player"]:
+		var player = get_node("/root/main/players/" + id + "/" + id)
+		if states_tcp["player"][id].has("camera_arm_scale"):
+			player.camera_arm.scale = Vector3(str_to_var("Vector3" + states_tcp["player"][id]["camera_arm_scale"]))
+
+#	var output: Dictionary = JSON.parse_string(output_json_string)
+#	var id = int(output["id"])
+#	var camera_arm_scale = Vector3(str_to_var("Vector3" + output["camera_arm_scale"]))
+##	print("received scale: " + str(camera_arm_scale))
+#	get_node("/root/main/players/" + str(id) + "/" + str(id) + "/SpringArm3D").scale = camera_arm_scale

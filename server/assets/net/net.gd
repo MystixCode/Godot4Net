@@ -19,7 +19,11 @@ var server: Dictionary = {
 var peer: ENetMultiplayerPeer
 var sv_tickrate: int = 66
 var sv_tickid: int
-var states: Array
+var states_tcp: Dictionary
+var states_udp: Dictionary
+
+var cl_updaterate = float(20)
+var cl_updaterate_timer = 0.0
 
 func _ready():
 	#set server tickrate -> relevant for physics_process() function --> needed for interpolation
@@ -209,18 +213,29 @@ func print_net_info():
 	print("****************************************")
 
 
-#func _physics_process(delta):
-#	sv_tickid += 1
-#	if states.is_empty() == false:
-#		for p in get_node("/root/Main/Players").get_children():
-#			if p.client_ready == true:
-#				p.cl_updaterate_timer += delta
-#				if p.cl_updaterate_timer >= 1.0/p.cl_updaterate:
-#					p.cl_updaterate_timer = 0.0						#1.0/p.cl_updaterate
-#					print(str(states))
+func _physics_process(delta):
+	sv_tickid += 1
+	if !states_udp.is_empty() or !states_tcp.is_empty():
+		
+		for peer in get_node("/root/main/players").get_children():
+			var p = peer.get_node(str(peer.name))
+			if p.client_ready == true:
+#				cl_updaterate_timer += delta
+#				if cl_updaterate_timer >= 1.0/cl_updaterate:
+#					cl_updaterate_timer = 0.0						#1.0/p.cl_updaterate
+#					print(str(states_udp))
 ##					rpc_unreliable_id(int(p.get_name()), "update_states", states)
 #					update_states_on_clients.rpc_id(int(str(p.name)), states)
-#	states = []
+				if !states_udp.is_empty():
+					var states_udp_json_string: String = JSON.stringify(states_udp)
+					print("udp: " + states_udp_json_string)
+					$/root/main/net/server_to_client.send_output_to_client_unreliable.rpc_id(int(str(p.get_name())), states_udp_json_string)
+				if !states_tcp.is_empty():
+					var states_tcp_json_string: String = JSON.stringify(states_tcp)
+					print("tcp: " + states_tcp_json_string)
+					$/root/main/net/server_to_client.send_output_to_client_reliable.rpc_id(int(str(p.get_name())), states_tcp_json_string)
+	states_udp = {}
+	states_tcp = {}
 
 #@rpc("unreliable_ordered")
 #func update_states_on_clients():
