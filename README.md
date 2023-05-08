@@ -34,14 +34,14 @@ There's a very limited cli. Server can be stopped by entering "stop", "quit" or 
 
 ## Tested on
 
-<a href="https://debian.org/">
+<a href="https://debian.org/" style="display:inline-block">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Openlogo-debianV2.svg" width="32" height="32" style="vertical-align:middle">
   Debian GNU/Linux 12 (bookworm)
 </a>
 
 ## Built With
 
-<a href="https://godotengine.org/">
+<a href="https://godotengine.org/" style="display:inline-block">
     <img src="https://godotengine.org/assets/press/icon_color.svg" width="32" height="32" style="vertical-align:middle">
     Godot v4.0.2-stable
 </a>
