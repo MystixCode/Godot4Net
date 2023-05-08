@@ -18,21 +18,30 @@ Any help is appreciated <3
 ## Headless server mode
 you can run the server headless
 ```bash
-<path_to_godot>/Godot_v4.0.2-stable_linux.x86_64 --display-driver headless --path <your_git_dir>/Godot4Net/server/
+Godot_v4.0.2-stable_linux.x86_64 --display-driver headless --path <your_git_dir>/Godot4Net/server/
 ```
 There's a very limited cli. Server can be stopped by entering "stop", "quit" or "exit".
 
 ## Todo list
-- updaterate
-- shoot bullet
-- movingbody and rigidbody not networked yet
-- stop [x] server doesnt work. cli loop needs to be stopped first
-- chat
-- on server remove textures etc.
-- instancing grass, trees, stones
-    either via particle or multimesh or shader?
-- create new world, add more assets
-- player with custom bones, (mixamo? whats the license?) animations and root motion 
+* movingbody and rigidbody not networked yet
+* shoot bullet
+* updaterate
+* chat
+* on server remove textures etc.
+* instancing grass, trees, stones (either via particle or multimesh or shader?)
+* create new world, add more assets
+* player with custom bones, (mixamo? whats the license?) animations and root motion 
 
-## Tested on:
-- Debian GNU/Linux 12 (bookworm)
+## Tested on
+
+<a href="https://debian.org/">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Openlogo-debianV2.svg" width="32" height="32" style="vertical-align:middle">
+  Debian GNU/Linux 12 (bookworm)
+</a>
+
+## Built With
+
+<a href="https://godotengine.org/">
+    <img src="https://godotengine.org/assets/press/icon_color.svg" width="32" height="32" style="vertical-align:middle">
+    Godot v4.0.2-stable
+</a>
