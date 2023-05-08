@@ -23,7 +23,6 @@ Godot_v4.0.2-stable_linux.x86_64 --display-driver headless --path <your_git_dir>
 There's a very limited cli. Server can be stopped by entering "stop", "quit" or "exit".
 
 ## Todo list
-* movingbody and rigidbody not networked yet
 * shoot bullet
 * updaterate
 * chat
