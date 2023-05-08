@@ -1,10 +1,5 @@
 extends CharacterBody3D
 
-#TODO:
-#merge player_to_server into client_to_server
-#updaterate / limit packets send
-
-
 
 #various
 var client_ready: bool = false

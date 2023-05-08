@@ -18,8 +18,7 @@ func done_preconfig():
 #		if child.name == str(newplayerid):
 #			assert(ip == child.ip)
 
-#	createlbl("Names", str(newplayerid), pname)
-#	createlbl("Positions", str(newplayerid), str(pos))
+
 #	get_node("/root/main/players/" + str(new_id)).player_name = pname
 #	get_node("/root/main/players/" + str(new_id)).global_position = pos
 	get_node("/root/main/players/" + str(new_id) + "/" + str(new_id)).client_ready = true

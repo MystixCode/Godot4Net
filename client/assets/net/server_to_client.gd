@@ -70,22 +70,21 @@ func send_output_to_client_unreliable(states_udp_json_string: String):
 				player.camera_arm.rotation = Vector3(str_to_var("Vector3" + states_udp["player"][id]["camera_arm_rotation"]))
 	if states_udp.has("moving_cube"):
 		for id in states_udp["moving_cube"]:
-			
 			if get_node("/root/main/maps/").get_child_count() > 0:
-				print(get_node("/root/main/maps/").get_child(0).name)
-				
 				var moving_cube = get_node("/root/main/maps/").get_child(0).get_node(id)
 				if states_udp["moving_cube"][id].has("rotation"):
 					moving_cube.rotation = Vector3(str_to_var("Vector3" + states_udp["moving_cube"][id]["rotation"]))
 				if states_udp["moving_cube"][id].has("position"):
 					moving_cube.position = Vector3(str_to_var("Vector3" + states_udp["moving_cube"][id]["position"]))
+	if states_udp.has("rigid_cube"):
+		for id in states_udp["rigid_cube"]:
+			if get_node("/root/main/maps/").get_child_count() > 0:
+				var rigid_cube = get_node("/root/main/maps/").get_child(0).get_node(id)
+				if states_udp["rigid_cube"][id].has("rotation"):
+					rigid_cube.rotation = Vector3(str_to_var("Vector3" + states_udp["rigid_cube"][id]["rotation"]))
+				if states_udp["rigid_cube"][id].has("position"):
+					rigid_cube.position = Vector3(str_to_var("Vector3" + states_udp["rigid_cube"][id]["position"]))
 
-#	var rotation = Vector3(str_to_var("Vector3" + output["rotation"]))
-#	get_node("/root/main/players/" + str(id) + "/" + str(id)).rotation = rotation
-#	var position = Vector3(str_to_var("Vector3" + output["position"]))
-#	get_node("/root/main/players/" + str(id) + "/" + str(id)).position = position
-#	var camera_arm_rotation = Vector3(str_to_var("Vector3" + output["camera_arm_rotation"]))
-#	get_node("/root/main/players/" + str(id) + "/" + str(id) + "/SpringArm3D").rotation = camera_arm_rotation
 
 @rpc("call_remote", "reliable")
 func send_output_to_client_reliable(states_tcp_json_string: String):
@@ -95,9 +94,3 @@ func send_output_to_client_reliable(states_tcp_json_string: String):
 		var player = get_node("/root/main/players/" + id + "/" + id)
 		if states_tcp["player"][id].has("camera_arm_scale"):
 			player.camera_arm.scale = Vector3(str_to_var("Vector3" + states_tcp["player"][id]["camera_arm_scale"]))
-
-#	var output: Dictionary = JSON.parse_string(output_json_string)
-#	var id = int(output["id"])
-#	var camera_arm_scale = Vector3(str_to_var("Vector3" + output["camera_arm_scale"]))
-##	print("received scale: " + str(camera_arm_scale))
-#	get_node("/root/main/players/" + str(id) + "/" + str(id) + "/SpringArm3D").scale = camera_arm_scale

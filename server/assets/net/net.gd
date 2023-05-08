@@ -170,15 +170,8 @@ func spawn_player_on_server(id):	#TODO player nur spawna wenn im sichtbereich un
 	player.set_name(str(id))
 	player.ip = peer.get_peer(id).get_remote_address()
 	player.player_name = "Spartan " + str(randi()%201+1)
-#	var material: StandardMaterial3D = StandardMaterial3D.new()
-#	var color: Color = Color.from_hsv((randi() % 12) / 12.0, 1, 1)
-#	material.albedo_color = color
-#	player.get_node("MeshInstance3D").mesh.material = player.get_node("MeshInstance3D").mesh.material.duplicate()
-#	player.get_node("MeshInstance3D").mesh.material = material
 	player.color = Color.from_hsv((randi() % 12) / 12.0, 1, 1)
-#	print("spawn_player_on_server: " + str(player.get_node("MeshInstance3D").mesh.material.albedo_color))
 	player.position = Vector3(randf_range(700.0, 705.0), 200.0, randf_range(5.0, 10.0))
-
 	get_node("/root/main/players/" + str(id)).add_child(player)
 
 
@@ -202,8 +195,6 @@ func free_player(id):
 					
 		for item_name in range(range_start, range_end):
 			get_node("../ui/table/GridContainer/" + str(item_name)).free()
-
-
 
 
 func print_net_info():

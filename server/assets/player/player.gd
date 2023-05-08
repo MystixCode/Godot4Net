@@ -123,33 +123,6 @@ func _physics_process(delta):
 			# add player_state to states_tcp
 			get_node("/root/main/net").states_tcp["player"][name] = player_state_tcp
 			
-#		# output_udp
-#		var newpos = global_transform
-#		if newpos.origin.distance_to(oldpos.origin) >0.00001 or newpos.basis != oldpos.basis:
-#			oldpos=newpos
-#			for p in get_node("/root/main/players").get_children():
-#				if p.get_node(str(p.name)).client_ready == true:
-#					var output_udp: Dictionary = {
-#						"id": int(str(name)),
-#						"position": position,
-#						"rotation": rotation,
-#						"camera_arm_rotation": camera_arm.rotation}
-#					var output_udp_json_string: String = JSON.stringify(output_udp)
-#					$/root/main/net/server_to_client.send_output_to_client_unreliable.rpc_id(int(str(p.get_name())), output_udp_json_string)
-##					print("send udp: " + str(output_udp_json_string))
-
-		#output_tcp
-#		if $inputs.zoom != $inputs.old_zoom:
-#			$inputs.old_zoom = $inputs.zoom
-#			for p in get_node("/root/main/players").get_children():
-#				if p.get_node(str(p.name)).client_ready == true:
-##					Network.update_remote_states(int(str(self.name)))
-#					var output_tcp: Dictionary = {
-#						"id": int(str(name)),
-#						"camera_arm_scale": camera_arm.scale}
-#					var output_tcp_json_string: String = JSON.stringify(output_tcp)
-#					$/root/main/net/server_to_client.send_output_to_client_reliable.rpc_id(int(str(p.get_name())), output_tcp_json_string)
-##					print("send tcp: " + str(output_tcp_json_string))
 
 		#Reset inputs (only some, $inputs.zoom should keep its value)
 		$inputs.mouse_motion = Vector2()	

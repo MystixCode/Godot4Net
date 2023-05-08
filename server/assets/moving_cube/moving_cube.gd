@@ -1,6 +1,5 @@
 extends StaticBody3D
 
-#var moving_cube_state  : Array
 var vel = 0
 var length = 0.8
 var speed = 5
@@ -31,13 +30,3 @@ func _process(delta):
 			get_node("/root/main/net").states_udp["moving_cube"] = {}
 		# add player_state to states_udp
 		get_node("/root/main/net").states_udp["moving_cube"][name] = moving_cube_state_udp
-	
-	
-#	moving_cube_state = [position]
-#
-#	#if moving_cube doesnt exist add it to global_state
-#	if !get_node("/root/Main").global_state.has("moving_cube"):
-#		get_node("/root/Main").global_state["moving_cube"] = {}
-#
-#	# add moving_cube_state to global_state
-#	get_node("/root/Main").global_state["moving_cube"][name] = moving_cube_state
