@@ -33,3 +33,6 @@ spring_length = 4.0
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.665, -0.3)
 mesh = SubResource("BoxMesh_hbdr7")
+
+[node name="shoot_from" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41399, -1.18601)

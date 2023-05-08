@@ -219,11 +219,11 @@ func _physics_process(delta):
 #					update_states_on_clients.rpc_id(int(str(p.name)), states)
 				if !states_udp.is_empty():
 					var states_udp_json_string: String = JSON.stringify(states_udp)
-					print("udp: " + states_udp_json_string)
+#					print("udp: " + states_udp_json_string)
 					$/root/main/net/server_to_client.send_output_to_client_unreliable.rpc_id(int(str(p.get_name())), states_udp_json_string)
 				if !states_tcp.is_empty():
 					var states_tcp_json_string: String = JSON.stringify(states_tcp)
-					print("tcp: " + states_tcp_json_string)
+#					print("tcp: " + states_tcp_json_string)
 					$/root/main/net/server_to_client.send_output_to_client_reliable.rpc_id(int(str(p.get_name())), states_tcp_json_string)
 	states_udp = {}
 	states_tcp = {}

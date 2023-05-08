@@ -77,6 +77,7 @@ example:
 * updaterate
 * chat
 * on server remove textures etc.
+* decouple code with signals
 * instancing grass, trees, stones (either via particle or multimesh or shader?)
 * create new world, add more assets
 * player with custom bones, (mixamo? whats the license?) animations and root motion 

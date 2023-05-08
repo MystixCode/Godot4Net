@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://gikh84r7bxud"]
+[gd_scene load_steps=17 format=3 uid="uid://gikh84r7bxud"]
 
 [ext_resource type="PackedScene" uid="uid://bdfobcupaogw" path="res://assets/water/water.tscn" id="1_udmok"]
 [ext_resource type="PackedScene" uid="uid://c6j0apdpcaxsy" path="res://assets/terrain/terrain.tscn" id="2_a0one"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bd7uifbiu5ykr" path="res://assets/rigid_cube/rigid_cube.tscn" id="4_df8jg"]
 [ext_resource type="PackedScene" uid="uid://bul1nbhutnctq" path="res://assets/tree_1/tree_1.tscn" id="6_l33sk"]
 [ext_resource type="PackedScene" uid="uid://mn2pbnsnbb3y" path="res://assets/grass_1/grass_1.tscn" id="7_5ipbm"]
+[ext_resource type="Shader" path="res://assets/bullet/bullet.gdshader" id="7_5uy65"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_w2r3g"]
 sky_top_color = Color(0.211765, 0.313726, 0.552941, 1)
@@ -28,6 +29,38 @@ ambient_light_sky_contribution = 0.3
 ambient_light_energy = 3.0
 tonemap_mode = 3
 tonemap_white = 6.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_avsux"]
+radius = 2.0
+height = 4.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ekwrd"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7g5vw"]
+generate_mipmaps = false
+seamless = true
+noise = SubResource("FastNoiseLite_ekwrd")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_c8uim"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7o3lw"]
+generate_mipmaps = false
+seamless = true
+noise = SubResource("FastNoiseLite_c8uim")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6tyty"]
+render_priority = 0
+shader = ExtResource("7_5uy65")
+shader_parameter/Glow_Power = 3.0
+shader_parameter/Lightness_Difference = 3.0
+shader_parameter/Sun_Color = Color(0.780392, 0, 0.788235, 1)
+shader_parameter/Base_Color = Color(0.368627, 0, 0.419608, 1)
+shader_parameter/waveSpeed = 0.1
+shader_parameter/fresnel = 1.0
+shader_parameter/scale = 0.236
+shader_parameter/blendSharpness = 0.0
+shader_parameter/voronoi_noise = SubResource("NoiseTexture2D_7o3lw")
+shader_parameter/emission_noise = SubResource("NoiseTexture2D_7g5vw")
 
 [node name="curiosity_islands" type="Node3D"]
 
@@ -55,3 +88,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 709.746, 163.147, 0)
 
 [node name="grass_1" parent="." instance=ExtResource("7_5ipbm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 698.398, 163.848, -11.1547)
+
+[node name="ball" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 692.518, 166.388, 52.4874)
+mesh = SubResource("SphereMesh_avsux")
+surface_material_override/0 = SubResource("ShaderMaterial_6tyty")

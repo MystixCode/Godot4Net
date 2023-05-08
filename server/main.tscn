@@ -10,6 +10,8 @@
 
 [node name="maps" type="Node" parent="."]
 
+[node name="bullets" type="Node" parent="."]
+
 [node name="ui" type="CanvasLayer" parent="."]
 
 [node name="table" type="CanvasLayer" parent="ui"]

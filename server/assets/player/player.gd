@@ -23,7 +23,7 @@ var old_camera_arm_scale
 
 @onready var camera_arm =  $"SpringArm3D"
 @onready var camera = camera_arm.get_node("Camera3D")
-#@onready var b_res := preload("res://../assets/bullet/bullet.tscn")
+@onready var b_res := preload("res://../assets/bullet/bullet.tscn")
 
 func _ready():
 	var mesh_instance: MeshInstance3D = $MeshInstance3D
@@ -64,9 +64,12 @@ func _physics_process(delta):
 		if $inputs.shoot:
 			print(name + ": shoot")
 #			var b := b_res.instantiate()
-#			b.position = $"Position3D".global_transform.origin
+#			b.position = $"shoot_from".global_position
 #			b.from_player = int(str(name))
-##			#b.name = str(player_id) + "_" + str(randi()%1001+1)
+
+#			$"/root/main/net".spawn_bullet_on_server()
+#			$"/root/main/net".spawn_bullet_on_client()
+#			$"/root/main/bullets".add_child(b)
 #			get_node("/root/Main/BulletSpawner").add_child(b, true)
 
 		#Handle zoom

@@ -46,6 +46,7 @@ func send_input_unreliable(input_json_string: String):
 func send_input_reliable(input_json_string: String):
 	var id = multiplayer.get_remote_sender_id()
 	var input: Dictionary = JSON.parse_string(input_json_string)
+#	print("received_input_tcp: " + str(input))
 	if input.has("jump"):
 		var jump = true
 		get_node("/root/main/players/" + str(id) + "/" + str(id) + "/inputs").jump = jump

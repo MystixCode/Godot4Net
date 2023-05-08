@@ -1,0 +1,52 @@
+[gd_scene load_steps=10 format=3 uid="uid://dou6ktciha523"]
+
+[ext_resource type="Script" path="res://assets/bullet/bullet.gd" id="1_1qs75"]
+[ext_resource type="Shader" path="res://assets/bullet/bullet.gdshader" id="2_saywm"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_nafve"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fbj2i"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lk214"]
+generate_mipmaps = false
+seamless = true
+noise = SubResource("FastNoiseLite_fbj2i")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_onjur"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7gc7f"]
+generate_mipmaps = false
+seamless = true
+noise = SubResource("FastNoiseLite_onjur")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t1htj"]
+render_priority = 0
+shader = ExtResource("2_saywm")
+shader_parameter/Glow_Power = 3.0
+shader_parameter/Lightness_Difference = 3.0
+shader_parameter/Sun_Color = Color(0.843137, 0.231373, 0, 1)
+shader_parameter/Base_Color = Color(0.368627, 0, 0.419608, 1)
+shader_parameter/waveSpeed = 0.1
+shader_parameter/fresnel = 1.0
+shader_parameter/scale = 2.0
+shader_parameter/blendSharpness = 0.0
+shader_parameter/voronoi_noise = SubResource("NoiseTexture2D_7gc7f")
+shader_parameter/emission_noise = SubResource("NoiseTexture2D_lk214")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dstp7"]
+radius = 0.1
+
+[node name="Bullet" type="Area3D"]
+script = ExtResource("1_1qs75")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_nafve")
+surface_material_override/0 = SubResource("ShaderMaterial_t1htj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_dstp7")
+
+[node name="AudioStreamPlayer3d" type="AudioStreamPlayer3D" parent="."]
+visible = false
