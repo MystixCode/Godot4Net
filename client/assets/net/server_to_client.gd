@@ -58,14 +58,27 @@ func free_player_on_client(id):
 func send_output_to_client_unreliable(states_udp_json_string: String):
 	var states_udp: Dictionary = JSON.parse_string(states_udp_json_string)
 #	print("udp_received: " + str(states_udp))
-	for id in states_udp["player"]:
-		var player = get_node("/root/main/players/" + id + "/" + id)
-		if states_udp["player"][id].has("rotation"):
-			player.rotation = Vector3(str_to_var("Vector3" + states_udp["player"][id]["rotation"]))
-		if states_udp["player"][id].has("position"):
-			player.position = Vector3(str_to_var("Vector3" + states_udp["player"][id]["position"]))
-		if states_udp["player"][id].has("camera_arm_rotation"):
-			player.camera_arm.rotation = Vector3(str_to_var("Vector3" + states_udp["player"][id]["camera_arm_rotation"]))
+	
+	if states_udp.has("player"):
+		for id in states_udp["player"]:
+			var player = get_node("/root/main/players/" + id + "/" + id)
+			if states_udp["player"][id].has("rotation"):
+				player.rotation = Vector3(str_to_var("Vector3" + states_udp["player"][id]["rotation"]))
+			if states_udp["player"][id].has("position"):
+				player.position = Vector3(str_to_var("Vector3" + states_udp["player"][id]["position"]))
+			if states_udp["player"][id].has("camera_arm_rotation"):
+				player.camera_arm.rotation = Vector3(str_to_var("Vector3" + states_udp["player"][id]["camera_arm_rotation"]))
+	if states_udp.has("moving_cube"):
+		for id in states_udp["moving_cube"]:
+			
+			if get_node("/root/main/maps/").get_child_count() > 0:
+				print(get_node("/root/main/maps/").get_child(0).name)
+				
+				var moving_cube = get_node("/root/main/maps/").get_child(0).get_node(id)
+				if states_udp["moving_cube"][id].has("rotation"):
+					moving_cube.rotation = Vector3(str_to_var("Vector3" + states_udp["moving_cube"][id]["rotation"]))
+				if states_udp["moving_cube"][id].has("position"):
+					moving_cube.position = Vector3(str_to_var("Vector3" + states_udp["moving_cube"][id]["position"]))
 
 #	var rotation = Vector3(str_to_var("Vector3" + output["rotation"]))
 #	get_node("/root/main/players/" + str(id) + "/" + str(id)).rotation = rotation
