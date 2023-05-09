@@ -10,6 +10,10 @@
 
 [node name="players" type="Node" parent="."]
 
+[node name="maps" type="Node" parent="."]
+
+[node name="bullets" type="Node" parent="."]
+
 [node name="ui" type="CanvasLayer" parent="."]
 
 [node name="launcher" parent="ui" instance=ExtResource("1_ixexp")]
@@ -17,8 +21,6 @@
 [node name="debug" parent="ui" instance=ExtResource("2_5682x")]
 
 [node name="loading" parent="ui" instance=ExtResource("3_d60gv")]
-
-[node name="maps" type="Node" parent="."]
 
 [node name="net" type="Node" parent="."]
 script = ExtResource("2_3nswm")

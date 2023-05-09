@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbx2gi2mny360"]
+[gd_scene load_steps=7 format=3 uid="uid://dbx2gi2mny360"]
 
 [ext_resource type="Script" path="res://assets/player/player.gd" id="1_15wb6"]
 [ext_resource type="Script" path="res://assets/player/inputs.gd" id="3_ut27v"]
@@ -9,6 +9,8 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_hbdr7"]
 size = Vector3(0.8, 0.2, 0.8)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_k50v0"]
 
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("1_15wb6")
@@ -36,3 +38,22 @@ mesh = SubResource("BoxMesh_hbdr7")
 
 [node name="shoot_from" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41399, -1.18601)
+
+[node name="RayCast3D" type="RayCast3D" parent="shoot_from"]
+target_position = Vector3(0, 0, -100)
+
+[node name="crosshair" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("PlaceholderTexture2D_k50v0")

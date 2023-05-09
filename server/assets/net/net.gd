@@ -25,6 +25,8 @@ var states_udp: Dictionary
 var cl_updaterate = float(20)
 var cl_updaterate_timer = 0.0
 
+@onready var b_res := preload("res://../assets/bullet/bullet.tscn")
+
 func _ready():
 	#set server tickrate -> relevant for physics_process() function --> needed for interpolation
 	Engine.physics_jitter_fix = 0.0
@@ -195,6 +197,22 @@ func free_player(id):
 					
 		for item_name in range(range_start, range_end):
 			get_node("../ui/table/GridContainer/" + str(item_name)).free()
+
+func spawn_bullet(from_player: int):
+	#on server
+	var b := b_res.instantiate()
+	b.name = str(from_player) + "_" + str(randi()%1001+1)
+	b.position = get_node("/root/main/players/" + str(from_player) + "/" + str(from_player) + "/shoot_from").global_position
+	b.from_player = from_player
+	$"/root/main/bullets".add_child(b)
+
+	#on clients
+	var data: Dictionary = {}
+	for p in get_node("/root/main/players").get_children():
+		data["name"] = b.name
+		data["from_player"] = from_player
+		data["position"] = get_node("/root/main/players/" + str(from_player) + "/" + str(from_player) + "/shoot_from").global_position
+		$server_to_client.spawn_bullet_on_client.rpc_id(int(str(p.get_name())), data)
 
 
 func print_net_info():

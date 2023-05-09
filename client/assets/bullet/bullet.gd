@@ -4,6 +4,7 @@ var from_player : int
 #var bullet_state : Array
 
 func _ready():
+	print("hello world from: " + str(name))
 #	$AudioStreamPlayer3d.play()
 #func _physics_process(_delta):
 #	# if category bullet doesnt exist in global_state add it

@@ -1,5 +1,6 @@
 extends Node
 
+@onready var b_res := preload("res://../assets/bullet/bullet.tscn")
 
 @rpc("call_remote", "reliable")
 func preconfig(info):
@@ -84,6 +85,12 @@ func send_output_to_client_unreliable(states_udp_json_string: String):
 					rigid_cube.rotation = Vector3(str_to_var("Vector3" + states_udp["rigid_cube"][id]["rotation"]))
 				if states_udp["rigid_cube"][id].has("position"):
 					rigid_cube.position = Vector3(str_to_var("Vector3" + states_udp["rigid_cube"][id]["position"]))
+	if states_udp.has("bullet"):
+		for id in states_udp["bullet"]:
+			var bullet = get_node("/root/main/bullets/").get_node(id)
+			if bullet:
+				if states_udp["bullet"][id].has("position"):
+					bullet.position = Vector3(str_to_var("Vector3" + states_udp["bullet"][id]["position"]))
 
 
 @rpc("call_remote", "reliable")
@@ -94,3 +101,16 @@ func send_output_to_client_reliable(states_tcp_json_string: String):
 		var player = get_node("/root/main/players/" + id + "/" + id)
 		if states_tcp["player"][id].has("camera_arm_scale"):
 			player.camera_arm.scale = Vector3(str_to_var("Vector3" + states_tcp["player"][id]["camera_arm_scale"]))
+
+
+@rpc("call_remote", "reliable")
+func spawn_bullet_on_client(data):
+#	print("spawn bullet rpc received: todo")
+#	print("from_player: " + str(data["from_player"]))
+#	print("position: " + str(data["position"]))
+	
+	var b := b_res.instantiate()
+	b.name = data["name"]
+	b.position = data["position"]
+	b.from_player = data["from_player"]
+	$"/root/main/bullets".add_child(b)
