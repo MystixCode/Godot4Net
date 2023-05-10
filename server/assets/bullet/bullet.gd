@@ -44,13 +44,12 @@ func _physics_process(delta):
 
 func _on_body_entered(body):
 	print(str(name) + " collided with " + str(body.name))
-#	if body is CharacterBody3D:
-#		body.damage(10)
-
-	queue_free()
+	if body is CharacterBody3D:
+		body.damage(10)
+	destroy()
 
 func destroy():
-#	get_node("/root/Main/").global_state["bullet"].erase(name)
-	queue_free()
-
-#TODO: free_bullet_on_client + server func in net.gd
+	#maybe do some explosion animation and sound or something
+	
+	#remove bullet on server and clients
+	get_node("/root/main/net").free_bullet(str(name))

@@ -13,6 +13,7 @@ rings = 4
 radius = 0.1
 
 [node name="Bullet" type="Area3D"]
+collision_layer = 15
 script = ExtResource("1_q075n")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

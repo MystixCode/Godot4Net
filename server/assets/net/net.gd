@@ -214,6 +214,14 @@ func spawn_bullet(from_player: int):
 		data["position"] = get_node("/root/main/players/" + str(from_player) + "/" + str(from_player) + "/shoot_from").global_position
 		$server_to_client.spawn_bullet_on_client.rpc_id(int(str(p.get_name())), data)
 
+func free_bullet(id):
+	if get_node("/root/main/bullets").has_node(str(id)):
+		if states_udp.has("bullet"):
+			if states_udp["bullet"].has(name):
+				states_udp["bullet"].remove(name)
+		get_node("/root/main/bullets/" + str(id)).queue_free()
+		$server_to_client.free_bullet_on_client.rpc(id)
+	
 
 func print_net_info():
 	print("****************************************")

@@ -30,3 +30,6 @@ func send_output_to_client_reliable():
 func spawn_bullet_on_client():
 	pass
 
+@rpc("reliable")
+func free_bullet_on_client():
+	pass

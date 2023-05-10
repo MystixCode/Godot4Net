@@ -21,6 +21,9 @@ var old_camera_arm_rotation
 #Zoom
 var old_camera_arm_scale
 
+var health: int = 100
+var mana: int = 100
+
 @onready var camera_arm =  $"SpringArm3D"
 @onready var camera = camera_arm.get_node("Camera3D")
 #@onready var b_res := preload("res://../assets/bullet/bullet.tscn")
@@ -30,6 +33,15 @@ func _ready():
 	var material = StandardMaterial3D.new()
 	material.albedo_color = color
 	mesh_instance.set_surface_override_material(0, material)
+
+func damage(damage: int):
+	health -= damage
+	print(str(name) + ": health " + str(health))
+	#respawn if health is zero
+	if health <= 0:
+		print(str(name) + "died")
+		position = respawn_position
+		health = 100
 
 func _physics_process(delta):
 

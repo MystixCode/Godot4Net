@@ -87,10 +87,11 @@ func send_output_to_client_unreliable(states_udp_json_string: String):
 					rigid_cube.position = Vector3(str_to_var("Vector3" + states_udp["rigid_cube"][id]["position"]))
 	if states_udp.has("bullet"):
 		for id in states_udp["bullet"]:
-			var bullet = get_node("/root/main/bullets/").get_node(id)
-			if bullet:
-				if states_udp["bullet"][id].has("position"):
-					bullet.position = Vector3(str_to_var("Vector3" + states_udp["bullet"][id]["position"]))
+			if get_node("/root/main/bullets/").has_node(id):
+				var bullet = get_node("/root/main/bullets/").get_node(id)
+				if bullet:
+					if states_udp["bullet"][id].has("position"):
+						bullet.position = Vector3(str_to_var("Vector3" + states_udp["bullet"][id]["position"]))
 
 
 @rpc("call_remote", "reliable")
@@ -114,3 +115,9 @@ func spawn_bullet_on_client(data):
 	b.position = data["position"]
 	b.from_player = data["from_player"]
 	$"/root/main/bullets".add_child(b)
+
+@rpc("call_remote", "reliable")
+func free_bullet_on_client(id):
+	if get_node("/root/main/bullets").has_node(str(id)):
+		print("free_bullet(" + str(id) + ")")
+		get_node("/root/main/bullets/").remove_child(get_node("/root/main/bullets/" + str(id)))
