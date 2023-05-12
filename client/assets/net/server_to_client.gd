@@ -69,6 +69,10 @@ func send_output_to_client_unreliable(states_udp_json_string: String):
 				player.position = Vector3(str_to_var("Vector3" + states_udp["player"][id]["position"]))
 			if states_udp["player"][id].has("camera_arm_rotation"):
 				player.camera_arm.rotation = Vector3(str_to_var("Vector3" + states_udp["player"][id]["camera_arm_rotation"]))
+			if states_udp["player"][id].has("health"):
+				player.health = int(states_udp["player"][id]["health"])
+			if states_udp["player"][id].has("mana"):
+				player.mana = int(states_udp["player"][id]["mana"])
 	if states_udp.has("moving_cube"):
 		for id in states_udp["moving_cube"]:
 			if get_node("/root/main/maps/").get_child_count() > 0:

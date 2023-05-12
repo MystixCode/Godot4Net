@@ -19,6 +19,11 @@ var mouse_sensitivity: float = 4.0
 @onready var camera_arm =  $"SpringArm3D"
 @onready var camera = camera_arm.get_node("Camera3D")
 
+var health: int
+var mana: int
+
+var health_bar: Control
+
 #@onready var b_res := preload("res://../assets/bullet/bullet.tscn")
 
 func _ready():
@@ -27,13 +32,24 @@ func _ready():
 	var material = StandardMaterial3D.new()
 	material.albedo_color = color
 	mesh_instance.set_surface_override_material(0, material)
+	
+	#add healthbar
+	var max_health=100
+	var health=max_health
+	health_bar  = preload("res://assets/health_bar/health_bar.tscn").instantiate()
+	health_bar.get_node("vbox/health_bar").max_value=max_health
+	health_bar.get_node("vbox/health_bar").set_value(max_health)
+	health_bar.player_id=self.get_name()
+	add_child(health_bar)
 
 func _physics_process(delta):
-
-	if str(name) == str($"/root/main/net".multiplayer.get_unique_id()) : #and int(str(name)) == $"/root/main/net".peer_id
+	health_bar.get_node("vbox/health_bar").set_value(health)
+	if str(name) == str($"/root/main/net".multiplayer.get_unique_id()): #and int(str(name)) == $"/root/main/net".peer_id
 		show_debug_panel()
 		$inputs.send_inputs()
 		camera.current = true
+
+		
 
 		#client_prediction (simulate physics on client too, to compensate for lag)
 		if client_prediction == true:

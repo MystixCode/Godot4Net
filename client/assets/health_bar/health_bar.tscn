@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://dum3bn17wia6p"]
+
+[ext_resource type="Script" path="res://assets/health_bar/health_bar.gd" id="1_a6ycr"]
+
+[node name="health_Bar" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_a6ycr")
+
+[node name="vbox" type="VBoxContainer" parent="."]
+layout_mode = 1
+offset_right = 149.0
+offset_bottom = 40.0
+
+[node name="name_tag" type="Label" parent="vbox"]
+visible = false
+layout_mode = 2
+text = "< character@user >"
+
+[node name="health_bar" type="TextureProgressBar" parent="vbox"]
+layout_mode = 2
+size_flags_vertical = 8

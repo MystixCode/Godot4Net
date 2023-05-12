@@ -22,7 +22,9 @@ var old_camera_arm_rotation
 var old_camera_arm_scale
 
 var health: int = 100
+var old_health: int
 var mana: int = 100
+var old_mana: int
 
 @onready var camera_arm =  $"SpringArm3D"
 @onready var camera = camera_arm.get_node("Camera3D")
@@ -35,6 +37,7 @@ func _ready():
 	mesh_instance.set_surface_override_material(0, material)
 
 func damage(damage: int):
+	
 	health -= damage
 	print(str(name) + ": health " + str(health))
 	#respawn if health is zero
@@ -77,6 +80,8 @@ func _physics_process(delta):
 			print(name + ": shoot")
 			var from_player = int(str(name))
 			$"/root/main/net".spawn_bullet(from_player)
+			mana -= 10
+			print("mana: " + str(mana))
 #			$"/root/main/net".spawn_bullet_on_clients(from_player)
 
 		#Handle zoom
@@ -114,6 +119,12 @@ func _physics_process(delta):
 		if camera_arm.rotation != old_camera_arm_rotation: # only add if changed
 			old_camera_arm_rotation = camera_arm.rotation
 			player_state_udp["camera_arm_rotation"] = camera_arm.rotation
+		if health != old_health: # only add if changed
+			old_health=health
+			player_state_udp["health"] = health
+		if mana != old_mana: # only add if changed
+			old_mana=mana
+			player_state_udp["mana"] = mana
 		if !player_state_udp.is_empty(): # only add if not empty
 			#if states_udp doesnt have player category add it to states_udp
 			if !get_node("/root/main/net").states_udp.has("player"):
