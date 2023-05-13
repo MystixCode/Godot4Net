@@ -1,10 +1,10 @@
 extends RigidBody3D
 
+
 var old_position: Vector3
 var old_rotation: Vector3
 
 func _process(_delta):
-
 	#UDP: add player_state_udp to states_udp
 	var rigid_cube_state_udp: Dictionary = {}
 	if position.distance_to(old_position) >0.00001: # only add if changed enough

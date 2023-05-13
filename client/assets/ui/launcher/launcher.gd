@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+
 func _on_connect_pressed():
 	get_node("/root/main/net").server.ip = $panel/vbox/server_ip.text
 	get_node("/root/main/net").server.port = $panel/vbox/server_port.value

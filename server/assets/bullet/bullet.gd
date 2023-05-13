@@ -1,5 +1,6 @@
 extends Area3D
 
+
 var from_player : int
 var old_position: Vector3
 #var bullet_state : Array
@@ -25,6 +26,7 @@ func _ready():
 	timer.set_wait_time(4)
 	timer.start()
 
+
 func _physics_process(delta):
 	velocity.y += g * delta
 	velocity= ray_dir * bullet_velocity
@@ -42,11 +44,13 @@ func _physics_process(delta):
 		# add player_state to states_udp
 		get_node("/root/main/net").states_udp["bullet"][name] = bullet_state_udp
 
+
 func _on_body_entered(body):
 	print(str(name) + " collided with " + str(body.name))
 	if body is CharacterBody3D:
 		body.damage(10)
 	destroy()
+
 
 func destroy():
 	#maybe do some explosion animation and sound or something

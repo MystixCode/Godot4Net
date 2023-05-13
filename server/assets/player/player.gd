@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+
 #Various
 var client_ready: bool = false
 var player_name: String 
@@ -36,8 +37,8 @@ func _ready():
 	material.albedo_color = color
 	mesh_instance.set_surface_override_material(0, material)
 
+
 func damage(damage: int):
-	
 	health -= damage
 	print(str(name) + ": health " + str(health))
 	#respawn if health is zero
@@ -46,8 +47,8 @@ func damage(damage: int):
 		position = respawn_position
 		health = 100
 
-func _physics_process(delta):
 
+func _physics_process(delta):
 	if client_ready == true:
 #		old_position = global_transform
 		
@@ -143,7 +144,6 @@ func _physics_process(delta):
 				get_node("/root/main/net").states_tcp["player"] = {}
 			# add player_state to states_tcp
 			get_node("/root/main/net").states_tcp["player"][name] = player_state_tcp
-			
 
 		#Reset inputs (only some, $inputs.zoom should keep its value)
 		$inputs.mouse_motion = Vector2()	

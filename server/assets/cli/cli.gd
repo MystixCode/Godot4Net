@@ -1,5 +1,6 @@
 extends Node
 
+
 var thread
 var input = ""
 
@@ -8,6 +9,7 @@ func _notification(what):
 		print("stopping cli")
 		input="stop"
 #		get_tree().quit()
+
 
 func _init():
 	for i in range(OS.get_cmdline_args().size()):

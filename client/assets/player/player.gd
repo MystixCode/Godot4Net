@@ -35,7 +35,7 @@ func _ready():
 	
 	#add healthbar
 	var max_health=100
-	var health=max_health
+	health=max_health
 	health_bar  = preload("res://assets/health_bar/health_bar.tscn").instantiate()
 	health_bar.get_node("vbox/health_bar").max_value=max_health
 	health_bar.get_node("vbox/health_bar").set_value(max_health)

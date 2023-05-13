@@ -1,5 +1,6 @@
 extends Node
 
+
 # sync vars
 var mouse_motion: Vector2
 var keys_motion: Vector2

@@ -1,5 +1,6 @@
 extends StaticBody3D
 
+
 var vel = 0
 var length = 0.8
 var speed = 5
@@ -10,6 +11,7 @@ var old_rotation: Vector3
 
 func _ready():
 	pass
+
 
 func _process(delta):
 	vel += delta * speed

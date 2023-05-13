@@ -23,7 +23,6 @@ var last_sv_tickid: int
 var statebuffer: Array
 var cl_interp_time: float = float(cl_interp_ratio) / float(cl_updaterate)
 
-
 func _ready():
 	Engine.physics_jitter_fix = 0.0
 	Engine.physics_ticks_per_second=cl_tickrate

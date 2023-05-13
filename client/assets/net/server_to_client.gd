@@ -1,5 +1,6 @@
 extends Node
 
+
 @onready var b_res := preload("res://../assets/bullet/bullet.tscn")
 
 @rpc("call_remote", "reliable")

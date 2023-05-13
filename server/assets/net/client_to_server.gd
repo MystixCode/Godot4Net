@@ -7,6 +7,7 @@ var zoom_max: float = 5
 func _enter_tree():
 	set_multiplayer_authority(int(str($"..".name)))
 
+
 @rpc("authority", "call_remote","reliable")
 func done_preconfig():
 	var new_id = multiplayer.get_remote_sender_id()
@@ -17,7 +18,6 @@ func done_preconfig():
 #	for child in get_node("/root/main/players").get_children():
 #		if child.name == str(newplayerid):
 #			assert(ip == child.ip)
-
 
 #	get_node("/root/main/players/" + str(new_id)).player_name = pname
 #	get_node("/root/main/players/" + str(new_id)).global_position = pos

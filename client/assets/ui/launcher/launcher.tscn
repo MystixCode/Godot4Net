@@ -37,7 +37,7 @@ offset_top = 92.0
 offset_right = 56.5
 offset_bottom = 129.0
 grow_horizontal = 2
-text = "alpha-0.0.1"
+text = "v0.0.2-alpha"
 horizontal_alignment = 1
 
 [node name="vbox" type="VBoxContainer" parent="panel"]
