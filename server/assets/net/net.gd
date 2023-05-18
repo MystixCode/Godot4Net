@@ -197,7 +197,8 @@ func free_player(id):
 					break
 					
 		for item_name in range(range_start, range_end):
-			get_node("../ui/table/GridContainer/" + str(item_name)).free()
+			if get_node("../ui/table/GridContainer/").has_node(str(item_name)):
+				get_node("../ui/table/GridContainer/" + str(item_name)).free()
 
 
 func spawn_bullet(from_player: int):
