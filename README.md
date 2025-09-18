@@ -1,4 +1,7 @@
 # Godot4Net
+
+New update comming soon. This current implementation is outdated because networking (MultiplayerSpawner, MultiplayerSynchronizer) in godot4 is better now. And im removing the state Dictionaries and make everything more like standard approach.
+
 This is a godot 4 project implementing dedicated multiplayer networking. \
 Server and client are separated into two projects and its 3D thirdperson.
 
