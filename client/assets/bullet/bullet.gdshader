@@ -20,11 +20,11 @@ vec4 triplanar_texture(vec3 position, vec3 normal, vec2 offset, sampler2D noise)
 	vec4 colX = texture(noise, position.xy * scale + offset);
 	vec4 colY = texture(noise, position.xz * scale + offset);
 	vec4 colZ = texture(noise, position.zy * scale + offset);
-	
+
 	vec3 blendWeight = abs(normal);
 	blendWeight = vec3(pow(blendWeight.x, blendSharpness), pow(blendWeight.y, blendSharpness), pow(blendWeight.z, blendSharpness));
 	blendWeight /= (blendWeight.x + blendWeight.y + blendWeight.z);
-	
+
 	return colX * blendWeight.x + colY * blendWeight.y + colZ * blendWeight.z;
 }
 

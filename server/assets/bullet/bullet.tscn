@@ -1,26 +1,35 @@
 [gd_scene load_steps=5 format=3 uid="uid://dou6ktciha523"]
 
-[ext_resource type="Script" path="res://assets/bullet/bullet.gd" id="1_q075n"]
+[ext_resource type="Script" uid="uid://b04487tedxqan" path="res://assets/bullet/bullet.gd" id="1_5i723"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_nafve"]
 radius = 0.1
 height = 0.2
 rings = 4
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksp6s"]
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_dstp7"]
 radius = 0.1
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_a4s3u"]
+properties/0/path = NodePath(".:from_player")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Bullet" type="Area3D"]
-collision_layer = 15
-script = ExtResource("1_q075n")
+collision_layer = 9
+collision_mask = 9
+script = ExtResource("1_5i723")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_nafve")
-surface_material_override/0 = SubResource("ShaderMaterial_ksp6s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_dstp7")
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_a4s3u")
+
+[connection signal="body_entered" from="." to="." method="_on_bullet_body_entered"]

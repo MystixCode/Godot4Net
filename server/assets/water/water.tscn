@@ -1,37 +1,37 @@
-[gd_scene load_steps=7 format=3 uid="uid://bdfobcupaogw"]
+[gd_scene load_steps=7 format=3 uid="uid://cdu0gb04nu76g"]
 
-[ext_resource type="Shader" path="res://assets/water/water.gdshader" id="1_dxgn7"]
-[ext_resource type="Texture2D" uid="uid://br1e72ookncbr" path="res://assets/water/textures/water/Water_N_A.png" id="2_yxjg4"]
-[ext_resource type="Texture2D" uid="uid://ct7qjm86py2al" path="res://assets/water/textures/water/Water_N_B.png" id="3_oiugh"]
-[ext_resource type="Texture2D" uid="uid://bve76rmipf7j7" path="res://assets/water/textures/water/Water_UV.png" id="4_un5qc"]
+[ext_resource type="Shader" uid="uid://iasint4xbncy" path="res://assets/water/water.gdshader" id="1_ldsxc"]
+[ext_resource type="Texture2D" uid="uid://b1mqab0sxycln" path="res://assets/water/textures/Water_N_A.png" id="2_1dkdr"]
+[ext_resource type="Texture2D" uid="uid://bipb0ai0j1iuf" path="res://assets/water/textures/Water_N_B.png" id="3_48l84"]
+[ext_resource type="Texture2D" uid="uid://nl4ao5c6pg7l" path="res://assets/water/textures/Water_UV.png" id="4_jaioh"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_ptj0y"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_lxyov"]
 size = Vector2(6000, 6000)
 subdivide_width = 512
 subdivide_depth = 512
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_h4870"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xdwil"]
 render_priority = 0
-shader = ExtResource("1_dxgn7")
+shader = ExtResource("1_ldsxc")
 shader_parameter/wave_speed = 0.5
-shader_parameter/wave_a = Quaternion(1, 1, 0.35, 3)
-shader_parameter/wave_b = Quaternion(1, 0.6, 0.3, 1.55)
-shader_parameter/wave_c = Quaternion(1, 1.3, 0.25, 0.9)
-shader_parameter/sampler_scale = Vector2(0.01, 0.01)
+shader_parameter/wave_a = Vector4(1, 1, 0.35, 3)
+shader_parameter/wave_b = Vector4(1, 0.6, 0.3, 1.55)
+shader_parameter/wave_c = Vector4(1, 1.3, 0.25, 0.9)
+shader_parameter/sampler_scale = Vector2(0.1, 0.1)
 shader_parameter/sampler_direction = Vector2(0.05, 0.04)
+shader_parameter/uv_sampler = ExtResource("4_jaioh")
 shader_parameter/uv_sampler_scale = Vector2(0.25, 0.25)
 shader_parameter/uv_sampler_strength = 0.04
+shader_parameter/normalmap_a_sampler = ExtResource("2_1dkdr")
+shader_parameter/normalmap_b_sampler = ExtResource("3_48l84")
 shader_parameter/foam_level = 0.5
 shader_parameter/refraction = 0.075
 shader_parameter/color_deep = Color(0.247059, 0.439216, 0.505882, 1)
 shader_parameter/color_shallow = Color(0.258824, 0.462745, 0.541176, 1)
 shader_parameter/beers_law = 2.0
 shader_parameter/depth_offset = -0.75
-shader_parameter/projector = null
-shader_parameter/uv_sampler = ExtResource("4_un5qc")
-shader_parameter/normalmap_a_sampler = ExtResource("2_yxjg4")
-shader_parameter/normalmap_b_sampler = ExtResource("3_oiugh")
+shader_parameter/projector = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
 
 [node name="Water" type="MeshInstance3D"]
-mesh = SubResource("PlaneMesh_ptj0y")
-surface_material_override/0 = SubResource("ShaderMaterial_h4870")
+mesh = SubResource("PlaneMesh_lxyov")
+surface_material_override/0 = SubResource("ShaderMaterial_xdwil")

@@ -1,48 +1,87 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbx2gi2mny360"]
+[gd_scene load_steps=9 format=3 uid="uid://dtxb8ssfm2e5p"]
 
-[ext_resource type="Script" path="res://assets/player/player.gd" id="1_15wb6"]
-[ext_resource type="Script" path="res://assets/player/inputs.gd" id="3_ut27v"]
+[ext_resource type="Script" uid="uid://dkwltptmeeon4" path="res://assets/player/player.gd" id="1_402s8"]
+[ext_resource type="Texture2D" uid="uid://dndqcef45v0o1" path="res://assets/player/textures/crosshair/crosshair.png" id="3_yg8kl"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_2nhbe"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wfoiv"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j1yju"]
+[sub_resource type="BoxMesh" id="BoxMesh_d1d88"]
+size = Vector3(0.8, 0.2, 0.5)
 
-[sub_resource type="BoxMesh" id="BoxMesh_hbdr7"]
-size = Vector3(0.8, 0.2, 0.8)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gfvv4"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_k50v0"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_v6sgw"]
+properties/0/path = NodePath("..:mouse_motion")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("..:keys_motion")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("..:is_jumping")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("..:is_shooting")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("..:is_sprinting")
+properties/4/spawn = true
+properties/4/replication_mode = 2
 
-[node name="player" type="CharacterBody3D"]
-script = ExtResource("1_15wb6")
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_v2miy"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:health")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:mana")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:player_name")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:color")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+properties/6/path = NodePath(".:stamina")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+properties/7/path = NodePath("CameraArm:rotation:x")
+properties/7/spawn = true
+properties/7/replication_mode = 2
 
-[node name="inputs" type="Node" parent="."]
-script = ExtResource("3_ut27v")
+[sub_resource type="GDScript" id="GDScript_h6syq"]
+script/source = "extends MultiplayerSynchronizer
+"
+
+[node name="Player" type="CharacterBody3D"]
+floor_block_on_wall = false
+script = ExtResource("1_402s8")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_2nhbe")
+mesh = SubResource("CapsuleMesh_wfoiv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+mesh = SubResource("BoxMesh_d1d88")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_j1yju")
+shape = SubResource("CapsuleShape3D_gfvv4")
 
-[node name="SpringArm3D" type="SpringArm3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.920505, 0.390731, 0, -0.390731, 0.920505, 0, 2.245, 1.7)
-spring_length = 4.0
+[node name="CameraArm" type="SpringArm3D" parent="."]
+spring_length = 3.0
 
-[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="CameraArm"]
+h_offset = 1.0
+v_offset = 1.5
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.665, -0.3)
-mesh = SubResource("BoxMesh_hbdr7")
+[node name="ShootFrom" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1)
 
-[node name="shoot_from" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41399, -1.18601)
-
-[node name="RayCast3D" type="RayCast3D" parent="shoot_from"]
-target_position = Vector3(0, 0, -100)
-
-[node name="crosshair" type="TextureRect" parent="."]
+[node name="Crosshair" type="TextureRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -54,6 +93,15 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = SubResource("PlaceholderTexture2D_k50v0")
+texture = ExtResource("3_yg8kl")
+stretch_mode = 3
+
+[node name="ClientToServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath(".")
+replication_interval = 0.001
+replication_config = SubResource("SceneReplicationConfig_v6sgw")
+
+[node name="ServerToClientSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.001
+replication_config = SubResource("SceneReplicationConfig_v2miy")
+script = SubResource("GDScript_h6syq")

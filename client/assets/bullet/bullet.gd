@@ -1,8 +1,11 @@
 extends Area3D
 
-
-var from_player : int
+@export var from_player : int
 
 func _ready():
-	print("hello world from: " + str(name))
-#	$AudioStreamPlayer3d.play()
+	$AudioStreamPlayer3d.play()
+
+func _on_body_entered(body):
+#	print(str(name) + " collided with " + str(body.name))
+	if body is CharacterBody3D:
+		$AudioStreamPlayer3d2.play()

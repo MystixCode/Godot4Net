@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://clqo8kjrj7xef"]
+
+[ext_resource type="Script" uid="uid://c1eumeu0invy1" path="res://assets/ui/user_add/ui_user_add.gd" id="1_7vo0l"]
+
+[node name="UIUserAdd" type="CanvasLayer"]
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_right = 120.0
+offset_bottom = 171.0
+script = ExtResource("1_7vo0l")
+
+[node name="VBox" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Username" type="LineEdit" parent="PanelContainer/VBox"]
+layout_mode = 2
+placeholder_text = "Username"
+
+[node name="Email" type="LineEdit" parent="PanelContainer/VBox"]
+layout_mode = 2
+placeholder_text = "Email"
+
+[node name="Password" type="LineEdit" parent="PanelContainer/VBox"]
+layout_mode = 2
+placeholder_text = "Password"
+
+[node name="Repeat" type="LineEdit" parent="PanelContainer/VBox"]
+layout_mode = 2
+placeholder_text = "Repeat"
+
+[node name="Add" type="Button" parent="PanelContainer/VBox"]
+layout_mode = 2
+text = "Add"
+
+[connection signal="pressed" from="PanelContainer/VBox/Add" to="PanelContainer" method="_on_register_pressed"]

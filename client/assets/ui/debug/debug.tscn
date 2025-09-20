@@ -1,99 +1,172 @@
-[gd_scene format=3 uid="uid://v04uwtpoyvnt"]
+[gd_scene load_steps=5 format=3 uid="uid://v04uwtpoyvnt"]
 
-[node name="debug" type="CanvasLayer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ndiq8"]
+bg_color = Color(0, 0, 0, 0.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sgvjk"]
+bg_color = Color(0, 0, 0, 0.5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ndiq8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nyda5"]
+
+[node name="Debug" type="CanvasLayer"]
+
+[node name="Window" type="Window" parent="."]
+transparent_bg = true
+title = "Debug"
+position = Vector2i(15, 36)
+size = Vector2i(368, 430)
 visible = false
+transparent = true
+popup_window = true
+theme_override_styles/embedded_border = SubResource("StyleBoxFlat_ndiq8")
+theme_override_styles/embedded_unfocused_border = SubResource("StyleBoxFlat_sgvjk")
 
-[node name="panel" type="PanelContainer" parent="."]
-offset_right = 234.0
-offset_bottom = 116.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="PanelContainer" type="PanelContainer" parent="Window"]
+offset_right = 510.0
+offset_bottom = 428.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ndiq8")
 
-[node name="hbox" type="HBoxContainer" parent="panel"]
+[node name="Panel" type="Panel" parent="Window/PanelContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_nyda5")
+
+[node name="HBox" type="HBoxContainer" parent="Window/PanelContainer/Panel"]
+layout_mode = 2
+offset_right = 510.0
+offset_bottom = 557.0
+
+[node name="Keys" type="VBoxContainer" parent="Window/PanelContainer/Panel/HBox"]
 layout_mode = 2
 
-[node name="keys" type="VBoxContainer" parent="panel/hbox"]
-layout_mode = 2
-
-[node name="id" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "id"
-
-[node name="player_name" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "player_name"
-
-[node name="mouse_motion" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "mouse_motion"
-
-[node name="keys_motion" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "keys_motion"
-
-[node name="zoom" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "zoom"
-
-[node name="sprint" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "sprint"
-
-[node name="jump" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "jump"
-
-[node name="shoot" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "shoot"
-
-[node name="server_to_client_authority" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "server_to_client_authority"
-
-[node name="client_to_server_authority" type="Label" parent="panel/hbox/keys"]
-layout_mode = 2
-text = "client_to_server_authority"
-
-[node name="values" type="VBoxContainer" parent="panel/hbox"]
-layout_mode = 2
-
-[node name="id" type="Label" parent="panel/hbox/values"]
+[node name="Id" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
 layout_mode = 2
 text = "id"
 
-[node name="player_name" type="Label" parent="panel/hbox/values"]
+[node name="PlayerName" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
 layout_mode = 2
 text = "player_name"
 
-[node name="mouse_motion" type="Label" parent="panel/hbox/values"]
+[node name="Position" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
+layout_mode = 2
+text = "position"
+
+[node name="Rotation" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
+layout_mode = 2
+text = "rotation"
+
+[node name="CARotation" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
+layout_mode = 2
+text = "ca_rotation"
+
+[node name="Health" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
+layout_mode = 2
+text = "health"
+
+[node name="Mana" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
+layout_mode = 2
+text = "mana"
+
+[node name="Stamina" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
+layout_mode = 2
+text = "stamina"
+
+[node name="MouseMotion" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
 layout_mode = 2
 text = "mouse_motion"
 
-[node name="keys_motion" type="Label" parent="panel/hbox/values"]
+[node name="KeysMotion" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
 layout_mode = 2
 text = "keys_motion"
 
-[node name="zoom" type="Label" parent="panel/hbox/values"]
+[node name="CAZoom" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
 layout_mode = 2
-text = "zoom"
+text = "ca_zoom"
 
-[node name="sprint" type="Label" parent="panel/hbox/values"]
+[node name="IsSprinting" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
 layout_mode = 2
-text = "sprint"
+text = "is_sprinting"
 
-[node name="jump" type="Label" parent="panel/hbox/values"]
+[node name="IsJumping" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
 layout_mode = 2
-text = "jump"
+text = "is_jumping"
 
-[node name="shoot" type="Label" parent="panel/hbox/values"]
+[node name="IsShooting" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
 layout_mode = 2
-text = "shoot"
+text = "is_shooting"
 
-[node name="server_to_client_authority" type="Label" parent="panel/hbox/values"]
+[node name="ServerAuthority" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
+layout_mode = 2
+text = "server_authority"
+
+[node name="ClientAuthority" type="Label" parent="Window/PanelContainer/Panel/HBox/Keys"]
+layout_mode = 2
+text = "client_authority"
+
+[node name="Values" type="VBoxContainer" parent="Window/PanelContainer/Panel/HBox"]
+layout_mode = 2
+
+[node name="Id" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "id"
+
+[node name="PlayerName" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "player_name"
+
+[node name="Position" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "position"
+
+[node name="Rotation" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "rotation"
+
+[node name="CARotation" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "ca_rotation"
+
+[node name="Health" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "health"
+
+[node name="Mana" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "mana"
+
+[node name="Stamina" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "stamina"
+
+[node name="MouseMotion" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "mouse_motion"
+
+[node name="KeysMotion" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "keys_motion"
+
+[node name="CAZoom" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "ca_zoom"
+
+[node name="IsSprinting" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "is_sprinting"
+
+[node name="IsJumping" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "is_jumping"
+
+[node name="IsShooting" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
+layout_mode = 2
+text = "is_shooting"
+
+[node name="ServerAuthority" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
 layout_mode = 2
 text = "server_to_client"
 
-[node name="client_to_server_authority" type="Label" parent="panel/hbox/values"]
+[node name="ClientAuthority" type="Label" parent="Window/PanelContainer/Panel/HBox/Values"]
 layout_mode = 2
 text = "client_to_server"

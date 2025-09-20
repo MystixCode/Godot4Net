@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://85iekyfush1p"]
+
+[ext_resource type="Script" uid="uid://ip8jil4j25kx" path="res://assets/ui/stamina_bar/stamina_bar.gd" id="1_e86cl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1xir"]
+bg_color = Color(0.329412, 0.329412, 0.329412, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xajwi"]
+bg_color = Color(0.031528, 0.489048, 0, 1)
+
+[node name="StaminaBar" type="CanvasLayer"]
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -120.0
+offset_right = 50.0
+offset_bottom = -110.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_s1xir")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xajwi")
+max_value = 200.0
+step = 1.0
+value = 200.0
+show_percentage = false
+script = ExtResource("1_e86cl")

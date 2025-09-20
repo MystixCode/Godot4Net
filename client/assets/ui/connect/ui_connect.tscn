@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://ckxrci7bu6igy"]
+
+[node name="UIConnect" type="CanvasLayer"]
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -80.0
+offset_right = 90.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Address" type="LineEdit" parent="PanelContainer/VBox"]
+layout_mode = 2
+text = "localhost"
+caret_blink = true
+
+[node name="Port" type="SpinBox" parent="PanelContainer/VBox"]
+layout_mode = 2
+max_value = 65535.0
+value = 4242.0
+
+[node name="Connect" type="Button" parent="PanelContainer/VBox"]
+layout_mode = 2
+text = "Connect"

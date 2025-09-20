@@ -1,16 +1,16 @@
-[gd_resource type="VisualShader" load_steps=48 format=3 uid="uid://dn87p1tcg7b7h"]
+[gd_resource type="VisualShader" load_steps=48 format=3 uid="uid://bj6vq5wxc1h44"]
 
-[ext_resource type="Texture2D" uid="uid://rm27r28pwt1" path="res://assets/terrain/textures/dirt/dirt_color_seamless2.png" id="1_grujl"]
-[ext_resource type="Texture2D" uid="uid://cneu6au0jeql7" path="res://assets/terrain/textures/Ground033_4K-PNG/Ground033_4K_Color.png" id="2_j7w3t"]
-[ext_resource type="Texture2D" uid="uid://cjcn1enrvdfmo" path="res://assets/terrain/textures/stone2/stone2_color6.png" id="3_fbln8"]
-[ext_resource type="Texture2D" uid="uid://dp8ir7ob2yi1e" path="res://assets/terrain/textures/Snow005_4K-PNG/Snow005_4K_Color.png" id="4_dur6f"]
-[ext_resource type="Texture2D" uid="uid://p163eosvbshc" path="res://assets/terrain/textures/grass/grass_color_seamless2.png" id="5_upmax"]
+[ext_resource type="Texture2D" uid="uid://rm27r28pwt1" path="res://assets/terrain/textures/dirt/dirt_color_seamless2.png" id="1_2jsi6"]
+[ext_resource type="Texture2D" uid="uid://cneu6au0jeql7" path="res://assets/terrain/textures/Ground033_4K-PNG/Ground033_4K_Color.png" id="2_w1yej"]
+[ext_resource type="Texture2D" uid="uid://cjcn1enrvdfmo" path="res://assets/terrain/textures/stone2/stone2_color6.png" id="3_43aqb"]
+[ext_resource type="Texture2D" uid="uid://dp8ir7ob2yi1e" path="res://assets/terrain/textures/Snow005_4K-PNG/Snow005_4K_Color.png" id="4_8pljj"]
+[ext_resource type="Texture2D" uid="uid://p163eosvbshc" path="res://assets/terrain/textures/grass/grass_color_seamless2.png" id="5_lihbl"]
 
 [sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_sp405"]
 constant = 0.1
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_rgpon"]
-texture = ExtResource("1_grujl")
+texture = ExtResource("1_2jsi6")
 texture_type = 1
 
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_cycdy"]
@@ -18,7 +18,7 @@ default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5
 op_type = 3
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_dlq46"]
-texture = ExtResource("2_j7w3t")
+texture = ExtResource("2_w1yej")
 texture_type = 1
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_r4at7"]
@@ -33,7 +33,7 @@ default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5
 op_type = 3
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_gwugq"]
-texture = ExtResource("3_fbln8")
+texture = ExtResource("3_43aqb")
 texture_type = 1
 
 [sub_resource type="Gradient" id="Gradient_6gm8b"]
@@ -51,7 +51,7 @@ texture_type = 1
 input_name = "inv_view_matrix"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_xmp8i"]
-texture = ExtResource("4_dur6f")
+texture = ExtResource("4_8pljj")
 texture_type = 1
 
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_l5c0y"]
@@ -110,7 +110,7 @@ default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(100, 100, 100)]
 operator = 2
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_7yhcc"]
-texture = ExtResource("5_upmax")
+texture = ExtResource("5_lihbl")
 texture_type = 1
 
 [sub_resource type="Gradient" id="Gradient_7cpg4"]
@@ -166,6 +166,8 @@ constant = 0.99
 
 [resource]
 code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
 uniform sampler2D tex_frg_14 : source_color;
 uniform sampler2D tex_frg_12 : source_color;
 uniform sampler2D tex_frg_7 : source_color;
@@ -304,7 +306,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-863.244, 278.988)
 nodes/fragment/0/position = Vector2(1160, 500)
 nodes/fragment/2/node = SubResource("VisualShaderNodeInput_tfogv")
 nodes/fragment/2/position = Vector2(-420, -100)

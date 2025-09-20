@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://d36aise8hn8uf"]
+
+[ext_resource type="Script" uid="uid://cwi3x6a84oqwn" path="res://assets/player_tag/playertag.gd" id="1_8gsg0"]
+[ext_resource type="Script" uid="uid://1tdjde5kvl6s" path="res://assets/player_tag/label.gd" id="4_xiuh8"]
+[ext_resource type="Script" uid="uid://6qhtxn13n7fe" path="res://assets/player_tag/progress_bar.gd" id="5_wdm2s"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_d5dr7"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cc5xr"]
+bg_color = Color(0.329158, 0.329158, 0.329158, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tb4ck"]
+bg_color = Color(0.486275, 0, 0, 1)
+
+[node name="PlayerTag" type="Sprite3D"]
+gi_mode = 0
+billboard = 1
+double_sided = false
+alpha_cut = 1
+texture = SubResource("ViewportTexture_d5dr7")
+script = ExtResource("1_8gsg0")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(200, 81)
+
+[node name="Control" type="Control" parent="SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="SubViewport/Control"]
+modulate = Color(0.31365, 0.880201, 0.122499, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 65.0
+offset_right = 95.0
+offset_bottom = 49.0
+grow_horizontal = 2
+text = "test
+test"
+script = ExtResource("4_xiuh8")
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 14.0
+offset_right = 180.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_cc5xr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tb4ck")
+max_value = 200.0
+step = 1.0
+value = 200.0
+show_percentage = false
+script = ExtResource("5_wdm2s")

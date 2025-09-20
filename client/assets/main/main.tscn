@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://x3bmnn2lajt5"]
+
+[ext_resource type="Script" uid="uid://c2m6ph0bqeqno" path="res://assets/main/main.gd" id="1_j6eev"]
+[ext_resource type="PackedScene" uid="uid://ckxrci7bu6igy" path="res://assets/ui/connect/ui_connect.tscn" id="2_de6xh"]
+[ext_resource type="PackedScene" uid="uid://bt30atn6ie7ic" path="res://assets/ui/user_login/ui_user_login.tscn" id="2_ta7kc"]
+[ext_resource type="PackedScene" uid="uid://clqo8kjrj7xef" path="res://assets/ui/user_add/ui_user_add.tscn" id="4_c8api"]
+[ext_resource type="PackedScene" uid="uid://djvgax8ugjjjt" path="res://assets/ui/user_edit/ui_user_edit.tscn" id="5_jidvx"]
+[ext_resource type="PackedScene" uid="uid://v04uwtpoyvnt" path="res://assets/ui/debug/debug.tscn" id="6_xajwi"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_j6eev")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://2xvhpkopgjii")
+spawn_path = NodePath(".")
+
+[node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://c8jcyrrl1gab7")
+spawn_path = NodePath(".")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UIUserLogin" parent="UI" instance=ExtResource("2_ta7kc")]
+visible = false
+
+[node name="UIUserAdd" parent="UI" instance=ExtResource("4_c8api")]
+visible = false
+
+[node name="UIConnect" parent="UI" instance=ExtResource("2_de6xh")]
+
+[node name="UIUserEdit" parent="UI" instance=ExtResource("5_jidvx")]
+visible = false
+
+[node name="Debug" parent="UI" instance=ExtResource("6_xajwi")]

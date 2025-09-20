@@ -1,0 +1,87 @@
+[gd_scene load_steps=10 format=3 uid="uid://b151fdycmiyqd"]
+
+[ext_resource type="PackedScene" uid="uid://cdu0gb04nu76g" path="res://assets/water/water.tscn" id="1_7c0s4"]
+[ext_resource type="PackedScene" uid="uid://5h22v37tduvx" path="res://assets/moving_cube/moving_cube.tscn" id="3_upffb"]
+[ext_resource type="PackedScene" uid="uid://ct0egdao3cd7g" path="res://assets/terrain/terrain.tscn" id="4_gytod"]
+[ext_resource type="PackedScene" uid="uid://b3lfjxltn7heg" path="res://assets/rigid_cube/rigid_cube.tscn" id="4_i0ddw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nai3p"]
+sky_top_color = Color(0.211765, 0.313726, 0.552941, 1)
+sky_horizon_color = Color(0.545098, 0.686275, 0.811765, 1)
+sky_curve = 0.130583
+ground_bottom_color = Color(0.545098, 0.686275, 0.811765, 1)
+ground_horizon_color = Color(0.545098, 0.686275, 0.811765, 1)
+ground_curve = 0.13
+sun_curve = 0.0861
+
+[sub_resource type="Sky" id="Sky_x3rfr"]
+sky_material = SubResource("ProceduralSkyMaterial_nai3p")
+
+[sub_resource type="Environment" id="Environment_vp38x"]
+background_mode = 2
+sky = SubResource("Sky_x3rfr")
+ambient_light_color = Color(0.501961, 0.501961, 0.501961, 1)
+ambient_light_sky_contribution = 0.3
+ambient_light_energy = 3.0
+tonemap_mode = 3
+tonemap_white = 6.0
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_aekxa"]
+cell_size = 2.0
+cell_height = 2.0
+agent_height = 2.0
+agent_max_climb = 2.0
+edge_max_error = 3.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aekxa"]
+size = Vector3(20, 2, 20)
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vp38x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.64145, 0.412198, -0.64702, 0, 0.843391, 0.5373, 0.767165, -0.344651, 0.540993, 0, 2209.39, 0)
+shadow_enabled = true
+shadow_bias = 0.7
+
+[node name="Water" parent="." instance=ExtResource("1_7c0s4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 154, 0)
+
+[node name="MovingCube1" parent="." instance=ExtResource("3_upffb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 650, 165, 63)
+
+[node name="RigidCube1" parent="." instance=ExtResource("4_i0ddw")]
+transform = Transform3D(0.625, 0.649519, 0.433013, -0.433013, 0.75, -0.5, -0.649519, 0.125, 0.75, 690, 200, 20)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_aekxa")
+
+[node name="Terrain" parent="NavigationRegion3D" instance=ExtResource("4_gytod")]
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 660.247, 163.893, 103.322)
+
+[node name="Marker3D2" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 658.329, 163.527, 68.9841)
+
+[node name="Marker3D3" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 705.465, 164.555, 72.4164)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.788011, -0.143723, 0.598651, 0, 0.97237, 0.233445, -0.615661, 0.183957, -0.766238, 725.816, 175.245, -16.53)
+h_offset = 1.0
+v_offset = 1.5
+
+[node name="PatrolZone1" type="Area3D" parent="." groups=["patrol_zones"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 672.496, 163.601, 106.921)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PatrolZone1"]
+shape = SubResource("BoxShape3D_aekxa")
+
+[node name="PatrolZone2" type="Area3D" parent="." groups=["patrol_zones"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 652.993, 164.102, 111.843)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PatrolZone2"]
+shape = SubResource("BoxShape3D_aekxa")

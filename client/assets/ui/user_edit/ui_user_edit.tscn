@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://djvgax8ugjjjt"]
+
+[node name="UIUserEdit" type="CanvasLayer"]
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -220.0
+offset_right = 180.0
+
+[node name="VBox" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Username" type="LineEdit" parent="PanelContainer/VBox"]
+layout_mode = 2
+placeholder_text = "Username"
+
+[node name="Email" type="LineEdit" parent="PanelContainer/VBox"]
+layout_mode = 2
+placeholder_text = "Email"
+
+[node name="Password" type="LineEdit" parent="PanelContainer/VBox"]
+layout_mode = 2
+placeholder_text = "Password"
+
+[node name="Repeat" type="LineEdit" parent="PanelContainer/VBox"]
+layout_mode = 2
+placeholder_text = "Repeat"
+
+[node name="Edit" type="Button" parent="PanelContainer/VBox"]
+layout_mode = 2
+text = "Edit"

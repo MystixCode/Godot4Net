@@ -1,52 +1,73 @@
-[gd_scene load_steps=10 format=3 uid="uid://dou6ktciha523"]
+[gd_scene load_steps=13 format=3 uid="uid://c8jcyrrl1gab7"]
 
-[ext_resource type="Script" path="res://assets/bullet/bullet.gd" id="1_1qs75"]
-[ext_resource type="Shader" path="res://assets/bullet/bullet.gdshader" id="2_saywm"]
+[ext_resource type="Script" uid="uid://bvn25e1xdhvn1" path="res://assets/bullet/bullet.gd" id="1_0ddwm"]
+[ext_resource type="Shader" uid="uid://dvyhxqoun6p27" path="res://assets/bullet/bullet.gdshader" id="2_1okr8"]
+[ext_resource type="AudioStream" uid="uid://chi1p4gouh5js" path="res://assets/mixkit-short-laser-gun-shot-1670.wav" id="2_ewmay"]
+[ext_resource type="AudioStream" uid="uid://puuddf5onu0g" path="res://assets/mixkit-shatter-shot-explosion-1693.wav" id="3_pj6um"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_nafve"]
+[sub_resource type="SphereMesh" id="SphereMesh_0pjmh"]
 radius = 0.1
 height = 0.2
+rings = 4
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_fbj2i"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1okr8"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lk214"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8x2ai"]
 generate_mipmaps = false
 seamless = true
-noise = SubResource("FastNoiseLite_fbj2i")
+noise = SubResource("FastNoiseLite_1okr8")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_onjur"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_07vwx"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7gc7f"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_uyeov"]
 generate_mipmaps = false
 seamless = true
-noise = SubResource("FastNoiseLite_onjur")
+noise = SubResource("FastNoiseLite_07vwx")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t1htj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8x2ai"]
 render_priority = 0
-shader = ExtResource("2_saywm")
+shader = ExtResource("2_1okr8")
 shader_parameter/Glow_Power = 3.0
 shader_parameter/Lightness_Difference = 3.0
 shader_parameter/Sun_Color = Color(0.843137, 0.231373, 0, 1)
 shader_parameter/Base_Color = Color(0.368627, 0, 0.419608, 1)
+shader_parameter/voronoi_noise = SubResource("NoiseTexture2D_uyeov")
+shader_parameter/emission_noise = SubResource("NoiseTexture2D_8x2ai")
 shader_parameter/waveSpeed = 0.1
 shader_parameter/fresnel = 1.0
 shader_parameter/scale = 2.0
 shader_parameter/blendSharpness = 0.0
-shader_parameter/voronoi_noise = SubResource("NoiseTexture2D_7gc7f")
-shader_parameter/emission_noise = SubResource("NoiseTexture2D_lk214")
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_dstp7"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_r3lm7"]
 radius = 0.1
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_21ral"]
+properties/0/path = NodePath(".:from_player")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Bullet" type="Area3D"]
-script = ExtResource("1_1qs75")
+script = ExtResource("1_0ddwm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_nafve")
-surface_material_override/0 = SubResource("ShaderMaterial_t1htj")
+mesh = SubResource("SphereMesh_0pjmh")
+surface_material_override/0 = SubResource("ShaderMaterial_8x2ai")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_dstp7")
+shape = SubResource("SphereShape3D_r3lm7")
 
 [node name="AudioStreamPlayer3d" type="AudioStreamPlayer3D" parent="."]
-visible = false
+stream = ExtResource("2_ewmay")
+bus = &"New Bus 2"
+
+[node name="AudioStreamPlayer3d2" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_pj6um")
+bus = &"New Bus"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_21ral")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

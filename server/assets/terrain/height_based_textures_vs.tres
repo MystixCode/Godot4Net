@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=48 format=3 uid="uid://obh4ffs1gqvc"]
+[gd_resource type="VisualShader" load_steps=48 format=3 uid="uid://r01c50jjewnd"]
 
 [ext_resource type="Texture2D" uid="uid://rm27r28pwt1" path="res://assets/terrain/textures/dirt/dirt_color_seamless2.png" id="1_grujl"]
 [ext_resource type="Texture2D" uid="uid://cneu6au0jeql7" path="res://assets/terrain/textures/Ground033_4K-PNG/Ground033_4K_Color.png" id="2_j7w3t"]
@@ -166,6 +166,8 @@ constant = 0.99
 
 [resource]
 code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
 uniform sampler2D tex_frg_14 : source_color;
 uniform sampler2D tex_frg_12 : source_color;
 uniform sampler2D tex_frg_7 : source_color;
