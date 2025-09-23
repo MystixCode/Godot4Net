@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcy2rruer345f"]
+
+[ext_resource type="Texture2D" uid="uid://dssq1xp2r5mue" path="res://assets/ui/skill_bar/textures/testskill1.png" id="1_whkc0"]
+[ext_resource type="Script" uid="uid://bjkyiiml583ys" path="res://assets/ui/skill_bar/spell_button.gd" id="2_wbh5j"]
+[ext_resource type="Texture2D" uid="uid://dtfjmj2w0df0j" path="res://assets/ui/skill_bar/textures/slot_daily.png" id="3_1qxat"]
+
+[node name="SpellButton" type="TextureButton"]
+texture_normal = ExtResource("1_whkc0")
+ignore_texture_size = true
+script = ExtResource("2_wbh5j")
+
+[node name="Cooldown" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+value = 57.0
+fill_mode = 5
+texture_progress = ExtResource("3_1qxat")
+tint_progress = Color(0, 0, 0, 1)
+
+[node name="Key" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 41.0
+offset_right = 40.0
+offset_bottom = 64.0
+grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+text = "m1"
+vertical_alignment = 2
+
+[node name="Time" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 39.0
+offset_top = 41.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 11
+text = "0.0"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Panel" type="Panel" parent="."]
+show_behind_parent = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

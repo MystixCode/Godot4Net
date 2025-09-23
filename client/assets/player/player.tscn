@@ -96,9 +96,9 @@ stretch_mode = 5
 
 [node name="ClientToServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath(".")
-replication_interval = 0.001
+replication_interval = 0.003
 replication_config = SubResource("SceneReplicationConfig_6w211")
 
 [node name="ServerToClientSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_interval = 0.001
+replication_interval = 0.003
 replication_config = SubResource("SceneReplicationConfig_ouxva")

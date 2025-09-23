@@ -15,7 +15,7 @@ func _ready():
 		queue_free()
 		return
 
-	var player = get_node("/root/Main/MultiplayerSpawner/" + str(from_player))
+	var player = get_node("/root/Main/Players/" + str(from_player))
 	var shoot_from = player.get_node("ShootFrom")
 	var camera = player.get_node("CameraArm/Camera3D")
 	var crosshair = player.get_node("Crosshair")
@@ -51,7 +51,7 @@ func _physics_process(delta):
 
 func _on_body_entered(body):
 	if body.has_method("damage"):
-		print(str(name) + " collided with " + str(body.name))
+		#print(str(name) + " collided with " + str(body.name))
 		if body is CharacterBody3D:
 			body.damage(20)
 	#TODO: call audio on server instead of client and after that destroy()?

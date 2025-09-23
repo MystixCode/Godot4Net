@@ -1,11 +1,10 @@
 extends Node
 
-const WORLD_RESOURCE := preload("res://assets/world/world.tscn")
-
 var peer: ENetMultiplayerPeer
 #var tickrate: int = 66
 var address : String
 var port : int
+var map: String = "curiosity_islands"
 
 func _ready():
 	Engine.physics_jitter_fix = 0.0
@@ -32,9 +31,10 @@ func _on_connect_pressed():
 
 func _connected_ok():
 	print("Connected as player: " + str(multiplayer.get_unique_id()))
-	var w := WORLD_RESOURCE.instantiate()
-	add_child(w, true)
 	get_node("/root/Main/UI/UIConnect").free()
+
+	#var map_res_path: String = "res://assets/maps/" + map + ".tscn"
+	#get_node("/root/Main/UI/Loading").load_map(map_res_path)
 
 func _player_connected(id):	# Called on both clients and server when a peer connects. 
 	print("_player_connected(" + str(id) + ")")

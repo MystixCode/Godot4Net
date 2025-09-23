@@ -1,17 +1,46 @@
 [gd_scene load_steps=3 format=3 uid="uid://dq48y86bdt24"]
 
 [ext_resource type="Script" uid="uid://ffv1703pbb34" path="res://assets/main/main.gd" id="1_0feqv"]
-[ext_resource type="PackedScene" uid="uid://b151fdycmiyqd" path="res://assets/world/world.tscn" id="2_hhc4y"]
+[ext_resource type="Script" uid="uid://5a26j1072ykw" path="res://assets/main/change_map.gd" id="2_lv126"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_0feqv")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="Maps" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://b151fdycmiyqd", "uid://oww3wkgbth")
+spawn_path = NodePath(".")
+
+[node name="Players" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://dtxb8ssfm2e5p")
 spawn_path = NodePath(".")
 
 [node name="BulletSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://dou6ktciha523", "uid://dou6ktciha523")
+_spawnable_scenes = PackedStringArray("uid://dou6ktciha523")
 spawn_path = NodePath(".")
 
-[node name="World" parent="." instance=ExtResource("2_hhc4y")]
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChangeMap" type="CanvasLayer" parent="UI"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/ChangeMap"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DebugWorld" type="Button" parent="UI/ChangeMap/VBoxContainer"]
+layout_mode = 2
+text = "Load DebugWorld"
+script = ExtResource("2_lv126")
+
+[node name="CuriosityIslands" type="Button" parent="UI/ChangeMap/VBoxContainer"]
+layout_mode = 2
+text = "Load Curiosity Islands"
+script = ExtResource("2_lv126")
+
+[connection signal="pressed" from="UI/ChangeMap/VBoxContainer/DebugWorld" to="UI/ChangeMap/VBoxContainer/DebugWorld" method="_on_debug_world_pressed"]
+[connection signal="pressed" from="UI/ChangeMap/VBoxContainer/CuriosityIslands" to="UI/ChangeMap/VBoxContainer/CuriosityIslands" method="_on_curiosity_islands_pressed"]

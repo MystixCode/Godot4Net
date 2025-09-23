@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://b151fdycmiyqd"]
+[gd_scene load_steps=11 format=3 uid="uid://b151fdycmiyqd"]
 
 [ext_resource type="PackedScene" uid="uid://cdu0gb04nu76g" path="res://assets/water/water.tscn" id="1_7c0s4"]
+[ext_resource type="Script" uid="uid://dtou7reabtvvk" path="res://assets/maps/curiosity_islands.gd" id="1_s4ssq"]
 [ext_resource type="PackedScene" uid="uid://5h22v37tduvx" path="res://assets/moving_cube/moving_cube.tscn" id="3_upffb"]
 [ext_resource type="PackedScene" uid="uid://ct0egdao3cd7g" path="res://assets/terrain/terrain.tscn" id="4_gytod"]
 [ext_resource type="PackedScene" uid="uid://b3lfjxltn7heg" path="res://assets/rigid_cube/rigid_cube.tscn" id="4_i0ddw"]
@@ -36,7 +37,8 @@ edge_max_error = 3.0
 [sub_resource type="BoxShape3D" id="BoxShape3D_aekxa"]
 size = Vector3(20, 2, 20)
 
-[node name="World" type="Node3D"]
+[node name="CuriosityIslands" type="Node3D"]
+script = ExtResource("1_s4ssq")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vp38x")
@@ -54,6 +56,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 650, 165, 63)
 
 [node name="RigidCube1" parent="." instance=ExtResource("4_i0ddw")]
 transform = Transform3D(0.625, 0.649519, 0.433013, -0.433013, 0.75, -0.5, -0.649519, 0.125, 0.75, 690, 200, 20)
+
+[node name="RigidCube2" parent="." instance=ExtResource("4_i0ddw")]
+transform = Transform3D(0.625, 0.649519, 0.433013, -0.433013, 0.75, -0.5, -0.649519, 0.125, 0.75, 692, 200, 20)
+
+[node name="RigidCube3" parent="." instance=ExtResource("4_i0ddw")]
+transform = Transform3D(0.625, 0.649519, 0.433013, -0.433013, 0.75, -0.5, -0.649519, 0.125, 0.75, 691, 200, 22)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_aekxa")
@@ -73,6 +81,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 705.465, 164.555, 72.4164)
 transform = Transform3D(-0.788011, -0.143723, 0.598651, 0, 0.97237, 0.233445, -0.615661, 0.183957, -0.766238, 725.816, 175.245, -16.53)
 h_offset = 1.0
 v_offset = 1.5
+current = true
 
 [node name="PatrolZone1" type="Area3D" parent="." groups=["patrol_zones"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 672.496, 163.601, 106.921)

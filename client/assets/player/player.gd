@@ -19,9 +19,10 @@ const MANA_BAR_RESOURCE := preload("res://assets/ui/mana_bar/mana_bar.tscn")
 const STAMINA_BAR_RESOURCE := preload("res://assets/ui/stamina_bar/stamina_bar.tscn")
 var player_id : int
 
+
 func _input(event):
 	if event is InputEventMouseMotion and get_viewport().get_window().has_focus():
-		mouse_motion = event.relative
+		mouse_motion += event.relative
 
 func _ready():
 	player_id = str(name).to_int()
@@ -34,8 +35,12 @@ func _ready():
 	else:
 		load_player_tag()
 
+	get_node("/root/Main/UI/SkillBar").show()
+
+
 	if multiplayer.multiplayer_peer == null or str(multiplayer.get_unique_id()) == str(name): 
 		camera.current = true
+
 
 func _physics_process(_delta):
 	if str(multiplayer.get_unique_id()) == str(name): 
@@ -43,6 +48,7 @@ func _physics_process(_delta):
 		is_shooting=false
 		handle_input()
 		show_debug_panel()
+
 		mouse_motion = Vector2()
 
 func set_player_color():

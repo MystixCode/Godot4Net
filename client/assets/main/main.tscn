@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://x3bmnn2lajt5"]
+[gd_scene load_steps=10 format=3 uid="uid://x3bmnn2lajt5"]
 
 [ext_resource type="Script" uid="uid://c2m6ph0bqeqno" path="res://assets/main/main.gd" id="1_j6eev"]
 [ext_resource type="PackedScene" uid="uid://ckxrci7bu6igy" path="res://assets/ui/connect/ui_connect.tscn" id="2_de6xh"]
@@ -6,11 +6,18 @@
 [ext_resource type="PackedScene" uid="uid://clqo8kjrj7xef" path="res://assets/ui/user_add/ui_user_add.tscn" id="4_c8api"]
 [ext_resource type="PackedScene" uid="uid://djvgax8ugjjjt" path="res://assets/ui/user_edit/ui_user_edit.tscn" id="5_jidvx"]
 [ext_resource type="PackedScene" uid="uid://v04uwtpoyvnt" path="res://assets/ui/debug/debug.tscn" id="6_xajwi"]
+[ext_resource type="PackedScene" uid="uid://bcy2rruer345f" path="res://assets/ui/skill_bar/spell_button.tscn" id="8_3yvm8"]
+[ext_resource type="Texture2D" uid="uid://dssq1xp2r5mue" path="res://assets/ui/skill_bar/textures/testskill1.png" id="9_by4fb"]
+[ext_resource type="Texture2D" uid="uid://b6ojscj3w5d07" path="res://assets/ui/skill_bar/textures/slot_encounter.png" id="10_irre0"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_j6eev")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="Maps" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://c5p0bgih8a188", "uid://dump2c64ctf0a")
+spawn_path = NodePath(".")
+
+[node name="Players" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://2xvhpkopgjii")
 spawn_path = NodePath(".")
 
@@ -38,3 +45,59 @@ visible = false
 visible = false
 
 [node name="Debug" parent="UI" instance=ExtResource("6_xajwi")]
+
+[node name="SkillBar" type="CanvasLayer" parent="UI"]
+visible = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/SkillBar"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SpellButton" parent="UI/SkillBar/HBoxContainer" instance=ExtResource("8_3yvm8")]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/SkillBar"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -168.0
+offset_top = -64.0
+offset_right = 168.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="UI/SkillBar/HBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("9_by4fb")
+
+[node name="Label" type="Label" parent="UI/SkillBar/HBoxContainer2/TextureRect"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -24.0
+offset_right = 44.0
+offset_bottom = -1.0
+grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+text = "m1"
+
+[node name="TextureRect2" type="TextureRect" parent="UI/SkillBar/HBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("10_irre0")
+
+[node name="TextureRect3" type="TextureRect" parent="UI/SkillBar/HBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("10_irre0")
+
+[node name="TextureRect4" type="TextureRect" parent="UI/SkillBar/HBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("10_irre0")
+
+[node name="TextureRect5" type="TextureRect" parent="UI/SkillBar/HBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("10_irre0")

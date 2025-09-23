@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d36aise8hn8uf"]
+[gd_scene load_steps=9 format=3 uid="uid://d36aise8hn8uf"]
 
 [ext_resource type="Script" uid="uid://cwi3x6a84oqwn" path="res://assets/player_tag/playertag.gd" id="1_8gsg0"]
 [ext_resource type="Script" uid="uid://1tdjde5kvl6s" path="res://assets/player_tag/label.gd" id="4_xiuh8"]
@@ -6,6 +6,15 @@
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_d5dr7"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="SystemFont" id="SystemFont_2q4ya"]
+generate_mipmaps = true
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_x874b"]
+font_size = 34
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cc5xr"]
 bg_color = Color(0.329158, 0.329158, 0.329158, 1)
@@ -24,7 +33,7 @@ script = ExtResource("1_8gsg0")
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
 transparent_bg = true
-size = Vector2i(200, 81)
+size = Vector2i(200, 75)
 
 [node name="Control" type="Control" parent="SubViewport"]
 layout_mode = 3
@@ -33,17 +42,17 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="SubViewport/Control"]
-modulate = Color(0.31365, 0.880201, 0.122499, 1)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 65.0
-offset_right = 95.0
-offset_bottom = 49.0
+offset_left = 14.0
+offset_right = 146.0
+offset_bottom = 34.0
 grow_horizontal = 2
-text = "test
-test"
+theme_override_fonts/font = SubResource("SystemFont_2q4ya")
+text = "Spartan117"
+label_settings = SubResource("LabelSettings_x874b")
 script = ExtResource("4_xiuh8")
 
 [node name="ProgressBar" type="ProgressBar" parent="SubViewport/Control"]
@@ -54,9 +63,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -20.0
-offset_top = 14.0
+offset_top = 7.735
 offset_right = 180.0
-offset_bottom = 41.0
+offset_bottom = 34.735
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4

@@ -17,9 +17,9 @@ var rng : RandomNumberGenerator
 var speed := 5.0
 var movement_speed: float = 5.0
 var sprint_speed: float = 10.0
-var jump_force := 4.5
+var jump_force := 6
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
-var mouse_sensitivity : float = 0.3
+var mouse_sensitivity : float = 0.1
 
 var accumulated_mana : float = 0.0
 const MIN_MANA: int = 0
@@ -68,16 +68,33 @@ func set_player_color():
 	mesh_instance_eyes.set_surface_override_material(0, material)
 
 func handle_gravity(delta) -> void:
+	
+	# If u fall from map 
+	if position.y < -20:
+#		$ColorRect.modulate.a = min((-17 - transform.origin.y) / 15, 1)
+		# If we're below -40, respawn (teleport to the initial position).
+		if position.y < -40:
+#			$ColorRect.modulate.a = 0
+			var current_map : String = get_node("/root/Main").camel_case_map
+			position = get_node("/root/Main/Maps/" + current_map).spawn_area
+
+	# Gravity
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
 func handle_rotation(delta) -> void:
+	# Early exit if no mouse motion to avoid unnecessary calculations
+	if mouse_motion == Vector2.ZERO:
+		return
+
 	var rot : Vector3 = Vector3(mouse_motion.y, 0, mouse_motion.x) * mouse_sensitivity * delta
 	mouse_motion = Vector2()
-	$CameraArm.rotation.x -= rot.x
+	#$CameraArm.rotation.x -= rot.x
+
 	#TODO: limit camera rotation up/down, new Vector3.limit_lengthfunction?
 	# $CameraArm.rotation.x = clamp(rotation.x, -90.0, 30.0)
 	rotation.y -= rot.z
+	$CameraArm.rotation.x = clamp($CameraArm.rotation.x - rot.x, deg_to_rad(-70.0), deg_to_rad(30.0))
 
 func handle_sprint() -> void:
 	if is_sprinting and is_on_floor() and keys_motion != Vector2(0,0):
@@ -132,9 +149,9 @@ func damage(_dmg : int):
 	health -= _dmg
 	#print(str(name) + " health: " + str(health))
 	if health <= 0:
-		print(str(name) + "died")
-		#TODO: that should be defined in map instead of here
-		position = Vector3(rng.randi_range(700,720), 170, rng.randi_range(0,20))
+		print(str(name) + " died")
+		var current_map : String = get_node("/root/Main").camel_case_map
+		position = get_node("/root/Main/Maps/" + current_map).spawn_area
 		health = 200
 		mana = 200
 		accumulated_mana = 0.0

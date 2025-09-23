@@ -12,11 +12,13 @@ var port: int = 4242
 var max_clients: int = 24
 #var tickrate: int = 66
 var map: String = "curiosity_islands"
+var camel_case_map : String
 
 var rng: RandomNumberGenerator
 var peer: ENetMultiplayerPeer
 
 func _ready():
+	camel_case_map = no_snake(map)
 	start_server()
  
 func start_server():
@@ -39,15 +41,39 @@ func start_server():
 		OS.alert("Failed to start multiplayer server.")
 		return
 
+	var map_res_path: String = "res://assets/maps/" + map + ".tscn"
+	# Load the scene dynamically using ResourceLoader
+	var map_scene = load(map_res_path) as PackedScene
+	change_map(map_scene)
+
+func change_map(scene: PackedScene):
+	# Remove old map if any.
+	if $/root/Main/Maps.get_children().size() > 0:
+		for m in $/root/Main/Maps.get_children():
+			$/root/Main/Maps.remove_child(m)
+			m.queue_free()
+	$/root/Main/Maps.add_child(scene.instantiate())
+	print("Change map to " + scene.resource_path)
+
 func player_connected(id):
 	print("Player connected: " + str(id))
+	camel_case_map = no_snake(map)
 	var p := PLAYER_RESOURCE.instantiate()
 	p.player_name = "Spartan" + str(randi()%201+1)
-	p.position = Vector3(rng.randi_range(700,720), 170, rng.randi_range(0,20))
+	p.position = get_node("/root/Main/Maps/" + camel_case_map).spawn_area
 	p.name = str(id)
 	p.color = Color.from_hsv((rng.randi() % 12) / 12.0, 1, 1) 
-	get_node("/root/Main/MultiplayerSpawner").add_child(p, true)
+	get_node("/root/Main/Players").add_child(p, true)
 
 func player_disconnected(id):
 	print("Player disconnected " + str(id))
-	get_node("/root/Main/MultiplayerSpawner").get_node(str(id)).queue_free()
+	get_node("/root/Main/Players").get_node(str(id)).queue_free()
+
+func no_snake(snake_str: String) -> String:
+	var words = snake_str.split("_")
+	var result = ""
+	for word in words:
+		if word.length() > 0:
+			# Capitalize first letter, keep rest of the word as is
+			result += word[0].to_upper() + word.substr(1).to_lower()
+	return result
