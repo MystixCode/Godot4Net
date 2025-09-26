@@ -1,5 +1,5 @@
 # Godot4Net
-This is a godot 4 project implementing multiplayer networking. \
+This is a godot 4 project implementing high-level multiplayer networking. \
 Server and client are separated into two projects and its 3D thirdperson.
 
 Any help is appreciated <3
@@ -16,6 +16,8 @@ godot --display-driver headless --path git/Godot4Net/server/
 Atm there is an issue. I want to sync some vars reliable and some unreliable. For example position should be unreliable udp but MultiplayerSynchronizer doesnt seem to give me the possibility to set sync vars to transfermode unreliable.
 
 So for now everything is reliable. I might do the vars i want to sync unreliable with rpc funcs.
+
+Am also thinking about low-level approach and im currently trying stuff at weekends. Maybe a low-level implementation will be ready in the next months. Gives me more Freedom ;)
 
 ## Todo list
 * unreliable sync
