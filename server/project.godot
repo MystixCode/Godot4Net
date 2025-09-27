@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="Server"
-run/main_scene="res://assets/main/main.tscn"
-config/features=PackedStringArray("4.4")
-config/icon="res://icon.png"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.5", "Forward Plus")
+config/icon="res://icon.svg"
 
-[global_group]
+[autoload]
 
-patrol_zones=""
+Net="*res://net.gd"
 
-[rendering]
+[debug]
 
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+gdscript/warnings/untyped_declaration=1

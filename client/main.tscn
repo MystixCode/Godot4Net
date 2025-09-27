@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://do723hs613s4o"]
+
+[ext_resource type="Script" uid="uid://ckxivojfronf" path="res://button.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://i47voa6rx66h" path="res://player_spawner.gd" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dump2c64ctf0a" path="res://debug_world.tscn" id="3_h2yge"]
+
+[node name="Main" type="Node"]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="UI"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Start Client"
+script = ExtResource("1_ig7tw")
+
+[node name="PlayerSpawner" type="Node" parent="."]
+script = ExtResource("2_0xm2m")
+
+[node name="MapSpawner" type="Node" parent="."]
+
+[node name="DebugWorld" parent="MapSpawner" instance=ExtResource("3_h2yge")]
