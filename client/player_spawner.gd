@@ -15,5 +15,5 @@ func spawn_player(id: int) -> void:
 	call_deferred("add_child", player)
 
 func despawn_player(id: int) -> void:
-	print("spawner despawn player id: ", id)
+	print("Spawner despawn player id: ", id)
 	get_node(str(id)).queue_free()

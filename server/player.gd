@@ -7,10 +7,10 @@ var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var keys_motion : Vector2
 
 func _enter_tree() -> void:
-	Net.handle_keys_motion.connect(handle_keys_motion)
+	Net.on_keys_motion_packet.connect(on_keys_motion_packet)
 
 func _exit_tree() -> void:
-	Net.handle_keys_motion.disconnect(handle_keys_motion)
+	Net.on_keys_motion_packet.disconnect(on_keys_motion_packet)
 
 func _physics_process(delta: float) -> void:
 	handle_gravity(delta)
@@ -45,8 +45,8 @@ func handle_motion() -> void:
 
 	PlayerPosition.create(owner_id, position).broadcast(Net.connection)
 
-func handle_keys_motion(peer_id: int, _keys_motion: KeysMotion) -> void:
+func on_keys_motion_packet(peer_id: int, _keys_motion: KeysMotion) -> void:
 	if owner_id != peer_id: return
 
-	print("keys_motion: ", _keys_motion.keys_motion)
+	# print("keys_motion: ", _keys_motion.keys_motion)
 	keys_motion = _keys_motion.keys_motion

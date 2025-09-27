@@ -4,7 +4,7 @@ extends Node
 signal on_peer_connected(peer_id: int)
 signal on_peer_disconnected(peer_id: int)
 
-signal handle_keys_motion(peer_id: int, keys_motion: KeysMotion)
+signal on_keys_motion_packet(peer_id: int, keys_motion: KeysMotion)
 
 # General variables
 var connection: ENetConnection
@@ -73,6 +73,6 @@ func peer_disconnected(peer: ENetPacketPeer) -> void:
 func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
 	match data[0]:
 		PacketInfo.PACKET_TYPE.KEYS_MOTION:
-			handle_keys_motion.emit(peer_id, KeysMotion.create_from_data(data))
+			on_keys_motion_packet.emit(peer_id, KeysMotion.create_from_data(data))
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")

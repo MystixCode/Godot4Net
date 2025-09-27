@@ -7,7 +7,7 @@ signal on_disconnected_from_server()
 signal handle_local_id_assignment(local_id: int)
 signal handle_remote_id_assignment(remote_id: int)
 signal handle_remote_id_deassignment(remote_id: int)
-signal handle_player_position(player_position: PlayerPosition)
+signal on_player_position_packet(player_position: PlayerPosition)
 
 # General variables
 var connection: ENetConnection
@@ -76,7 +76,7 @@ func on_packet_received(data: PackedByteArray) -> void:
 			remove_id(IDDeassignment.create_from_data(data))
 			
 		PacketInfo.PACKET_TYPE.PLAYER_POSITION:
-			handle_player_position.emit(PlayerPosition.create_from_data(data))
+			on_player_position_packet.emit(PlayerPosition.create_from_data(data))
 
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")
@@ -84,7 +84,7 @@ func on_packet_received(data: PackedByteArray) -> void:
 func add_ids(id_assignment: IDAssignment) -> void:
 	if id == 1: # When id == 1, the id sent by the server is for us
 		id = id_assignment.id
-		print("new remote ids for player: ", str(id))
+		print("New remote ids for player: ", str(id))
 		handle_local_id_assignment.emit(id_assignment.id)
 
 		remote_ids = id_assignment.remote_ids

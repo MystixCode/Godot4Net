@@ -7,11 +7,11 @@ var owner_id: int
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _enter_tree() -> void:
-	Net.handle_player_position.connect(handle_player_position)
+	Net.on_player_position_packet.connect(on_player_position_packet)
 
 
 func _exit_tree() -> void:
-	Net.handle_player_position.disconnect(handle_player_position)
+	Net.on_player_position_packet.disconnect(on_player_position_packet)
 
 
 func _ready() -> void:
@@ -74,6 +74,6 @@ func handle_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-func handle_player_position(player_position: PlayerPosition) -> void:
+func on_player_position_packet(player_position: PlayerPosition) -> void:
 	if owner_id != player_position.id: return
 	position = player_position.position
