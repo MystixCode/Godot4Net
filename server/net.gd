@@ -3,13 +3,12 @@ extends Node
 # Signals
 signal on_peer_connected(peer_id: int)
 signal on_peer_disconnected(peer_id: int)
-#signal on_server_packet(peer_id: int, data: PackedByteArray)
-signal handle_player_position(peer_id: int, player_position: PlayerPosition)
+
 signal handle_keys_motion(peer_id: int, keys_motion: KeysMotion)
 
 # General variables
 var connection: ENetConnection
-var available_peer_ids: Array = range(255, 1, -1)
+var available_peer_ids: Array = range(255, 1, -1) # 2-255
 var client_peers: Dictionary[int, ENetPacketPeer]
 var peer_ids: Array[int]
 
@@ -73,8 +72,6 @@ func peer_disconnected(peer: ENetPacketPeer) -> void:
 
 func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
 	match data[0]:
-		PacketInfo.PACKET_TYPE.PLAYER_POSITION:
-			handle_player_position.emit(peer_id, PlayerPosition.create_from_data(data))
 		PacketInfo.PACKET_TYPE.KEYS_MOTION:
 			handle_keys_motion.emit(peer_id, KeysMotion.create_from_data(data))
 		_:

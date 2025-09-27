@@ -11,12 +11,10 @@ static func create(_id: int, _keys_motion: Vector2) -> KeysMotion:
 	info.keys_motion = _keys_motion
 	return info
 
-
 static func create_from_data(data: PackedByteArray) -> KeysMotion:
 	var info: KeysMotion = KeysMotion.new()
 	info.decode(data)
 	return info
-
 
 func encode() -> PackedByteArray:
 	var data: PackedByteArray = super.encode()
@@ -25,7 +23,6 @@ func encode() -> PackedByteArray:
 	data.encode_float(2, keys_motion.x)
 	data.encode_float(6, keys_motion.y)
 	return data
-
 
 func decode(data: PackedByteArray) -> void:
 	super.decode(data)

@@ -20,15 +20,12 @@ func encode() -> PackedByteArray:
 	data.encode_u8(0, packet_type)
 	return data
 
-
 # Override function in derived classes
 func decode(data: PackedByteArray) -> void:
 	packet_type = data.decode_u8(0) as PACKET_TYPE
 
-
 func send(target: ENetPacketPeer) -> void:
 	target.send(0, encode(), flag)
-
 
 func broadcast(server: ENetConnection) -> void:
 	server.broadcast(0, encode(), flag)

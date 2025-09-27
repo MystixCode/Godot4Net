@@ -9,19 +9,16 @@ static func create(peer_id: int) -> IDDeassignment:
 	info.id = peer_id
 	return info
 
-
 static func create_from_data(data: PackedByteArray) -> IDDeassignment:
 	var info: IDDeassignment = IDDeassignment.new()
 	info.decode(data)
 	return info
-
 
 func encode() -> PackedByteArray:
 	var data: PackedByteArray = super.encode()
 	data.resize(2)
 	data.encode_u8(1, id)
 	return data
-
 
 func decode(data: PackedByteArray) -> void:
 	super.decode(data)

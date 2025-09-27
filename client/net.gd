@@ -3,7 +3,6 @@ extends Node
 # Signals
 signal on_connected_to_server()
 signal on_disconnected_from_server()
-#signal on_client_packet(data: PackedByteArray)
 
 signal handle_local_id_assignment(local_id: int)
 signal handle_remote_id_assignment(remote_id: int)
@@ -17,13 +16,11 @@ var server_peer: ENetPacketPeer
 var id: int = 1
 var remote_ids: Array[int]
 
-
 func _process(_delta: float) -> void:
 	if connection == null:
 		return
 
 	handle_events()
-
 
 func handle_events() -> void:
 		var packet_event: Array = connection.service()
@@ -49,7 +46,6 @@ func handle_events() -> void:
 			packet_event = connection.service()
 			event_type = packet_event[0]
 
-
 func start_client(ip_address: String = "127.0.0.1", port: int = 42069) -> void:
 	connection = ENetConnection.new()
 	var error: Error = connection.create_host(1)
@@ -61,17 +57,14 @@ func start_client(ip_address: String = "127.0.0.1", port: int = 42069) -> void:
 	print("Client started")
 	server_peer = connection.connect_to_host(ip_address, port)
 
-
 func connected_to_server() -> void:
 	print("Successfully connected to server!")
 	on_connected_to_server.emit()
-
 
 func disconnected_from_server() -> void:
 	print("Successfully disconnected from server!")
 	on_disconnected_from_server.emit()
 	connection = null
-
 
 func on_packet_received(data: PackedByteArray) -> void:
 	var packet_type: int = data.decode_u8(0)
@@ -83,12 +76,10 @@ func on_packet_received(data: PackedByteArray) -> void:
 			remove_id(IDDeassignment.create_from_data(data))
 			
 		PacketInfo.PACKET_TYPE.PLAYER_POSITION:
-			print("test yo received")
 			handle_player_position.emit(PlayerPosition.create_from_data(data))
 
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")
-
 
 func add_ids(id_assignment: IDAssignment) -> void:
 	if id == 1: # When id == 1, the id sent by the server is for us
@@ -104,7 +95,6 @@ func add_ids(id_assignment: IDAssignment) -> void:
 	else: # When id != 1, we already own an id, and just append the remote ids by the sent id
 		remote_ids.append(id_assignment.id)
 		handle_remote_id_assignment.emit(id_assignment.id)
-
 
 func remove_id(id_deassignment: IDDeassignment) -> void:
 	remote_ids.erase(id_deassignment.id)

@@ -11,12 +11,10 @@ static func create(_id: int, _remote_ids: Array[int]) -> IDAssignment:
 	info.remote_ids = _remote_ids
 	return info
 
-
 static func create_from_data(data: PackedByteArray) -> IDAssignment:
 	var info: IDAssignment = IDAssignment.new()
 	info.decode(data)
 	return info
-
 
 func encode() -> PackedByteArray:
 	var data: PackedByteArray = super.encode()
@@ -26,7 +24,6 @@ func encode() -> PackedByteArray:
 		var _id: int = remote_ids[i]
 		data.encode_u8(2 + i, _id)
 	return data
-
 
 func decode(data: PackedByteArray) -> void:
 	super.decode(data)

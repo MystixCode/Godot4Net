@@ -11,12 +11,10 @@ static func create(_id: int, _position: Vector3) -> PlayerPosition:
 	info.position = _position
 	return info
 
-
 static func create_from_data(data: PackedByteArray) -> PlayerPosition:
 	var info: PlayerPosition = PlayerPosition.new()
 	info.decode(data)
 	return info
-
 
 func encode() -> PackedByteArray:
 	var data: PackedByteArray = super.encode()
@@ -26,7 +24,6 @@ func encode() -> PackedByteArray:
 	data.encode_float(6, position.y)
 	data.encode_float(10, position.z)
 	return data
-
 
 func decode(data: PackedByteArray) -> void:
 	super.decode(data)

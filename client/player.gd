@@ -1,7 +1,5 @@
 extends CharacterBody3D
 
-const SPEED: float = 5.0
-
 var is_authority: bool:
 	get: return owner_id == Net.id
 
@@ -21,12 +19,10 @@ func _ready() -> void:
 
 	$Camera3D.current = true
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if !is_authority: return
 	
 	# TODO: brainstorming notes
-
-	# zudem wunderi mi obs sinnvoll isch für alles einzelni packet mache. ma könnt jo au wenn mehreri pro tick sind zemafasdse zumene grössere, d frag isch wie effizient isch welli grössi vergliche zu alles einzeln sende bi udp enet library
 
 	# what do i need to sync from client to server:
 	# ---------------------------------------------
@@ -46,26 +42,19 @@ func _physics_process(delta: float) -> void:
 	# stamina = int
 	# mana = int
 	
-	# use channel 0 für reliable, 1 für unreliable zum reliable priorisiere.
-	# wenn mehreri reliable oder unreliable in einem tick z verarbeite sind, tun sie zemafasse immene batch.
-	# batch sött nid grösser si als 1200-byte UDP safe limit
-	# drumm wenn nötig mehreri batches mache.
+	# use channel 0 for reliable, 1 for unreliable to prioritize reliable?
+	# when having at same tick multiple reliable or unreliable packets, combine them into a big package
+	# batch should not be bigger than 1200-byte UDP safe limit
+	# So creatle multiple batches if neccessary
 	
-	# unreliable packet verwerfe wenn älter
+	# drop unreliable packet if old / out of order
 	
 	# Handle invalid packages. / improve error handling
+	
+	# add if client_prediction:
+	# 	and do some physics like on server
 
-	var input_vector: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	#velocity = Vector3(input_vector.x, 0, input_vector.y) * SPEED
-
-	#handle_gravity(delta)
-
-	#move_and_slide()
-
-	#PlayerPosition.create(owner_id, position).send(Net.server_peer)
-
-
-	var keys_motion: Vector2 = input_vector
+	var keys_motion: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	if keys_motion != Vector2(0.0,0.0):
 		KeysMotion.create(owner_id, keys_motion).send(Net.server_peer)
 
@@ -86,8 +75,5 @@ func handle_gravity(delta: float) -> void:
 		velocity.y -= gravity * delta
 
 func handle_player_position(player_position: PlayerPosition) -> void:
-	print("my id", Net.id)
-	print("owner id", owner_id)
 	if owner_id != player_position.id: return
-	print("yoo received player pos")
 	position = player_position.position

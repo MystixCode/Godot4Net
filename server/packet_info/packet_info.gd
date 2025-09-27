@@ -1,10 +1,5 @@
 ## BASECLASS ##
 
-# TODO
-# wärs nid sinnvoller zum a class packets ha wo die 6 wichtigste types unterstützt: vector3, vector2, int, String, float, bool, idass, iddeass.
-# i meine playerposition packet isch momentan doch genau so eis für vector 3 wo ma allgemeiner verwende könnt
-
-
 class_name PacketInfo
 
 # Don't make values above 255, since we send "packet_type" as a single byte
@@ -25,15 +20,12 @@ func encode() -> PackedByteArray:
 	data.encode_u8(0, packet_type)
 	return data
 
-
 # Override function in derived classes
 func decode(data: PackedByteArray) -> void:
 	packet_type = data.decode_u8(0) as PACKET_TYPE
 
-
 func send(target: ENetPacketPeer) -> void:
 	target.send(0, encode(), flag)
-
 
 func broadcast(server: ENetConnection) -> void:
 	server.broadcast(0, encode(), flag)
