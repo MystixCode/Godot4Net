@@ -6,18 +6,36 @@ var is_authority: bool:
 var owner_id: int
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+var keys_motion: Vector2
+var mouse_motion: Vector2
+
 func _enter_tree() -> void:
 	Net.on_player_position_packet.connect(on_player_position_packet)
+	Net.on_player_rotation_packet.connect(on_player_rotation_packet)
 
 
 func _exit_tree() -> void:
 	Net.on_player_position_packet.disconnect(on_player_position_packet)
-
+	Net.on_player_rotation_packet.disconnect(on_player_rotation_packet)
 
 func _ready() -> void:
 	if !is_authority: return
 
 	$Camera3D.current = true
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and get_viewport().get_window().has_focus():
+		mouse_motion += event.relative
+		
+		if mouse_motion != Vector2(0.0,0.0):
+			#KeysMotion.create(owner_id, keys_motion).send(Net.server_peer)
+			
+			var data: Dictionary = {
+				"id": owner_id,
+				"mouse_motion": mouse_motion
+			}
+			MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
+			mouse_motion = Vector2.ZERO
 
 func _physics_process(_delta: float) -> void:
 	if !is_authority: return
@@ -54,7 +72,7 @@ func _physics_process(_delta: float) -> void:
 	# add if client_prediction:
 	# 	and do some physics like on server
 
-	var keys_motion: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	keys_motion = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	if keys_motion != Vector2(0.0,0.0):
 		#KeysMotion.create(owner_id, keys_motion).send(Net.server_peer)
 		
@@ -84,3 +102,10 @@ func handle_gravity(delta: float) -> void:
 func on_player_position_packet(player_position: Dictionary) -> void:
 	if owner_id != player_position.id: return
 	position = player_position.position
+
+func on_player_rotation_packet(player_rotation: Dictionary) -> void:
+	if owner_id != player_rotation.id: return
+	
+	# TODO
+	print("rotation: ", player_rotation.rotation)
+	rotation = player_rotation.rotation

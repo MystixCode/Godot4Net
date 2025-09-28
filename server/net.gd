@@ -5,6 +5,7 @@ signal on_peer_connected(peer_id: int)
 signal on_peer_disconnected(peer_id: int)
 
 signal on_keys_motion_packet(peer_id: int, keys_motion: Dictionary)
+signal on_mouse_motion_packet(peer_id: int, mouse_motion: Dictionary)
 
 # General variables
 var connection: ENetConnection
@@ -87,5 +88,7 @@ func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
 	match data[0]:
 		MystixPacket.PACKET_TYPE.KEYS_MOTION:
 			on_keys_motion_packet.emit(peer_id, MystixPacket.decode(data))
+		MystixPacket.PACKET_TYPE.MOUSE_MOTION:
+			on_mouse_motion_packet.emit(peer_id, MystixPacket.decode(data))
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")

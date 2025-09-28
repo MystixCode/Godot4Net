@@ -4,16 +4,21 @@ var speed: float = 5.0
 
 var owner_id: int
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
+var mouse_sensitivity : float = 0.1
 var keys_motion : Vector2
+var mouse_motion : Vector2
 
 func _enter_tree() -> void:
 	Net.on_keys_motion_packet.connect(on_keys_motion_packet)
+	Net.on_mouse_motion_packet.connect(on_mouse_motion_packet)
 
 func _exit_tree() -> void:
 	Net.on_keys_motion_packet.disconnect(on_keys_motion_packet)
+	Net.on_mouse_motion_packet.disconnect(on_mouse_motion_packet)
 
 func _physics_process(delta: float) -> void:
 	handle_gravity(delta)
+	handle_rotation(delta)
 	handle_motion()
 
 func handle_gravity(delta: float) -> void:
@@ -51,8 +56,28 @@ func handle_motion() -> void:
 	}
 	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
 
+func handle_rotation(delta: float) -> void:
+	if mouse_motion == Vector2.ZERO:
+		return
+
+	rotation.y += -mouse_motion.x * mouse_sensitivity * delta
+	mouse_motion = Vector2.ZERO
+	
+	print("rotation: ", rotation)
+	var data: Dictionary = {
+		"id": owner_id,
+		"rotation": rotation
+	}
+	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION, data)
+
 func on_keys_motion_packet(peer_id: int, _keys_motion: Dictionary) -> void:
 	if owner_id != peer_id: return
 
-	# print("keys_motion: ", _keys_motion.keys_motion)
+	#print("keys_motion: ", _keys_motion.keys_motion)
 	keys_motion = _keys_motion.keys_motion
+
+func on_mouse_motion_packet(peer_id: int, _mouse_motion: Dictionary) -> void:
+	if owner_id != peer_id: return
+
+	#print("mouse_motion: ", _mouse_motion.mouse_motion)
+	mouse_motion = _mouse_motion.mouse_motion
