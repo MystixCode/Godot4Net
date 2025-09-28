@@ -7,7 +7,7 @@ signal on_disconnected_from_server()
 signal handle_local_id_assignment(local_id: int)
 signal handle_remote_id_assignment(remote_id: int)
 signal handle_remote_id_deassignment(remote_id: int)
-signal on_player_position_packet(player_position: PlayerPosition)
+signal on_player_position_packet(player_position: Dictionary)
 
 # General variables
 var connection: ENetConnection
@@ -69,33 +69,33 @@ func disconnected_from_server() -> void:
 func on_packet_received(data: PackedByteArray) -> void:
 	var packet_type: int = data.decode_u8(0)
 	match packet_type:
-		Packet.PACKET_TYPE.ID_ASSIGNMENT:
-			add_ids(IDAssignment.create_from_data(data))
+		MystixPacket.PACKET_TYPE.ID_ASSIGNMENT:
+			add_ids(MystixPacket.decode(data))
 
-		Packet.PACKET_TYPE.ID_DEASSIGNMENT:
-			remove_id(IDDeassignment.create_from_data(data))
+		MystixPacket.PACKET_TYPE.ID_DEASSIGNMENT:
+			remove_id(MystixPacket.decode(data))
 			
-		Packet.PACKET_TYPE.PLAYER_POSITION:
-			on_player_position_packet.emit(PlayerPosition.create_from_data(data))
+		MystixPacket.PACKET_TYPE.PLAYER_POSITION:
+			on_player_position_packet.emit(MystixPacket.decode(data))
 
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")
 
-func add_ids(id_assignment: IDAssignment) -> void:
+func add_ids(data: Dictionary) -> void:
 	if id == 1: # When id == 1, the id sent by the server is for us
-		id = id_assignment.id
+		id = data.id
 		print("New remote ids for player: ", str(id))
-		handle_local_id_assignment.emit(id_assignment.id)
+		handle_local_id_assignment.emit(data.id)
 
-		remote_ids = id_assignment.remote_ids
+		remote_ids = data.remote_ids
 		for remote_id in remote_ids:
 			if remote_id == id: continue
 			handle_remote_id_assignment.emit(remote_id)
 
 	else: # When id != 1, we already own an id, and just append the remote ids by the sent id
-		remote_ids.append(id_assignment.id)
-		handle_remote_id_assignment.emit(id_assignment.id)
+		remote_ids.append(data.id)
+		handle_remote_id_assignment.emit(data.id)
 
-func remove_id(id_deassignment: IDDeassignment) -> void:
-	remote_ids.erase(id_deassignment.id)
-	handle_remote_id_deassignment.emit(id_deassignment.id)
+func remove_id(data: Dictionary) -> void:
+	remote_ids.erase(data.id)
+	handle_remote_id_deassignment.emit(data.id)

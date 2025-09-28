@@ -43,9 +43,15 @@ func handle_motion() -> void:
 	move_and_slide()
 	keys_motion = Vector2()
 
-	PlayerPosition.create(owner_id, position).broadcast(Net.connection)
+	#PlayerPosition.create(owner_id, position).broadcast(Net.connection)
+	
+	var data: Dictionary = {
+		"id": owner_id,
+		"position": position
+	}
+	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
 
-func on_keys_motion_packet(peer_id: int, _keys_motion: KeysMotion) -> void:
+func on_keys_motion_packet(peer_id: int, _keys_motion: Dictionary) -> void:
 	if owner_id != peer_id: return
 
 	# print("keys_motion: ", _keys_motion.keys_motion)

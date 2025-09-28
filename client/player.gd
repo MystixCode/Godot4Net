@@ -56,7 +56,14 @@ func _physics_process(_delta: float) -> void:
 
 	var keys_motion: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	if keys_motion != Vector2(0.0,0.0):
-		KeysMotion.create(owner_id, keys_motion).send(Net.server_peer)
+		#KeysMotion.create(owner_id, keys_motion).send(Net.server_peer)
+		
+		var data: Dictionary = {
+			"id": owner_id,
+			"keys_motion": keys_motion
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.KEYS_MOTION, data)
+
 
 func handle_gravity(delta: float) -> void:
 	
@@ -74,6 +81,6 @@ func handle_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-func on_player_position_packet(player_position: PlayerPosition) -> void:
+func on_player_position_packet(player_position: Dictionary) -> void:
 	if owner_id != player_position.id: return
 	position = player_position.position

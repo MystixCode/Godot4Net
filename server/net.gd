@@ -4,7 +4,7 @@ extends Node
 signal on_peer_connected(peer_id: int)
 signal on_peer_disconnected(peer_id: int)
 
-signal on_keys_motion_packet(peer_id: int, keys_motion: KeysMotion)
+signal on_keys_motion_packet(peer_id: int, keys_motion: Dictionary)
 
 # General variables
 var connection: ENetConnection
@@ -59,7 +59,15 @@ func peer_connected(peer: ENetPacketPeer) -> void:
 	on_peer_connected.emit(peer_id) # used in spawn player
 	
 	peer_ids.append(peer_id)
-	IDAssignment.create(peer_id, peer_ids).broadcast(Net.connection)
+	#IDAssignment.create(peer_id, peer_ids).broadcast(Net.connection)
+	
+	var data: Dictionary = {
+		"id": peer_id,
+		"remote_ids": peer_ids
+	}
+	MystixPacket.broadcast(connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.ID_ASSIGNMENT, data)
+	
+#send(PACKET_TYPE.ID_ASSIGNMENT, data, peer, ENetPacketPeer.FLAG_RELIABLE)
 
 func peer_disconnected(peer: ENetPacketPeer) -> void:
 	var peer_id: int = peer.get_meta("id")
@@ -68,11 +76,16 @@ func peer_disconnected(peer: ENetPacketPeer) -> void:
 
 	print("Peer disconnected: ", peer_id)
 	on_peer_disconnected.emit(peer_id) # used in despawn player
-	IDDeassignment.create(peer_id).broadcast(Net.connection)
+	#IDDeassignment.create(peer_id).broadcast(Net.connection)
+	
+	var data: Dictionary = {
+		"id": peer_id,
+	}
+	MystixPacket.broadcast(connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.ID_DEASSIGNMENT, data)
 
 func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
 	match data[0]:
-		Packet.PACKET_TYPE.KEYS_MOTION:
-			on_keys_motion_packet.emit(peer_id, KeysMotion.create_from_data(data))
+		MystixPacket.PACKET_TYPE.KEYS_MOTION:
+			on_keys_motion_packet.emit(peer_id, MystixPacket.decode(data))
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")
