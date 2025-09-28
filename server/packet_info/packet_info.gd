@@ -1,6 +1,6 @@
 ## BASECLASS ##
 
-class_name PacketInfo
+class_name Packet
 
 # Don't make values above 255, since we send "packet_type" as a single byte
 enum PACKET_TYPE {

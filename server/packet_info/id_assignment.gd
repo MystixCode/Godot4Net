@@ -1,4 +1,4 @@
-class_name IDAssignment extends PacketInfo
+class_name IDAssignment extends Packet
 
 var id: int
 var remote_ids: Array[int]

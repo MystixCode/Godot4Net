@@ -72,7 +72,7 @@ func peer_disconnected(peer: ENetPacketPeer) -> void:
 
 func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
 	match data[0]:
-		PacketInfo.PACKET_TYPE.KEYS_MOTION:
+		Packet.PACKET_TYPE.KEYS_MOTION:
 			on_keys_motion_packet.emit(peer_id, KeysMotion.create_from_data(data))
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")

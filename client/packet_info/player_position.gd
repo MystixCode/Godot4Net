@@ -1,4 +1,4 @@
-class_name PlayerPosition extends PacketInfo
+class_name PlayerPosition extends Packet
 
 var id: int
 var position: Vector3

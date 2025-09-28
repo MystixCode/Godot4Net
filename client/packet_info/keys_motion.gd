@@ -1,4 +1,4 @@
-class_name KeysMotion extends PacketInfo
+class_name KeysMotion extends Packet
 
 var id: int
 var keys_motion: Vector2

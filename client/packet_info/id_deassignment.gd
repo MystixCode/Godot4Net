@@ -1,4 +1,4 @@
-class_name IDDeassignment extends PacketInfo
+class_name IDDeassignment extends Packet
 
 var id: int
 

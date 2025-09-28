@@ -69,13 +69,13 @@ func disconnected_from_server() -> void:
 func on_packet_received(data: PackedByteArray) -> void:
 	var packet_type: int = data.decode_u8(0)
 	match packet_type:
-		PacketInfo.PACKET_TYPE.ID_ASSIGNMENT:
+		Packet.PACKET_TYPE.ID_ASSIGNMENT:
 			add_ids(IDAssignment.create_from_data(data))
 
-		PacketInfo.PACKET_TYPE.ID_DEASSIGNMENT:
+		Packet.PACKET_TYPE.ID_DEASSIGNMENT:
 			remove_id(IDDeassignment.create_from_data(data))
 			
-		PacketInfo.PACKET_TYPE.PLAYER_POSITION:
+		Packet.PACKET_TYPE.PLAYER_POSITION:
 			on_player_position_packet.emit(PlayerPosition.create_from_data(data))
 
 		_:
