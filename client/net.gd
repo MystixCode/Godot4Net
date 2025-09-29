@@ -63,10 +63,11 @@ func connected_to_server() -> void:
 	on_connected_to_server.emit()
 
 func disconnected_from_server() -> void:
-	print("Successfully disconnected from server!")
-	on_disconnected_from_server.emit()
 	connection = null
-
+	remote_ids = []
+	on_disconnected_from_server.emit()
+	print("Successfully disconnected from server!")
+	
 func on_packet_received(data: PackedByteArray) -> void:
 	var packet_type: int = data.decode_u8(0)
 	match packet_type:
