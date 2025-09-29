@@ -25,8 +25,11 @@ mesh = SubResource("BoxMesh_4flbx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_onrkg")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1550598, 1.1834133)
-
 [node name="FocusScript" type="Node" parent="."]
 script = ExtResource("2_onrkg")
+
+[node name="CameraArm" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.92050487, 0.39073113, 0, -0.39073113, 0.92050487, 0, 2.1550598, 1.1834133)
+spring_length = 5.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraArm"]

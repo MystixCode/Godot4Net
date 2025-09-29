@@ -9,6 +9,7 @@ signal handle_remote_id_assignment(remote_id: int)
 signal handle_remote_id_deassignment(remote_id: int)
 signal on_player_position_packet(player_position: Dictionary)
 signal on_player_rotation_y_packet(player_rotation_y: Dictionary)
+signal on_ca_rotation_x_packet(ca_rotation_x: Dictionary)
 
 # General variables
 var connection: ENetConnection
@@ -82,6 +83,9 @@ func on_packet_received(data: PackedByteArray) -> void:
 
 		MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y:
 			on_player_rotation_y_packet.emit(MystixPacket.decode(data))
+
+		MystixPacket.PACKET_TYPE.CA_ROTATION_X:
+			on_ca_rotation_x_packet.emit(MystixPacket.decode(data))
 
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")

@@ -12,6 +12,7 @@ enum PACKET_TYPE {
 	MOUSE_MOTION = 12,
 	PLAYER_POSITION = 13,
 	PLAYER_ROTATION_Y = 14,
+	CA_ROTATION_X = 15
 }
 
 ## Encodes a packet based on type and provided data
@@ -68,6 +69,13 @@ static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArra
 			result.resize(6)
 			result.encode_u8(1, data["id"])
 			result.encode_float(2, data["rotation_y"])
+		PACKET_TYPE.CA_ROTATION_X:
+			if not data.has("id") or not data.has("ca_rotation_x"):
+				push_error("Missing id or ca_rotation_x for CA_ROTATION_X")
+				return PackedByteArray()
+			result.resize(6)
+			result.encode_u8(1, data["id"])
+			result.encode_float(2, data["ca_rotation_x"])
 		_:
 			push_error("Unknown packet type: " + str(packet_type))
 			return PackedByteArray()
@@ -136,6 +144,13 @@ static func decode(data: PackedByteArray) -> Dictionary:
 			var id: int = data.decode_u8(1)
 			var rotation_y: float = data.decode_float(2)
 			result = {"id": id, "rotation_y": rotation_y}
+		PACKET_TYPE.CA_ROTATION_X:
+			if data.size() < 6:
+				push_error("Invalid CA_ROTATION_X packet size: " + str(data.size()))
+				return {}
+			var id: int = data.decode_u8(1)
+			var ca_rotation_x: float = data.decode_float(2)
+			result = {"id": id, "ca_rotation_x": ca_rotation_x}
 		_:
 			push_error("Unknown packet type: " + str(packet_type))
 			return {}

@@ -1,12 +1,13 @@
 extends CharacterBody3D
 
-var speed: float = 5.0
-
 var id: int
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
+var speed: float = 5.0
 var mouse_sensitivity : float = 0.1
 var keys_motion : Vector2
 var mouse_motion : Vector2
+
+@onready var camera_arm: SpringArm3D =  $"CameraArm"
 
 func _enter_tree() -> void:
 	Net.on_keys_motion_packet.connect(on_keys_motion_packet)
@@ -20,6 +21,8 @@ func _physics_process(delta: float) -> void:
 	handle_gravity(delta)
 	handle_rotation(delta)
 	handle_motion()
+	
+
 
 func handle_gravity(delta: float) -> void:
 	
@@ -60,15 +63,29 @@ func handle_rotation(delta: float) -> void:
 	if mouse_motion == Vector2.ZERO:
 		return
 
+	# rotate player y
 	rotation.y += -mouse_motion.x * mouse_sensitivity * delta
+	
+	# rotate CameraArm.x up and down
+	var camera_arm_rotation_x: float = rad_to_deg(deg_to_rad(-mouse_motion.y)*delta*mouse_sensitivity)
+	if camera_arm.rotation_degrees.x + camera_arm_rotation_x > -90 and camera_arm.rotation_degrees.x + camera_arm_rotation_x < 90:
+		camera_arm.rotation_degrees.x += camera_arm_rotation_x
+		
+	# reset mouse motion
 	mouse_motion = Vector2.ZERO
 	
-	#print("rotation: ", rotation)
 	var data: Dictionary = {
 		"id": id,
 		"rotation_y": rotation.y
 	}
 	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y, data)
+
+	data = {
+		"id": id,
+		"ca_rotation_x": camera_arm.rotation_degrees.x
+	}
+	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.CA_ROTATION_X, data)
+
 
 func on_keys_motion_packet(peer_id: int, _keys_motion: Dictionary) -> void:
 	if id != peer_id: return

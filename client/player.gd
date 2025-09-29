@@ -4,23 +4,29 @@ var is_local_player: bool:
 	get: return id == Net.id
 
 var id: int
-var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
-
+var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+var speed: float = 5.0
+var mouse_sensitivity : float = 0.1
 var keys_motion: Vector2
 var mouse_motion: Vector2
+var client_prediction: bool = false
+var interpolation_speed: float = 10.0
+var server_position: Vector3
 
 func _enter_tree() -> void:
 	Net.on_player_position_packet.connect(on_player_position_packet)
 	Net.on_player_rotation_y_packet.connect(on_player_rotation_y_packet)
+	Net.on_ca_rotation_x_packet.connect(on_ca_rotation_x_packet)
 
 func _exit_tree() -> void:
 	Net.on_player_position_packet.disconnect(on_player_position_packet)
 	Net.on_player_rotation_y_packet.disconnect(on_player_rotation_y_packet)
+	Net.on_ca_rotation_x_packet.disconnect(on_ca_rotation_x_packet)
 
 func _ready() -> void:
 	if not is_local_player: return
-
-	$Camera3D.current = true
+	Engine.physics_jitter_fix = 0.0
+	$CameraArm/Camera3D.current = true
 	
 func _input(event: InputEvent) -> void:
 	if not get_window().has_focus(): return
@@ -36,7 +42,12 @@ func _input(event: InputEvent) -> void:
 			MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
 			mouse_motion = Vector2.ZERO
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	
+	# interpolation
+	if server_position != position:
+		position = position.lerp(server_position, 1.0 - exp(-interpolation_speed * delta))
+	
 	if not is_local_player: return
 	
 	# TODO: brainstorming notes
@@ -79,6 +90,12 @@ func _physics_process(_delta: float) -> void:
 		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.KEYS_MOTION, data)
 
 
+	#if client_prediction:
+		#handle_gravity(delta)
+		#handle_rotation(delta)
+		#handle_motion()
+
+
 
 func handle_gravity(delta: float) -> void:
 	
@@ -96,12 +113,52 @@ func handle_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
+func handle_motion() -> void:
+	var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
+	if direction:
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
+	else:
+		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.z = move_toward(velocity.z, 0, speed)
+	move_and_slide()
+	keys_motion = Vector2()
+
+	#PlayerPosition.create(owner_id, position).broadcast(Net.connection)
+	
+	var data: Dictionary = {
+		"id": id,
+		"position": position
+	}
+	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
+
+func handle_rotation(delta: float) -> void:
+	if mouse_motion == Vector2.ZERO:
+		return
+
+	rotation.y += -mouse_motion.x * mouse_sensitivity * delta
+	mouse_motion = Vector2.ZERO
+	
+	#print("rotation: ", rotation)
+	var data: Dictionary = {
+		"id": id,
+		"rotation_y": rotation.y
+	}
+	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y, data)
+
 func on_player_position_packet(player_position: Dictionary) -> void:
 	if id != player_position.id: return
-	position = player_position.position
+	#position = lerp(position,player_position.position,0.9)
+	server_position = player_position.position
 
 func on_player_rotation_y_packet(player_rotation_y: Dictionary) -> void:
 	if id != player_rotation_y.id: return
 	
 	#print("rotation: ", player_rotation_y.rotation_y)
 	rotation.y = player_rotation_y.rotation_y
+
+func on_ca_rotation_x_packet(ca_rotation_x: Dictionary) -> void:
+	if id != ca_rotation_x.id: return
+	
+	#print("rotation: ", player_rotation_y.rotation_y)
+	$CameraArm.rotation.x = ca_rotation_x.ca_rotation_x
