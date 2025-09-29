@@ -11,7 +11,7 @@ enum PACKET_TYPE {
 	KEYS_MOTION = 11,
 	MOUSE_MOTION = 12,
 	PLAYER_POSITION = 13,
-	PLAYER_ROTATION = 14,
+	PLAYER_ROTATION_Y = 14,
 }
 
 ## Encodes a packet based on type and provided data
@@ -61,15 +61,13 @@ static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArra
 			result.encode_float(2, data["position"].x)
 			result.encode_float(6, data["position"].y)
 			result.encode_float(10, data["position"].z)
-		PACKET_TYPE.PLAYER_ROTATION:
-			if not data.has("id") or not data.has("rotation"):
-				push_error("Missing id or rotation for PLAYER_ROTATION")
+		PACKET_TYPE.PLAYER_ROTATION_Y:
+			if not data.has("id") or not data.has("rotation_y"):
+				push_error("Missing id or rotation_y for PLAYER_ROTATION_Y")
 				return PackedByteArray()
-			result.resize(14)
+			result.resize(6)
 			result.encode_u8(1, data["id"])
-			result.encode_float(2, data["rotation"].x)
-			result.encode_float(6, data["rotation"].y)
-			result.encode_float(10, data["rotation"].z)
+			result.encode_float(2, data["rotation_y"])
 		_:
 			push_error("Unknown packet type: " + str(packet_type))
 			return PackedByteArray()
@@ -131,17 +129,13 @@ static func decode(data: PackedByteArray) -> Dictionary:
 				data.decode_float(10)
 			)
 			result = {"id": id, "position": position}
-		PACKET_TYPE.PLAYER_ROTATION:
-			if data.size() < 14:
-				push_error("Invalid PLAYER_ROTATION packet size: " + str(data.size()))
+		PACKET_TYPE.PLAYER_ROTATION_Y:
+			if data.size() < 6:
+				push_error("Invalid PLAYER_ROTATION_Y packet size: " + str(data.size()))
 				return {}
 			var id: int = data.decode_u8(1)
-			var rotation: Vector3 = Vector3(
-				data.decode_float(2),
-				data.decode_float(6),
-				data.decode_float(10)
-			)
-			result = {"id": id, "rotation": rotation}
+			var rotation_y: float = data.decode_float(2)
+			result = {"id": id, "rotation_y": rotation_y}
 		_:
 			push_error("Unknown packet type: " + str(packet_type))
 			return {}

@@ -1,21 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://dump2c64ctf0a"]
+[gd_scene load_steps=5 format=3 uid="uid://dump2c64ctf0a"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_unl4p"]
-albedo_color = Color(0.188235, 0.262745, 0.152941, 1)
+[ext_resource type="Shader" uid="uid://cnqswquolea6f" path="res://grid.gdshader" id="1_spjia"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ppmq8"]
+render_priority = 0
+shader = ExtResource("1_spjia")
+shader_parameter/grid_size = 5.0
+shader_parameter/line_thickness = 0.04
+shader_parameter/line_color = Color(0.62, 0.62, 0.62, 1)
+shader_parameter/fill_color = Color(0.31, 0.52, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_x1bik"]
-material = SubResource("StandardMaterial3D_unl4p")
-size = Vector3(20, 1, 20)
+material = SubResource("ShaderMaterial_ppmq8")
+size = Vector3(40, 1, 40)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iju4n"]
-size = Vector3(20, 1, 20)
+size = Vector3(40, 1, 40)
 
 [node name="DebugWorld" type="Node3D"]
 
 [node name="floor" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07504606, -0.4393854, -0.07872772)
 mesh = SubResource("BoxMesh_x1bik")
 skeleton = NodePath("../..")
 

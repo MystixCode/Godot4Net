@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 var speed: float = 5.0
 
-var owner_id: int
+var id: int
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var mouse_sensitivity : float = 0.1
 var keys_motion : Vector2
@@ -51,7 +51,7 @@ func handle_motion() -> void:
 	#PlayerPosition.create(owner_id, position).broadcast(Net.connection)
 	
 	var data: Dictionary = {
-		"id": owner_id,
+		"id": id,
 		"position": position
 	}
 	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
@@ -63,21 +63,21 @@ func handle_rotation(delta: float) -> void:
 	rotation.y += -mouse_motion.x * mouse_sensitivity * delta
 	mouse_motion = Vector2.ZERO
 	
-	print("rotation: ", rotation)
+	#print("rotation: ", rotation)
 	var data: Dictionary = {
-		"id": owner_id,
-		"rotation": rotation
+		"id": id,
+		"rotation_y": rotation.y
 	}
-	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION, data)
+	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y, data)
 
 func on_keys_motion_packet(peer_id: int, _keys_motion: Dictionary) -> void:
-	if owner_id != peer_id: return
+	if id != peer_id: return
 
 	#print("keys_motion: ", _keys_motion.keys_motion)
 	keys_motion = _keys_motion.keys_motion
 
 func on_mouse_motion_packet(peer_id: int, _mouse_motion: Dictionary) -> void:
-	if owner_id != peer_id: return
+	if id != peer_id: return
 
 	#print("mouse_motion: ", _mouse_motion.mouse_motion)
 	mouse_motion = _mouse_motion.mouse_motion

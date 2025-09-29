@@ -8,7 +8,7 @@ func _ready() -> void:
 
 func spawn_player(id: int) -> void:
 	var player : CharacterBody3D = PLAYER.instantiate()
-	player.owner_id = id
+	player.id = id
 	player.name = str(id) # Optional, but it beats the name "@CharacterBody2D@2/3/4..."
 	player.position = Vector3(0,10,0)
 	call_deferred("add_child", player)
