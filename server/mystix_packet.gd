@@ -10,10 +10,12 @@ enum PACKET_TYPE {
 	ID_DEASSIGNMENT = 1,
 	KEYS_MOTION = 11,
 	MOUSE_MOTION = 12,
-	IS_SPRINTING = 16,
-	PLAYER_POSITION = 13,
-	PLAYER_ROTATION_Y = 14,
-	CA_ROTATION_X = 15
+	IS_SPRINTING = 13,
+	IS_JUMPING = 14,
+	IS_SHOOTING = 15,
+	PLAYER_POSITION = 16,
+	PLAYER_ROTATION_Y = 17,
+	CA_ROTATION_X = 18
 }
 
 ## Encodes a packet based on type and provided data
@@ -61,6 +63,20 @@ static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArra
 			result.resize(10)
 			result.encode_u8(1, data["id"])
 			result.encode_u8(2, data["is_sprinting"])
+		PACKET_TYPE.IS_JUMPING:
+			if not data.has("id") or not data.has("is_jumping"):
+				push_error("Missing id or is_jumping for IS_JUMPING")
+				return PackedByteArray()
+			result.resize(10)
+			result.encode_u8(1, data["id"])
+			result.encode_u8(2, data["is_jumping"])
+		PACKET_TYPE.IS_SHOOTING:
+			if not data.has("id") or not data.has("is_shooting"):
+				push_error("Missing id or is_sprinting for IS_SHOOTING")
+				return PackedByteArray()
+			result.resize(10)
+			result.encode_u8(1, data["id"])
+			result.encode_u8(2, data["is_shooting"])
 		PACKET_TYPE.PLAYER_POSITION:
 			if not data.has("id") or not data.has("position"):
 				push_error("Missing id or position for PLAYER_POSITION")
@@ -141,6 +157,20 @@ static func decode(data: PackedByteArray) -> Dictionary:
 			var id: int = data.decode_u8(1)
 			var is_sprinting: bool = data.decode_u8(2)
 			result = {"id": id, "is_sprinting": is_sprinting}
+		PACKET_TYPE.IS_JUMPING:
+			if data.size() < 10:
+				push_error("Invalid IS_JUMPING packet size: " + str(data.size()))
+				return {}
+			var id: int = data.decode_u8(1)
+			var is_jumping: bool = data.decode_u8(2)
+			result = {"id": id, "is_jumping": is_jumping}
+		PACKET_TYPE.IS_SHOOTING:
+			if data.size() < 10:
+				push_error("Invalid IS_SHOOTING packet size: " + str(data.size()))
+				return {}
+			var id: int = data.decode_u8(1)
+			var is_shooting: bool = data.decode_u8(2)
+			result = {"id": id, "is_shooting": is_shooting}
 		PACKET_TYPE.PLAYER_POSITION:
 			if data.size() < 14:
 				push_error("Invalid PLAYER_POSITION packet size: " + str(data.size()))

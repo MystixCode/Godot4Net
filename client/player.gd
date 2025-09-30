@@ -13,7 +13,9 @@ var client_prediction: bool = false
 var interpolation: bool = false
 var interpolation_speed: float = 10.0
 var server_position: Vector3
-var is_sprinting := false
+var is_sprinting: bool = false
+var is_jumping: bool = false
+var is_shooting: bool = false
 
 func _enter_tree() -> void:
 	Net.on_player_position_packet.connect(on_player_position_packet)
@@ -52,7 +54,9 @@ func _physics_process(delta: float) -> void:
 			position = position.lerp(server_position, 1.0 - exp(-interpolation_speed * delta))
 	
 	if not is_local_player: return
-	
+
+	is_jumping=false
+	is_shooting=false
 	# TODO: brainstorming notes
 
 	# what do i need to sync from client to server:
@@ -103,11 +107,30 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_released("sprint"):
 		is_sprinting=false
+
 		var data: Dictionary = {
 			"id": id,
 			"is_sprinting": is_sprinting
 		}
 		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SPRINTING, data)
+		
+	if Input.is_action_just_pressed("jump"):
+		is_jumping=true
+		print("jumping: ", is_jumping)
+		var data: Dictionary = {
+			"id": id,
+			"is_jumping": is_jumping
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_JUMPING, data)
+
+	if Input.is_action_just_pressed("shoot"):
+		is_shooting=true
+
+		var data: Dictionary = {
+			"id": id,
+			"is_shooting": is_shooting
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SHOOTING, data)
 
 	#if client_prediction:
 		#handle_gravity(delta)

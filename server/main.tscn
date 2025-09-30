@@ -25,3 +25,5 @@ script = ExtResource("2_0xm2m")
 [node name="MapSpawner" type="Node" parent="."]
 
 [node name="DebugWorld" parent="MapSpawner" instance=ExtResource("3_h2yge")]
+
+[node name="BulletSpawner" type="Node" parent="."]

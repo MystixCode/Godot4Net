@@ -14,24 +14,34 @@ var is_shooting: bool = false
 var health : int = 200
 var mana : int = 200
 var stamina : int = 200
+var jump_force: int = 6
 
 @onready var camera_arm: SpringArm3D =  $"CameraArm"
+@onready var b_res := preload("res://bullet/bullet.tscn")
 
 func _enter_tree() -> void:
 	Net.on_keys_motion_packet.connect(on_keys_motion_packet)
 	Net.on_mouse_motion_packet.connect(on_mouse_motion_packet)
 	Net.on_is_sprinting_packet.connect(on_is_sprinting_packet)
+	Net.on_is_jumping_packet.connect(on_is_jumping_packet)
+	Net.on_is_shooting_packet.connect(on_is_shooting_packet)
 
 func _exit_tree() -> void:
 	Net.on_keys_motion_packet.disconnect(on_keys_motion_packet)
 	Net.on_mouse_motion_packet.disconnect(on_mouse_motion_packet)
 	Net.on_is_sprinting_packet.disconnect(on_is_sprinting_packet)
+	Net.on_is_jumping_packet.disconnect(on_is_jumping_packet)
+	Net.on_is_shooting_packet.disconnect(on_is_shooting_packet)
 
 func _physics_process(delta: float) -> void:
 	handle_gravity(delta)
 	handle_sprint()
+	handle_jump()
+	handle_shoot()
 	handle_rotation(delta)
 	handle_motion()
+	is_jumping = false
+	is_shooting = false
 
 func handle_gravity(delta: float) -> void:
 	
@@ -48,6 +58,31 @@ func handle_gravity(delta: float) -> void:
 	# Gravity
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+
+func handle_sprint() -> void:
+	if is_sprinting and is_on_floor() and keys_motion != Vector2(0,0):
+		if stamina >= 1:
+			speed = sprint_speed
+			stamina-=1
+		else:
+			speed = movement_speed
+	else:
+		speed = movement_speed
+
+func handle_jump() -> void:
+	if is_jumping and is_on_floor():
+		velocity.y = jump_force
+		print("jumping")
+
+func handle_shoot() -> void:
+	if is_shooting:
+		if mana >= 10:
+			print("todo bullet shoot from and crosshair and sync bullet pos and damage func")
+			var b := b_res.instantiate()
+			#b.position = $"ShootFrom".global_transform.origin
+			b.from_player = id
+			get_node("/root/Main/BulletSpawner").add_child(b, true)
+			mana-=10
 
 func handle_motion() -> void:
 	var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
@@ -95,16 +130,6 @@ func handle_rotation(delta: float) -> void:
 	}
 	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.CA_ROTATION_X, data)
 
-func handle_sprint() -> void:
-	if is_sprinting and is_on_floor() and keys_motion != Vector2(0,0):
-		if stamina >= 1:
-			speed = sprint_speed
-			stamina-=1
-		else:
-			speed = movement_speed
-	else:
-		speed = movement_speed
-
 func on_keys_motion_packet(peer_id: int, _keys_motion: Dictionary) -> void:
 	if id != peer_id: return
 
@@ -122,3 +147,15 @@ func on_is_sprinting_packet(peer_id: int, _is_sprinting: Dictionary) -> void:
 
 	#print("is_sprinting: ", _is_sprinting.is_sprinting)
 	is_sprinting = _is_sprinting.is_sprinting
+
+func on_is_jumping_packet(peer_id: int, _is_jumping: Dictionary) -> void:
+	if id != peer_id: return
+
+	#print("is_sprinting: ", _is_sprinting.is_sprinting)
+	is_jumping = _is_jumping.is_jumping
+
+func on_is_shooting_packet(peer_id: int, _is_shooting: Dictionary) -> void:
+	if id != peer_id: return
+
+	#print("is_sprinting: ", _is_sprinting.is_sprinting)
+	is_shooting = _is_shooting.is_shooting
