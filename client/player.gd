@@ -13,6 +13,7 @@ var client_prediction: bool = false
 var interpolation: bool = false
 var interpolation_speed: float = 10.0
 var server_position: Vector3
+var is_sprinting := false
 
 func _enter_tree() -> void:
 	Net.on_player_position_packet.connect(on_player_position_packet)
@@ -60,6 +61,7 @@ func _physics_process(delta: float) -> void:
 	# mouse_motion --> Vector2D
 	# is_jumping --> bool
 	# is_sprinting --> bool
+	# shoot --> bool
 	# zoom --> float
 
 	# what do i need to sync from server to client:
@@ -90,12 +92,27 @@ func _physics_process(delta: float) -> void:
 		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.KEYS_MOTION, data)
 
 
+	if Input.is_action_just_pressed("sprint"):
+		is_sprinting=true
+
+		var data: Dictionary = {
+			"id": id,
+			"is_sprinting": is_sprinting
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SPRINTING, data)
+
+	if Input.is_action_just_released("sprint"):
+		is_sprinting=false
+		var data: Dictionary = {
+			"id": id,
+			"is_sprinting": is_sprinting
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SPRINTING, data)
+
 	#if client_prediction:
 		#handle_gravity(delta)
 		#handle_rotation(delta)
 		#handle_motion()
-
-
 
 func handle_gravity(delta: float) -> void:
 	

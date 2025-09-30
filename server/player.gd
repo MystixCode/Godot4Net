@@ -6,23 +6,32 @@ var speed: float = 5.0
 var mouse_sensitivity : float = 0.1
 var keys_motion : Vector2
 var mouse_motion : Vector2
+var movement_speed: float = 5.0
+var sprint_speed: float = 10.0
+var is_sprinting: bool = false
+var is_jumping: bool = false
+var is_shooting: bool = false
+var health : int = 200
+var mana : int = 200
+var stamina : int = 200
 
 @onready var camera_arm: SpringArm3D =  $"CameraArm"
 
 func _enter_tree() -> void:
 	Net.on_keys_motion_packet.connect(on_keys_motion_packet)
 	Net.on_mouse_motion_packet.connect(on_mouse_motion_packet)
+	Net.on_is_sprinting_packet.connect(on_is_sprinting_packet)
 
 func _exit_tree() -> void:
 	Net.on_keys_motion_packet.disconnect(on_keys_motion_packet)
 	Net.on_mouse_motion_packet.disconnect(on_mouse_motion_packet)
+	Net.on_is_sprinting_packet.disconnect(on_is_sprinting_packet)
 
 func _physics_process(delta: float) -> void:
 	handle_gravity(delta)
+	handle_sprint()
 	handle_rotation(delta)
 	handle_motion()
-	
-
 
 func handle_gravity(delta: float) -> void:
 	
@@ -86,6 +95,15 @@ func handle_rotation(delta: float) -> void:
 	}
 	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.CA_ROTATION_X, data)
 
+func handle_sprint() -> void:
+	if is_sprinting and is_on_floor() and keys_motion != Vector2(0,0):
+		if stamina >= 1:
+			speed = sprint_speed
+			stamina-=1
+		else:
+			speed = movement_speed
+	else:
+		speed = movement_speed
 
 func on_keys_motion_packet(peer_id: int, _keys_motion: Dictionary) -> void:
 	if id != peer_id: return
@@ -98,3 +116,9 @@ func on_mouse_motion_packet(peer_id: int, _mouse_motion: Dictionary) -> void:
 
 	#print("mouse_motion: ", _mouse_motion.mouse_motion)
 	mouse_motion = _mouse_motion.mouse_motion
+
+func on_is_sprinting_packet(peer_id: int, _is_sprinting: Dictionary) -> void:
+	if id != peer_id: return
+
+	#print("is_sprinting: ", _is_sprinting.is_sprinting)
+	is_sprinting = _is_sprinting.is_sprinting

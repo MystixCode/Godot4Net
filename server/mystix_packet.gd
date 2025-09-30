@@ -10,6 +10,7 @@ enum PACKET_TYPE {
 	ID_DEASSIGNMENT = 1,
 	KEYS_MOTION = 11,
 	MOUSE_MOTION = 12,
+	IS_SPRINTING = 16,
 	PLAYER_POSITION = 13,
 	PLAYER_ROTATION_Y = 14,
 	CA_ROTATION_X = 15
@@ -47,12 +48,19 @@ static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArra
 			result.encode_float(6, data["keys_motion"].y)
 		PACKET_TYPE.MOUSE_MOTION:
 			if not data.has("id") or not data.has("mouse_motion"):
-				push_error("Missing id or keys_motion for MOUS_MOTION")
+				push_error("Missing id or keys_motion for MOUSE_MOTION")
 				return PackedByteArray()
 			result.resize(10)
 			result.encode_u8(1, data["id"])
 			result.encode_float(2, data["mouse_motion"].x)
 			result.encode_float(6, data["mouse_motion"].y)
+		PACKET_TYPE.IS_SPRINTING:
+			if not data.has("id") or not data.has("is_sprinting"):
+				push_error("Missing id or is_sprinting for IS_SPRINTING")
+				return PackedByteArray()
+			result.resize(10)
+			result.encode_u8(1, data["id"])
+			result.encode_u8(2, data["is_sprinting"])
 		PACKET_TYPE.PLAYER_POSITION:
 			if not data.has("id") or not data.has("position"):
 				push_error("Missing id or position for PLAYER_POSITION")
@@ -126,6 +134,13 @@ static func decode(data: PackedByteArray) -> Dictionary:
 				data.decode_float(6)
 			)
 			result = {"id": id, "mouse_motion": mouse_motion}
+		PACKET_TYPE.IS_SPRINTING:
+			if data.size() < 10:
+				push_error("Invalid IS_SPRINTING packet size: " + str(data.size()))
+				return {}
+			var id: int = data.decode_u8(1)
+			var is_sprinting: bool = data.decode_u8(2)
+			result = {"id": id, "is_sprinting": is_sprinting}
 		PACKET_TYPE.PLAYER_POSITION:
 			if data.size() < 14:
 				push_error("Invalid PLAYER_POSITION packet size: " + str(data.size()))
