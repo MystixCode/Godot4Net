@@ -13,7 +13,7 @@ config_version=5
 config/name="Server"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://8dyfc30infbf"
 
 [autoload]
 
@@ -22,3 +22,7 @@ Net="*res://net.gd"
 [debug]
 
 gdscript/warnings/untyped_declaration=1
+
+[physics]
+
+common/physics_jitter_fix=0.0

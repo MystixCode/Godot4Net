@@ -6,10 +6,11 @@ var is_local_player: bool:
 var id: int
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var speed: float = 5.0
-var mouse_sensitivity : float = 0.1
+var mouse_sensitivity: float = 0.1
 var keys_motion: Vector2
 var mouse_motion: Vector2
 var client_prediction: bool = false
+var interpolation: bool = false
 var interpolation_speed: float = 10.0
 var server_position: Vector3
 
@@ -44,9 +45,10 @@ func _input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	# interpolation
-	if server_position != position:
-		position = position.lerp(server_position, 1.0 - exp(-interpolation_speed * delta))
+	if interpolation:
+		# interpolation
+		if server_position != position:
+			position = position.lerp(server_position, 1.0 - exp(-interpolation_speed * delta))
 	
 	if not is_local_player: return
 	
@@ -78,10 +80,8 @@ func _physics_process(delta: float) -> void:
 	# drop unreliable packet if old / out of order
 	
 	# Handle invalid packages. / improve error handling
-	
-	# add if client_prediction:
-	# 	and do some physics like on server
-	keys_motion = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+
+	keys_motion = Input.get_vector("move_left", "move_right", "move_fw", "move_bw")
 	if keys_motion != Vector2(0.0,0.0):
 		var data: Dictionary = {
 			"id": id,
@@ -149,7 +149,10 @@ func handle_rotation(delta: float) -> void:
 func on_player_position_packet(player_position: Dictionary) -> void:
 	if id != player_position.id: return
 	#position = lerp(position,player_position.position,0.9)
-	server_position = player_position.position
+	if interpolation:
+		server_position = player_position.position
+	else:
+		position = player_position.position
 
 func on_player_rotation_y_packet(player_rotation_y: Dictionary) -> void:
 	if id != player_rotation_y.id: return
