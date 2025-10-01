@@ -75,7 +75,6 @@ func peer_connected(peer: ENetPacketPeer) -> void:
 
 func peer_disconnected(peer: ENetPacketPeer) -> void:
 	var peer_id: int = peer.get_meta("id")
-	available_peer_ids.push_back(peer_id)
 	client_peers.erase(peer_id)
 
 	print("Peer disconnected: ", peer_id)
@@ -86,6 +85,8 @@ func peer_disconnected(peer: ENetPacketPeer) -> void:
 		"id": peer_id,
 	}
 	MystixPacket.broadcast(connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.ID_DEASSIGNMENT, data)
+	
+	available_peer_ids.push_back(peer_id)
 
 func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
 	match data[0]:

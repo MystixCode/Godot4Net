@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://dou6ktciha523"]
 
-[ext_resource type="Script" uid="uid://chvyu7a1stse8" path="res://assets/bullet/bullet.gd" id="1_1qs75"]
-[ext_resource type="Shader" uid="uid://5jnk4wli6p18" path="res://assets/bullet/bullet.gdshader" id="2_saywm"]
+[ext_resource type="Script" uid="uid://chvyu7a1stse8" path="res://bullet/bullet.gd" id="1_1qs75"]
+[ext_resource type="Shader" uid="uid://5jnk4wli6p18" path="res://bullet/bullet.gdshader" id="2_saywm"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_nafve"]
 radius = 0.1
@@ -11,15 +11,15 @@ height = 0.2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lk214"]
 generate_mipmaps = false
-seamless = true
 noise = SubResource("FastNoiseLite_fbj2i")
+seamless = true
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_onjur"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7gc7f"]
 generate_mipmaps = false
-seamless = true
 noise = SubResource("FastNoiseLite_onjur")
+seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t1htj"]
 render_priority = 0

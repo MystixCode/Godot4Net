@@ -16,8 +16,7 @@ var mana : int = 200
 var stamina : int = 200
 var jump_force: int = 6
 
-@onready var camera_arm: SpringArm3D =  $"CameraArm"
-@onready var b_res := preload("res://bullet/bullet.tscn")
+@onready var camera_arm: SpringArm3D =  $CameraArm
 
 func _enter_tree() -> void:
 	Net.on_keys_motion_packet.connect(on_keys_motion_packet)
@@ -77,12 +76,9 @@ func handle_jump() -> void:
 func handle_shoot() -> void:
 	if is_shooting:
 		if mana >= 10:
-			print("todo bullet shoot from and crosshair and sync bullet pos and damage func")
-			var b := b_res.instantiate()
-			#b.position = $"ShootFrom".global_transform.origin
-			b.from_player = id
-			get_node("/root/Main/BulletSpawner").add_child(b, true)
+			get_node("/root/Main/BulletSpawner").spawn(id)
 			mana-=10
+			
 
 func handle_motion() -> void:
 	var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
@@ -107,14 +103,11 @@ func handle_rotation(delta: float) -> void:
 	if mouse_motion == Vector2.ZERO:
 		return
 
-	# rotate player y
-	rotation.y += -mouse_motion.x * mouse_sensitivity * delta
-	
-	# rotate CameraArm.x up and down
-	var camera_arm_rotation_x: float = rad_to_deg(deg_to_rad(-mouse_motion.y)*delta*mouse_sensitivity)
-	if camera_arm.rotation_degrees.x + camera_arm_rotation_x > -90 and camera_arm.rotation_degrees.x + camera_arm_rotation_x < 90:
-		camera_arm.rotation_degrees.x += camera_arm_rotation_x
-		
+
+	var rot : Vector3 = Vector3(mouse_motion.y, 0, mouse_motion.x) * mouse_sensitivity * delta
+	rotation.y -= rot.z
+	$CameraArm.rotation.x = clamp($CameraArm.rotation.x - rot.x, deg_to_rad(-70.0), deg_to_rad(30.0))
+
 	# reset mouse motion
 	mouse_motion = Vector2.ZERO
 	
@@ -126,7 +119,7 @@ func handle_rotation(delta: float) -> void:
 
 	data = {
 		"id": id,
-		"ca_rotation_x": camera_arm.rotation_degrees.x
+		"ca_rotation_x": $CameraArm.rotation.x
 	}
 	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.CA_ROTATION_X, data)
 

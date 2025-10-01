@@ -9,6 +9,7 @@ var direction: Vector3 = Vector3.ZERO
 var timer: Timer
 var audio_player: AudioStreamPlayer3D
 
+
 func _ready() -> void:
 	if not from_player:
 		push_warning("from_player not assigned!")
@@ -16,26 +17,26 @@ func _ready() -> void:
 		return
 
 	var player: CharacterBody3D = get_node("/root/Main/PlayerSpawner/" + str(from_player))
-	#var shoot_from: Marker3D = player.get_node("ShootFrom")
+	var shoot_from: Marker3D = player.get_node("ShootFrom")
 	var camera: Camera3D = player.get_node("CameraArm/Camera3D")
-	#var crosshair = player.get_node("Crosshair")
+	var crosshair: TextureRect = player.get_node("Crosshair")
 #
-	#var ch_pos: Vector2 = crosshair.position + crosshair.size * 0.5
+	var ch_pos: Vector2 = crosshair.position + crosshair.size * 0.5
 #
-	#var camera_ray_origin = camera.project_ray_origin(ch_pos)
-	#var camera_ray_normal = camera.project_ray_normal(ch_pos)
+	var camera_ray_origin: Vector3 = camera.project_ray_origin(ch_pos)
+	var camera_ray_normal: Vector3 = camera.project_ray_normal(ch_pos)
 #
-	#var ray_length = speed * lifetime
+	var ray_length: float = speed * lifetime
 #
-	#var space_state = get_world_3d().direct_space_state
-	#var query = PhysicsRayQueryParameters3D.create(camera_ray_origin, camera_ray_origin + camera_ray_normal * ray_length)
-	#query.exclude = [player]
+	var space_state: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
+	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(camera_ray_origin, camera_ray_origin + camera_ray_normal * ray_length)
+	query.exclude = [player]
 #
-	#var result = space_state.intersect_ray(query)
-	#var target_position: Vector3 = result.position if result else camera_ray_origin + camera_ray_normal * ray_length
+	var result: Dictionary = space_state.intersect_ray(query)
+	var target_position: Vector3 = result.position if result else camera_ray_origin + camera_ray_normal * ray_length
 #
-	#global_transform.origin = shoot_from.global_transform.origin
-	#direction = (target_position - global_transform.origin).normalized()
+	global_transform.origin = shoot_from.global_transform.origin
+	direction = (target_position - global_transform.origin).normalized()
 
 	timer = Timer.new()
 	add_child(timer)
@@ -48,6 +49,12 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	global_transform.origin += direction * speed * delta
+	var data: Dictionary = {
+		"id": name.to_int(),
+		"position": position
+		
+	}
+	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_POSITION, data)
 
 func _on_body_entered(body: Variant) -> void:
 	if body.has_method("damage"):
@@ -57,5 +64,6 @@ func _on_body_entered(body: Variant) -> void:
 	#TODO: call audio on server instead of client and after that destroy()?
 	destroy()
 
+
 func destroy() -> void:
-	queue_free()
+	get_parent().despawn(name.to_int())

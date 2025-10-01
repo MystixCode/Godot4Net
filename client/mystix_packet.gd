@@ -15,7 +15,10 @@ enum PACKET_TYPE {
 	IS_SHOOTING = 15,
 	PLAYER_POSITION = 16,
 	PLAYER_ROTATION_Y = 17,
-	CA_ROTATION_X = 18
+	CA_ROTATION_X = 18,
+	BULLET_SPAWN = 19,
+	BULLET_DESPAWN = 20,
+	BULLET_POSITION = 21
 }
 
 ## Encodes a packet based on type and provided data
@@ -100,6 +103,31 @@ static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArra
 			result.resize(6)
 			result.encode_u8(1, data["id"])
 			result.encode_float(2, data["ca_rotation_x"])
+		PACKET_TYPE.BULLET_SPAWN:
+			if not data.has("id") or not data.has("position"):
+				push_error("Missing id  or position for BULLET_SPAWN")
+				return PackedByteArray()
+			# Fixed size: 1 (type) + 1 (id) + 10 (name, fixed length for "Bullet9999") + 12 (position Vector3)
+			result.resize(14)
+			result.encode_u8(1, data["id"])
+			result.encode_float(2, data["position"].x)
+			result.encode_float(6, data["position"].y)
+			result.encode_float(10, data["position"].z)
+		PACKET_TYPE.BULLET_DESPAWN:
+			if not data.has("id"):
+				push_error("Missing id for BULLET_DESPAWN")
+				return PackedByteArray()
+			result.resize(2)
+			result.encode_u8(1, data["id"])
+		PACKET_TYPE.BULLET_POSITION:
+			if not data.has("id") or not data.has("position"):
+				push_error("Missing id or position for BULLET_POSITION")
+				return PackedByteArray()
+			result.resize(14)
+			result.encode_u8(1, data["id"])
+			result.encode_float(2, data["position"].x)
+			result.encode_float(6, data["position"].y)
+			result.encode_float(10, data["position"].z)
 		_:
 			push_error("Unknown packet type: " + str(packet_type))
 			return PackedByteArray()
@@ -196,6 +224,35 @@ static func decode(data: PackedByteArray) -> Dictionary:
 			var id: int = data.decode_u8(1)
 			var ca_rotation_x: float = data.decode_float(2)
 			result = {"id": id, "ca_rotation_x": ca_rotation_x}
+		PACKET_TYPE.BULLET_SPAWN:
+			if data.size() < 14:
+				push_error("Invalid BULLET_SPAWN packet size: " + str(data.size()))
+				return {}
+			var id: int = data.decode_u8(1)
+			var position: Vector3 = Vector3(
+				data.decode_float(2),
+				data.decode_float(6),
+				data.decode_float(10)
+			)
+			result = {"id": id, "position": position}
+		PACKET_TYPE.BULLET_DESPAWN:
+			if data.size() < 2:
+				push_error("Invalid BULLET_DESPAWN packet size: " + str(data.size()))
+				return {}
+			var id: int = data.decode_u8(1)
+
+			result = {"id": id}
+		PACKET_TYPE.BULLET_POSITION:
+			if data.size() < 14:
+				push_error("Invalid BULLET_POSITION packet size: " + str(data.size()))
+				return {}
+			var id: int = data.decode_u8(1)
+			var position: Vector3 = Vector3(
+				data.decode_float(2),
+				data.decode_float(6),
+				data.decode_float(10)
+			)
+			result = {"id": id, "position": position}
 		_:
 			push_error("Unknown packet type: " + str(packet_type))
 			return {}

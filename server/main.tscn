@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://befo12637qm5r"]
+[gd_scene load_steps=5 format=3 uid="uid://befo12637qm5r"]
 
 [ext_resource type="Script" uid="uid://1efltmg3b563" path="res://button.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b3mfe3lapk0u1" path="res://player_spawner.gd" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dump2c64ctf0a" path="res://debug_world.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://xr8kf2asqpu5" path="res://bullet_spawner.gd" id="4_1bvp3"]
 
 [node name="Main" type="Node"]
 
@@ -27,3 +28,4 @@ script = ExtResource("2_0xm2m")
 [node name="DebugWorld" parent="MapSpawner" instance=ExtResource("3_h2yge")]
 
 [node name="BulletSpawner" type="Node" parent="."]
+script = ExtResource("4_1bvp3")
