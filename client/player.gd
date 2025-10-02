@@ -6,7 +6,7 @@ var is_local_player: bool:
 var id: int
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var speed: float = 5.0
-var mouse_sensitivity: float = 0.1
+var mouse_sensitivity: float = 0.0005
 var keys_motion: Vector2
 var mouse_motion: Vector2
 var client_prediction: bool = false
@@ -31,23 +31,17 @@ func _ready() -> void:
 	if not is_local_player: return
 	Engine.physics_jitter_fix = 0.0
 	$CameraArm/Camera3D.current = true
-	
-func _input(event: InputEvent) -> void:
-	if not get_window().has_focus(): return
-	if not is_local_player: return
 
-	if event is InputEventMouseMotion:
-		mouse_motion += event.relative
-		if not mouse_motion == Vector2.ZERO:
-			var data: Dictionary = {
-				"id": id,
-				"mouse_motion": mouse_motion
-			}
-			MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
-			mouse_motion = Vector2.ZERO
+#func _input(event: InputEvent) -> void:
+	#if not get_window().has_focus(): return
+	#if not is_local_player: return
+#
+	#if event is InputEventMouseMotion:
+		#mouse_motion += event.relative
+
 
 func _physics_process(delta: float) -> void:
-	
+
 	if interpolation:
 		# interpolation
 		if server_position != position:
@@ -57,6 +51,25 @@ func _physics_process(delta: float) -> void:
 
 	is_jumping=false
 	is_shooting=false
+
+
+
+
+	mouse_motion = Input.get_last_mouse_velocity()
+	if mouse_motion != Vector2.ZERO:
+		var data: Dictionary = {
+			"id": id,
+			"mouse_motion": mouse_motion
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
+		mouse_motion = Vector2.ZERO
+	
+	
+	
+	
+	
+	
+	
 	# TODO: brainstorming notes
 
 	# what do i need to sync from client to server:

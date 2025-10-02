@@ -3,7 +3,7 @@ extends CharacterBody3D
 var id: int
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var speed: float = 5.0
-var mouse_sensitivity : float = 0.1
+var mouse_sensitivity : float = 0.0005
 var keys_motion : Vector2
 var mouse_motion : Vector2
 var movement_speed: float = 5.0
@@ -15,6 +15,7 @@ var health : int = 200
 var mana : int = 200
 var stamina : int = 200
 var jump_force: int = 6
+var old_position: Vector3
 
 @onready var camera_arm: SpringArm3D =  $CameraArm
 
@@ -79,6 +80,7 @@ func handle_shoot() -> void:
 			mana-=10
 
 func handle_motion() -> void:
+	old_position = position
 	var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
 	if direction:
 		velocity.x = direction.x * speed
@@ -89,11 +91,12 @@ func handle_motion() -> void:
 	move_and_slide()
 	keys_motion = Vector2()
 	
-	var data: Dictionary = {
-		"id": id,
-		"position": position
-	}
-	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
+	if position != old_position:
+		var data: Dictionary = {
+			"id": id,
+			"position": position
+		}
+		MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
 
 func handle_rotation(delta: float) -> void:
 	if mouse_motion == Vector2.ZERO:
@@ -101,8 +104,7 @@ func handle_rotation(delta: float) -> void:
 
 	var rot : Vector3 = Vector3(mouse_motion.y, 0, mouse_motion.x) * mouse_sensitivity * delta
 	rotation.y -= rot.z
-	$CameraArm.rotation.x = clamp($CameraArm.rotation.x - rot.x, deg_to_rad(-70.0), deg_to_rad(30.0))
-
+	$CameraArm.rotation.x = clamp($CameraArm.rotation.x - rot.x, deg_to_rad(-70.0), deg_to_rad(50.0))
 	mouse_motion = Vector2.ZERO
 
 	var data: Dictionary = {
