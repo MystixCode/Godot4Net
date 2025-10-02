@@ -1,6 +1,5 @@
 extends Node
 
-# Signals
 signal on_connected_to_server()
 signal on_disconnected_from_server()
 
@@ -12,9 +11,8 @@ signal on_player_rotation_y_packet(player_rotation_y: Dictionary)
 signal on_ca_rotation_x_packet(ca_rotation_x: Dictionary)
 signal on_bullet_spawn_packet(bullet_spawn: Dictionary)
 signal on_bullet_despawn_packet(bullet_despawn: Dictionary)
-signal on_bullet_position_packet(bullet_position: Dictionary)
+signal on_bullet_position_packet(bullet_: Dictionary)
 
-# General variables
 var connection: ENetConnection
 var server_peer: ENetPacketPeer
 
@@ -71,7 +69,7 @@ func disconnected_from_server() -> void:
 	remote_ids = []
 	on_disconnected_from_server.emit()
 	print("Successfully disconnected from server!")
-	
+
 func on_packet_received(data: PackedByteArray) -> void:
 	var packet_type: int = data.decode_u8(0)
 	match packet_type:

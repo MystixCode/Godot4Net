@@ -116,7 +116,7 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("jump"):
 		is_jumping=true
-		print("jumping: ", is_jumping)
+
 		var data: Dictionary = {
 			"id": id,
 			"is_jumping": is_jumping

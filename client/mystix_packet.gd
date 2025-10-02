@@ -24,10 +24,10 @@ enum PACKET_TYPE {
 ## Encodes a packet based on type and provided data
 static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArray:
 	var result: PackedByteArray
-	
+
 	result.resize(1)
 	result.encode_u8(0, packet_type)
-	
+
 	match packet_type:
 		PACKET_TYPE.ID_ASSIGNMENT:
 			if not data.has("id") or not data.has("remote_ids"):
@@ -107,7 +107,6 @@ static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArra
 			if not data.has("id") or not data.has("position"):
 				push_error("Missing id  or position for BULLET_SPAWN")
 				return PackedByteArray()
-			# Fixed size: 1 (type) + 1 (id) + 10 (name, fixed length for "Bullet9999") + 12 (position Vector3)
 			result.resize(14)
 			result.encode_u8(1, data["id"])
 			result.encode_float(2, data["position"].x)
@@ -139,10 +138,10 @@ static func decode(data: PackedByteArray) -> Dictionary:
 	if data.is_empty():
 		push_error("Received empty packet data")
 		return {}
-	
+
 	var packet_type: int = data.decode_u8(0)
 	var result: Dictionary = {}
-	
+
 	match packet_type:
 		PACKET_TYPE.ID_ASSIGNMENT:
 			if data.size() < 2:

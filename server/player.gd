@@ -71,14 +71,12 @@ func handle_sprint() -> void:
 func handle_jump() -> void:
 	if is_jumping and is_on_floor():
 		velocity.y = jump_force
-		print("jumping")
 
 func handle_shoot() -> void:
 	if is_shooting:
 		if mana >= 10:
 			get_node("/root/Main/BulletSpawner").spawn(id)
 			mana-=10
-			
 
 func handle_motion() -> void:
 	var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
@@ -90,8 +88,6 @@ func handle_motion() -> void:
 		velocity.z = move_toward(velocity.z, 0, speed)
 	move_and_slide()
 	keys_motion = Vector2()
-
-	#PlayerPosition.create(owner_id, position).broadcast(Net.connection)
 	
 	var data: Dictionary = {
 		"id": id,
@@ -103,14 +99,12 @@ func handle_rotation(delta: float) -> void:
 	if mouse_motion == Vector2.ZERO:
 		return
 
-
 	var rot : Vector3 = Vector3(mouse_motion.y, 0, mouse_motion.x) * mouse_sensitivity * delta
 	rotation.y -= rot.z
 	$CameraArm.rotation.x = clamp($CameraArm.rotation.x - rot.x, deg_to_rad(-70.0), deg_to_rad(30.0))
 
-	# reset mouse motion
 	mouse_motion = Vector2.ZERO
-	
+
 	var data: Dictionary = {
 		"id": id,
 		"rotation_y": rotation.y

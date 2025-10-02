@@ -15,7 +15,6 @@ func on_bullet_spawn_packet(bullet_spawn: Dictionary) -> void:
 	b.name = str(bullet_spawn.id)
 	b.position = bullet_spawn.position
 	get_node("/root/Main/BulletSpawner").add_child(b, true)
-	
+
 func on_bullet_despawn_packet(bullet_despawn: Dictionary) -> void:
 	get_node("/root/Main/BulletSpawner/"+str(bullet_despawn.id)).queue_free()
-	
