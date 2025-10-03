@@ -75,28 +75,20 @@ func on_packet_received(data: PackedByteArray) -> void:
 	match packet_type:
 		MystixPacket.PACKET_TYPE.ID_ASSIGNMENT:
 			add_ids(MystixPacket.decode(data))
-
 		MystixPacket.PACKET_TYPE.ID_DEASSIGNMENT:
 			remove_id(MystixPacket.decode(data))
-
 		MystixPacket.PACKET_TYPE.PLAYER_POSITION:
 			on_player_position_packet.emit(MystixPacket.decode(data))
-
 		MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y:
 			on_player_rotation_y_packet.emit(MystixPacket.decode(data))
-
 		MystixPacket.PACKET_TYPE.CA_ROTATION_X:
 			on_ca_rotation_x_packet.emit(MystixPacket.decode(data))
-			
 		MystixPacket.PACKET_TYPE.BULLET_SPAWN:
 			on_bullet_spawn_packet.emit(MystixPacket.decode(data))
-
 		MystixPacket.PACKET_TYPE.BULLET_DESPAWN:
 			on_bullet_despawn_packet.emit(MystixPacket.decode(data))
-
 		MystixPacket.PACKET_TYPE.BULLET_POSITION:
 			on_bullet_position_packet.emit(MystixPacket.decode(data))
-
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")
 

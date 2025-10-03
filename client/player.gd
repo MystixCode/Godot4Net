@@ -1,5 +1,13 @@
 extends CharacterBody3D
 
+# TODO
+# mouse_motion optimimiere eventuell per precision intervall.
+# batch packages. batch should not be bigger than 1200-byte UDP safe limit. better define a much smaller limit  per batch. Creatle multiple batches if neccessary
+# threading.
+# send tick id from server to client with each packet and other way around.
+# discard out of order packets.
+# sync playername from server to client
+
 var is_local_player: bool:
 	get: return id == Net.id
 
@@ -11,7 +19,6 @@ var is_moving_left: bool = false
 var is_moving_right: bool = false
 var is_moving_forward: bool = false
 var is_moving_backward: bool = false
-#var keys_motion: Vector2
 var mouse_motion: Vector2
 var client_prediction: bool = false
 var interpolation: bool = false
@@ -20,7 +27,6 @@ var server_position: Vector3
 var is_sprinting: bool = false
 var is_jumping: bool = false
 var is_shooting: bool = false
-
 
 func _enter_tree() -> void:
 	Net.on_player_position_packet.connect(on_player_position_packet)
@@ -37,14 +43,6 @@ func _ready() -> void:
 	Engine.physics_jitter_fix = 0.0
 	$CameraArm/Camera3D.current = true
 
-#func _input(event: InputEvent) -> void:
-	#if not get_window().has_focus(): return
-	#if not is_local_player: return
-#
-	#if event is InputEventMouseMotion:
-		#mouse_motion += event.relative
-
-
 func _physics_process(delta: float) -> void:
 
 	if interpolation:
@@ -58,8 +56,6 @@ func _physics_process(delta: float) -> void:
 	is_shooting=false
 
 
-
-
 	mouse_motion = Input.get_last_mouse_velocity()
 	if mouse_motion != Vector2.ZERO:
 		var data: Dictionary = {
@@ -68,45 +64,8 @@ func _physics_process(delta: float) -> void:
 		}
 		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
 		mouse_motion = Vector2.ZERO
-	
-	
-	
-	
-	
-	
-	
-	# TODO: brainstorming notes
 
-	# what do i need to sync from client to server:
-	# ---------------------------------------------
-	# keys_motion --> Vector2D
-	# mouse_motion --> Vector2D
-	# is_jumping --> bool
-	# is_sprinting --> bool
-	# shoot --> bool
-	# zoom --> float
 
-	# what do i need to sync from server to client:
-	# ---------------------------------------------
-	# playername --> String
-	# position --> Vector3
-	# rotation --> Vector3
-	# ca_rotation.y --> float
-	# health = int
-	# stamina = int
-	# mana = int
-	
-	# use channel 0 for reliable, 1 for unreliable to prioritize reliable?
-	# when having at same tick multiple reliable or unreliable packets, combine them into a big package
-	# batch should not be bigger than 1200-byte UDP safe limit
-	# So creatle multiple batches if neccessary
-	
-	# drop unreliable packet if old / out of order
-	
-	# Handle invalid packages. / improve error handling
-	
-	
-	
 	if Input.is_action_just_pressed("move_left"):
 		is_moving_left=true
 
@@ -177,15 +136,6 @@ func _physics_process(delta: float) -> void:
 			"is_moving_backward": is_moving_backward
 		}
 		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD, data)
-		
-	#keys_motion = Input.get_vector("move_left", "move_right", "move_fw", "move_bw")
-	#if keys_motion != Vector2(0.0,0.0):
-		#var data: Dictionary = {
-			#"id": id,
-			#"keys_motion": keys_motion
-		#}
-		#MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.KEYS_MOTION, data)
-
 
 	if Input.is_action_just_pressed("sprint"):
 		is_sprinting=true
@@ -245,7 +195,7 @@ func handle_gravity(delta: float) -> void:
 		velocity.y -= gravity * delta
 
 func handle_motion() -> void:
-	
+
 	var input_direction := Vector2()
 	if is_moving_right:
 		input_direction.x += 1
@@ -265,19 +215,7 @@ func handle_motion() -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
-	
-	#var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
-	#if direction:
-		#velocity.x = direction.x * speed
-		#velocity.z = direction.z * speed
-	#else:
-		#velocity.x = move_toward(velocity.x, 0, speed)
-		#velocity.z = move_toward(velocity.z, 0, speed)
-	#move_and_slide()
-	#keys_motion = Vector2()
 
-	#PlayerPosition.create(owner_id, position).broadcast(Net.connection)
-	
 	var data: Dictionary = {
 		"id": id,
 		"position": position
@@ -290,8 +228,7 @@ func handle_rotation(delta: float) -> void:
 
 	rotation.y += -mouse_motion.x * mouse_sensitivity * delta
 	mouse_motion = Vector2.ZERO
-	
-	#print("rotation: ", rotation)
+
 	var data: Dictionary = {
 		"id": id,
 		"rotation_y": rotation.y
@@ -300,7 +237,6 @@ func handle_rotation(delta: float) -> void:
 
 func on_player_position_packet(player_position: Dictionary) -> void:
 	if id != player_position.id: return
-	#position = lerp(position,player_position.position,0.9)
 	if interpolation:
 		server_position = player_position.position
 	else:
@@ -308,12 +244,8 @@ func on_player_position_packet(player_position: Dictionary) -> void:
 
 func on_player_rotation_y_packet(player_rotation_y: Dictionary) -> void:
 	if id != player_rotation_y.id: return
-	
-	#print("rotation: ", player_rotation_y.rotation_y)
 	rotation.y = player_rotation_y.rotation_y
 
 func on_ca_rotation_x_packet(ca_rotation_x: Dictionary) -> void:
 	if id != ca_rotation_x.id: return
-	
-	#print("rotation: ", player_rotation_y.rotation_y)
 	$CameraArm.rotation.x = ca_rotation_x.ca_rotation_x

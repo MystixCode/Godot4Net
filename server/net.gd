@@ -1,6 +1,5 @@
 extends Node
 
-# Signals
 signal on_peer_connected(peer_id: int)
 signal on_peer_disconnected(peer_id: int)
 
@@ -8,13 +7,11 @@ signal on_is_moving_left_packet(peer_id: int, is_moving_left: Dictionary)
 signal on_is_moving_right_packet(peer_id: int, is_moving_right: Dictionary)
 signal on_is_moving_forward_packet(peer_id: int, is_moving_forward: Dictionary)
 signal on_is_moving_backward_packet(peer_id: int, is_moving_backward: Dictionary)
-#signal on_keys_motion_packet(peer_id: int, keys_motion: Dictionary)
 signal on_mouse_motion_packet(peer_id: int, mouse_motion: Dictionary)
 signal on_is_sprinting_packet(peer_id: int, is_sprinting: Dictionary)
 signal on_is_jumping_packet(peer_id: int, is_jumping: Dictionary)
 signal on_is_shooting_packet(peer_id: int, is_shooting: Dictionary)
 
-# General variables
 var connection: ENetConnection
 var available_peer_ids: Array = range(255, 1, -1) # 2-255
 var client_peers: Dictionary[int, ENetPacketPeer]
@@ -32,7 +29,6 @@ func start_server(ip_address: String = "127.0.0.1", port: int = 42069) -> void:
 func _process(_delta: float) -> void:
 	if connection == null:
 		return
-
 	handle_events()
 
 func handle_events() -> void:
@@ -52,7 +48,6 @@ func handle_events() -> void:
 					peer_disconnected(peer)
 				ENetConnection.EVENT_RECEIVE:
 					on_packet_received(peer.get_meta("id"), peer.get_packet())
-					#on_server_packet.emit(peer.get_meta("id"), peer.get_packet())
 
 			# Call service() again to handle remaining packets in current while loop
 			packet_event = connection.service()
@@ -67,7 +62,6 @@ func peer_connected(peer: ENetPacketPeer) -> void:
 	on_peer_connected.emit(peer_id) # used in spawn player
 	
 	peer_ids.append(peer_id)
-	#IDAssignment.create(peer_id, peer_ids).broadcast(Net.connection)
 
 	var data: Dictionary = {
 		"id": peer_id,
@@ -75,15 +69,12 @@ func peer_connected(peer: ENetPacketPeer) -> void:
 	}
 	MystixPacket.broadcast(connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.ID_ASSIGNMENT, data)
 
-#send(PACKET_TYPE.ID_ASSIGNMENT, data, peer, ENetPacketPeer.FLAG_RELIABLE)
-
 func peer_disconnected(peer: ENetPacketPeer) -> void:
 	var peer_id: int = peer.get_meta("id")
 	client_peers.erase(peer_id)
 
 	print("Peer disconnected: ", peer_id)
 	on_peer_disconnected.emit(peer_id) # used in despawn player
-	#IDDeassignment.create(peer_id).broadcast(Net.connection)
 
 	var data: Dictionary = {
 		"id": peer_id,
@@ -94,8 +85,6 @@ func peer_disconnected(peer: ENetPacketPeer) -> void:
 
 func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
 	match data[0]:
-		#MystixPacket.PACKET_TYPE.KEYS_MOTION:
-			#on_keys_motion_packet.emit(peer_id, MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.MOUSE_MOTION:
 			on_mouse_motion_packet.emit(peer_id, MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_SPRINTING:
