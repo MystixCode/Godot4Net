@@ -6,5 +6,5 @@ func _ready() -> void:
 func _on_button_pressed() -> void:
 	var ip_address: String = "127.0.0.1"
 	var port: int = 42069
-	Net.start_server(ip_address, port)
+	Network.start_server(ip_address, port)
 	queue_free()

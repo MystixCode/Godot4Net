@@ -17,7 +17,7 @@ config/icon="uid://8dyfc30infbf"
 
 [autoload]
 
-Net="*res://net.gd"
+Network="*res://network/network.gd"
 
 [debug]
 

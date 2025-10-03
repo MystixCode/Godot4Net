@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bxr7odba4vmcw"]
 
-[ext_resource type="Script" uid="uid://cc1ibj8ntljqm" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://cc1ibj8ntljqm" path="res://player/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://bux71iv3ncat0" path="res://focus.gd" id="2_onrkg"]
 [ext_resource type="Texture2D" uid="uid://bnalrg7u81hno" path="res://player/crosshair.png" id="3_i3pqv"]
 

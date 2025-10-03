@@ -6,5 +6,5 @@ func _ready() -> void:
 func _on_button_pressed() -> void:
 	var ip_address: String = $VBox/Address.text
 	var port: int = int($VBox/Port.value)
-	Net.start_client(ip_address, port)
+	Network.start_client(ip_address, port)
 	queue_free()

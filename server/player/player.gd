@@ -23,24 +23,24 @@ var old_position: Vector3
 @onready var camera_arm: SpringArm3D =  $CameraArm
 
 func _enter_tree() -> void:
-	Net.on_is_moving_left_packet.connect(on_is_moving_left_packet)
-	Net.on_is_moving_right_packet.connect(on_is_moving_right_packet)
-	Net.on_is_moving_forward_packet.connect(on_is_moving_forward_packet)
-	Net.on_is_moving_backward_packet.connect(on_is_moving_backward_packet)
-	Net.on_mouse_motion_packet.connect(on_mouse_motion_packet)
-	Net.on_is_sprinting_packet.connect(on_is_sprinting_packet)
-	Net.on_is_jumping_packet.connect(on_is_jumping_packet)
-	Net.on_is_shooting_packet.connect(on_is_shooting_packet)
+	Network.on_is_moving_left_packet.connect(on_is_moving_left_packet)
+	Network.on_is_moving_right_packet.connect(on_is_moving_right_packet)
+	Network.on_is_moving_forward_packet.connect(on_is_moving_forward_packet)
+	Network.on_is_moving_backward_packet.connect(on_is_moving_backward_packet)
+	Network.on_mouse_motion_packet.connect(on_mouse_motion_packet)
+	Network.on_is_sprinting_packet.connect(on_is_sprinting_packet)
+	Network.on_is_jumping_packet.connect(on_is_jumping_packet)
+	Network.on_is_shooting_packet.connect(on_is_shooting_packet)
 
 func _exit_tree() -> void:
-	Net.on_is_moving_left_packet.disconnect(on_is_moving_left_packet)
-	Net.on_is_moving_right_packet.disconnect(on_is_moving_right_packet)
-	Net.on_is_moving_forward_packet.disconnect(on_is_moving_forward_packet)
-	Net.on_is_moving_backward_packet.disconnect(on_is_moving_backward_packet)
-	Net.on_mouse_motion_packet.disconnect(on_mouse_motion_packet)
-	Net.on_is_sprinting_packet.disconnect(on_is_sprinting_packet)
-	Net.on_is_jumping_packet.disconnect(on_is_jumping_packet)
-	Net.on_is_shooting_packet.disconnect(on_is_shooting_packet)
+	Network.on_is_moving_left_packet.disconnect(on_is_moving_left_packet)
+	Network.on_is_moving_right_packet.disconnect(on_is_moving_right_packet)
+	Network.on_is_moving_forward_packet.disconnect(on_is_moving_forward_packet)
+	Network.on_is_moving_backward_packet.disconnect(on_is_moving_backward_packet)
+	Network.on_mouse_motion_packet.disconnect(on_mouse_motion_packet)
+	Network.on_is_sprinting_packet.disconnect(on_is_sprinting_packet)
+	Network.on_is_jumping_packet.disconnect(on_is_jumping_packet)
+	Network.on_is_shooting_packet.disconnect(on_is_shooting_packet)
 
 func _physics_process(delta: float) -> void:
 	handle_gravity(delta)
@@ -117,7 +117,7 @@ func handle_motion() -> void:
 			"id": id,
 			"position": position
 		}
-		MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
+		MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
 
 func handle_rotation(delta: float) -> void:
 	if mouse_motion == Vector2.ZERO:
@@ -132,13 +132,13 @@ func handle_rotation(delta: float) -> void:
 		"id": id,
 		"rotation_y": rotation.y
 	}
-	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y, data)
+	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y, data)
 
 	data = {
 		"id": id,
 		"ca_rotation_x": $CameraArm.rotation.x
 	}
-	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.CA_ROTATION_X, data)
+	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.CA_ROTATION_X, data)
 
 func on_is_moving_left_packet(peer_id: int, _is_moving_left: Dictionary) -> void:
 	if id != peer_id: return

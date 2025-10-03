@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dump2c64ctf0a"]
 
-[ext_resource type="Shader" uid="uid://cnqswquolea6f" path="res://grid.gdshader" id="1_spjia"]
+[ext_resource type="Shader" uid="uid://cnqswquolea6f" path="res://map/debug_world/grid.gdshader" id="1_spjia"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ppmq8"]
 render_priority = 0

@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 		"id": name.to_int(),
 		"position": position
 	}
-	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_POSITION, data)
+	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_POSITION, data)
 
 func _on_body_entered(body: Variant) -> void:
 	if body.has_method("damage"):

@@ -9,7 +9,7 @@ extends CharacterBody3D
 # sync playername from server to client
 
 var is_local_player: bool:
-	get: return id == Net.id
+	get: return id == Network.id
 
 var id: int
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -29,14 +29,14 @@ var is_jumping: bool = false
 var is_shooting: bool = false
 
 func _enter_tree() -> void:
-	Net.on_player_position_packet.connect(on_player_position_packet)
-	Net.on_player_rotation_y_packet.connect(on_player_rotation_y_packet)
-	Net.on_ca_rotation_x_packet.connect(on_ca_rotation_x_packet)
+	Network.on_player_position_packet.connect(on_player_position_packet)
+	Network.on_player_rotation_y_packet.connect(on_player_rotation_y_packet)
+	Network.on_ca_rotation_x_packet.connect(on_ca_rotation_x_packet)
 
 func _exit_tree() -> void:
-	Net.on_player_position_packet.disconnect(on_player_position_packet)
-	Net.on_player_rotation_y_packet.disconnect(on_player_rotation_y_packet)
-	Net.on_ca_rotation_x_packet.disconnect(on_ca_rotation_x_packet)
+	Network.on_player_position_packet.disconnect(on_player_position_packet)
+	Network.on_player_rotation_y_packet.disconnect(on_player_rotation_y_packet)
+	Network.on_ca_rotation_x_packet.disconnect(on_ca_rotation_x_packet)
 
 func _ready() -> void:
 	if not is_local_player: return
@@ -62,7 +62,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"mouse_motion": mouse_motion
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
 		mouse_motion = Vector2.ZERO
 
 
@@ -73,7 +73,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_moving_left": is_moving_left
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_LEFT, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_LEFT, data)
 	if Input.is_action_just_released("move_left"):
 		is_moving_left=false
 
@@ -81,7 +81,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_moving_left": is_moving_left
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_LEFT, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_LEFT, data)
 		
 	if Input.is_action_just_pressed("move_right"):
 		is_moving_right=true
@@ -90,7 +90,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_moving_right": is_moving_right
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT, data)
 		
 	if Input.is_action_just_released("move_right"):
 		is_moving_right=false
@@ -99,7 +99,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_moving_right": is_moving_right
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT, data)
 		
 	if Input.is_action_just_pressed("move_fw"):
 		is_moving_forward=true
@@ -108,7 +108,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_moving_forward": is_moving_forward
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD, data)
 		
 	if Input.is_action_just_released("move_fw"):
 		is_moving_forward=false
@@ -117,7 +117,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_moving_forward": is_moving_forward
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD, data)
 
 	if Input.is_action_just_pressed("move_bw"):
 		is_moving_backward=true
@@ -126,7 +126,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_moving_backward": is_moving_backward
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD, data)
 		
 	if Input.is_action_just_released("move_bw"):
 		is_moving_backward=false
@@ -135,7 +135,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_moving_backward": is_moving_backward
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD, data)
 
 	if Input.is_action_just_pressed("sprint"):
 		is_sprinting=true
@@ -144,7 +144,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_sprinting": is_sprinting
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SPRINTING, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SPRINTING, data)
 
 	if Input.is_action_just_released("sprint"):
 		is_sprinting=false
@@ -153,7 +153,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_sprinting": is_sprinting
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SPRINTING, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SPRINTING, data)
 		
 	if Input.is_action_just_pressed("jump"):
 		is_jumping=true
@@ -162,7 +162,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_jumping": is_jumping
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_JUMPING, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_JUMPING, data)
 
 	if Input.is_action_just_pressed("shoot"):
 		is_shooting=true
@@ -171,7 +171,7 @@ func _physics_process(delta: float) -> void:
 			"id": id,
 			"is_shooting": is_shooting
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SHOOTING, data)
+		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SHOOTING, data)
 
 	#if client_prediction:
 		#handle_gravity(delta)
@@ -220,7 +220,7 @@ func handle_motion() -> void:
 		"id": id,
 		"position": position
 	}
-	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
+	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
 
 func handle_rotation(delta: float) -> void:
 	if mouse_motion == Vector2.ZERO:
@@ -233,7 +233,7 @@ func handle_rotation(delta: float) -> void:
 		"id": id,
 		"rotation_y": rotation.y
 	}
-	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y, data)
+	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y, data)
 
 func on_player_position_packet(player_position: Dictionary) -> void:
 	if id != player_position.id: return

@@ -1,10 +1,10 @@
 extends Node
 
-const PLAYER = preload("res://player.tscn")
+const PLAYER = preload("res://player/player.tscn")
 
 func _ready() -> void:
-	Net.on_peer_connected.connect(spawn_player)
-	Net.on_peer_disconnected.connect(despawn_player)
+	Network.on_peer_connected.connect(spawn_player)
+	Network.on_peer_disconnected.connect(despawn_player)
 
 func spawn_player(id: int) -> void:
 	var player : CharacterBody3D = PLAYER.instantiate()

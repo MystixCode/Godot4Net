@@ -24,7 +24,7 @@ func spawn(player_id: int) -> void:
 		"id": bullet_id,
 		"position": b.position
 	}
-	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_SPAWN, data)
+	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_SPAWN, data)
 
 func despawn(bullet_id: int) -> void:	
 	bullet_ids.erase(bullet_id)
@@ -34,4 +34,4 @@ func despawn(bullet_id: int) -> void:
 	var data: Dictionary = {
 		"id":bullet_id	
 	}
-	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_DESPAWN, data)
+	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_DESPAWN, data)

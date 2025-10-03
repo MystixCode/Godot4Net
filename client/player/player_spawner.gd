@@ -1,12 +1,12 @@
 extends Node
 
-const PLAYER = preload("res://player.tscn")
+const PLAYER = preload("res://player/player.tscn")
 
 func _ready() -> void:
-	Net.handle_local_id_assignment.connect(spawn_player)
-	Net.handle_remote_id_assignment.connect(spawn_player)
-	Net.handle_remote_id_deassignment.connect(despawn_player)
-	Net.on_disconnected_from_server.connect(despawn_all_player)
+	Network.handle_local_id_assignment.connect(spawn_player)
+	Network.handle_remote_id_assignment.connect(spawn_player)
+	Network.handle_remote_id_deassignment.connect(despawn_player)
+	Network.on_disconnected_from_server.connect(despawn_all_player)
 
 func spawn_player(id: int) -> void:
 	var player : CharacterBody3D = PLAYER.instantiate()

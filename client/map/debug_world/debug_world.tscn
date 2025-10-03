@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://dump2c64ctf0a"]
 
-[ext_resource type="Shader" uid="uid://exya7h6atsnd" path="res://grid.gdshader" id="1_spjia"]
+[ext_resource type="Shader" uid="uid://exya7h6atsnd" path="res://map/debug_world/grid.gdshader" id="1_spjia"]
 [ext_resource type="ArrayMesh" uid="uid://ulbrhqt7wgcc" path="res://grass/grass_1.mesh" id="3_n16uc"]
-[ext_resource type="Shader" uid="uid://cpmoqusw0i7wi" path="res://water.gdshader" id="3_nj5k2"]
+[ext_resource type="Shader" uid="uid://cpmoqusw0i7wi" path="res://map/debug_world/water.gdshader" id="3_nj5k2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ppmq8"]
 render_priority = 0

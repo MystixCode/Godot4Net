@@ -3,10 +3,10 @@ extends Area3D
 var from_player : int
 
 func _enter_tree() -> void:
-	Net.on_bullet_position_packet.connect(on_bullet_position_packet)
+	Network.on_bullet_position_packet.connect(on_bullet_position_packet)
 
 func _exit_tree() -> void:
-	Net.on_bullet_position_packet.disconnect(on_bullet_position_packet)
+	Network.on_bullet_position_packet.disconnect(on_bullet_position_packet)
 
 #func _ready() -> void:
 	#print("hello world from: " + str(name))

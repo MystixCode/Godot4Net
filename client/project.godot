@@ -17,7 +17,7 @@ config/icon="uid://cinx6r6mcjwmm"
 
 [autoload]
 
-Net="*res://net.gd"
+Network="*res://network/network.gd"
 
 [debug]
 

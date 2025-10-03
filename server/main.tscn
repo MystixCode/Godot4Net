@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://befo12637qm5r"]
 
-[ext_resource type="Script" uid="uid://1efltmg3b563" path="res://launcher.gd" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://b3mfe3lapk0u1" path="res://player_spawner.gd" id="2_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://dump2c64ctf0a" path="res://debug_world.tscn" id="3_h2yge"]
-[ext_resource type="Script" uid="uid://xr8kf2asqpu5" path="res://bullet_spawner.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://1efltmg3b563" path="res://ui/launcher.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://b3mfe3lapk0u1" path="res://player/player_spawner.gd" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dump2c64ctf0a" path="res://map/debug_world/debug_world.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://xr8kf2asqpu5" path="res://bullet/bullet_spawner.gd" id="4_1bvp3"]
 
 [node name="Main" type="Node"]
 
