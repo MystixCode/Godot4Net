@@ -51,7 +51,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
-	# Rate limit position
+
 	position_timer += delta
 	if position_timer >= position_interval:
 		var data: Dictionary = { "id": name.to_int(), "position": position }

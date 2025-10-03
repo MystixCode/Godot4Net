@@ -63,10 +63,7 @@ func peer_connected(peer: ENetPacketPeer) -> void:
 	
 	peer_ids.append(peer_id)
 
-	var data: Dictionary = {
-		"id": peer_id,
-		"remote_ids": peer_ids
-	}
+	var data: Dictionary = { "id": peer_id, "remote_ids": peer_ids }
 	MystixPacket.broadcast(connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.ID_ASSIGNMENT, data)
 
 func peer_disconnected(peer: ENetPacketPeer) -> void:
@@ -76,9 +73,7 @@ func peer_disconnected(peer: ENetPacketPeer) -> void:
 	print("Peer disconnected: ", peer_id)
 	on_peer_disconnected.emit(peer_id) # used in despawn player
 
-	var data: Dictionary = {
-		"id": peer_id,
-	}
+	var data: Dictionary = { "id": peer_id }
 	MystixPacket.broadcast(connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.ID_DEASSIGNMENT, data)
 
 	available_peer_ids.push_back(peer_id)

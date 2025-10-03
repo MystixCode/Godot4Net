@@ -115,8 +115,6 @@ func handle_motion(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, speed)
 	move_and_slide()
 
-
-	# Rate limit position
 	position_timer += delta
 	if position != old_position and position_timer >= position_interval:
 		var data: Dictionary = {"id": id, "position": position}
@@ -132,16 +130,10 @@ func handle_rotation(delta: float) -> void:
 	$CameraArm.rotation.x = clamp($CameraArm.rotation.x - rot.x, deg_to_rad(-70.0), deg_to_rad(50.0))
 	mouse_motion = Vector2.ZERO
 
-	var data: Dictionary = {
-		"id": id,
-		"rotation_y": rotation.y
-	}
+	var data: Dictionary = { "id": id, "rotation_y": rotation.y }
 	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y, data)
 
-	data = {
-		"id": id,
-		"ca_rotation_x": $CameraArm.rotation.x
-	}
+	data = { "id": id, "ca_rotation_x": $CameraArm.rotation.x }
 	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.CA_ROTATION_X, data)
 
 func on_is_moving_left_packet(peer_id: int, _is_moving_left: Dictionary) -> void:
