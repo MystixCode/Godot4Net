@@ -7,7 +7,11 @@ var id: int
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var speed: float = 5.0
 var mouse_sensitivity: float = 0.0005
-var keys_motion: Vector2
+var is_moving_left: bool = false
+var is_moving_right: bool = false
+var is_moving_forward: bool = false
+var is_moving_backward: bool = false
+#var keys_motion: Vector2
 var mouse_motion: Vector2
 var client_prediction: bool = false
 var interpolation: bool = false
@@ -16,6 +20,7 @@ var server_position: Vector3
 var is_sprinting: bool = false
 var is_jumping: bool = false
 var is_shooting: bool = false
+
 
 func _enter_tree() -> void:
 	Net.on_player_position_packet.connect(on_player_position_packet)
@@ -99,14 +104,87 @@ func _physics_process(delta: float) -> void:
 	# drop unreliable packet if old / out of order
 	
 	# Handle invalid packages. / improve error handling
+	
+	
+	
+	if Input.is_action_just_pressed("move_left"):
+		is_moving_left=true
 
-	keys_motion = Input.get_vector("move_left", "move_right", "move_fw", "move_bw")
-	if keys_motion != Vector2(0.0,0.0):
 		var data: Dictionary = {
 			"id": id,
-			"keys_motion": keys_motion
+			"is_moving_left": is_moving_left
 		}
-		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.KEYS_MOTION, data)
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_LEFT, data)
+	if Input.is_action_just_released("move_left"):
+		is_moving_left=false
+
+		var data: Dictionary = {
+			"id": id,
+			"is_moving_left": is_moving_left
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_LEFT, data)
+		
+	if Input.is_action_just_pressed("move_right"):
+		is_moving_right=true
+
+		var data: Dictionary = {
+			"id": id,
+			"is_moving_right": is_moving_right
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT, data)
+		
+	if Input.is_action_just_released("move_right"):
+		is_moving_right=false
+
+		var data: Dictionary = {
+			"id": id,
+			"is_moving_right": is_moving_right
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT, data)
+		
+	if Input.is_action_just_pressed("move_fw"):
+		is_moving_forward=true
+
+		var data: Dictionary = {
+			"id": id,
+			"is_moving_forward": is_moving_forward
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD, data)
+		
+	if Input.is_action_just_released("move_fw"):
+		is_moving_forward=false
+
+		var data: Dictionary = {
+			"id": id,
+			"is_moving_forward": is_moving_forward
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD, data)
+
+	if Input.is_action_just_pressed("move_bw"):
+		is_moving_backward=true
+
+		var data: Dictionary = {
+			"id": id,
+			"is_moving_backward": is_moving_backward
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD, data)
+		
+	if Input.is_action_just_released("move_bw"):
+		is_moving_backward=false
+
+		var data: Dictionary = {
+			"id": id,
+			"is_moving_backward": is_moving_backward
+		}
+		MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD, data)
+		
+	#keys_motion = Input.get_vector("move_left", "move_right", "move_fw", "move_bw")
+	#if keys_motion != Vector2(0.0,0.0):
+		#var data: Dictionary = {
+			#"id": id,
+			#"keys_motion": keys_motion
+		#}
+		#MystixPacket.send(Net.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.KEYS_MOTION, data)
 
 
 	if Input.is_action_just_pressed("sprint"):
@@ -167,15 +245,36 @@ func handle_gravity(delta: float) -> void:
 		velocity.y -= gravity * delta
 
 func handle_motion() -> void:
-	var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
+	
+	var input_direction := Vector2()
+	if is_moving_right:
+		input_direction.x += 1
+	if is_moving_left:
+		input_direction.x -= 1
+	if is_moving_forward:
+		input_direction.y -= 1  # Forward is negative Z in 3D
+	if is_moving_backward:
+		input_direction.y += 1  # Backward is positive Z in 3D
+
+	# Transform the input direction into 3D space and normalize
+	var direction := (transform.basis * Vector3(input_direction.x, 0, input_direction.y)).normalized()
+
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
-	move_and_slide()
-	keys_motion = Vector2()
+	
+	#var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
+	#if direction:
+		#velocity.x = direction.x * speed
+		#velocity.z = direction.z * speed
+	#else:
+		#velocity.x = move_toward(velocity.x, 0, speed)
+		#velocity.z = move_toward(velocity.z, 0, speed)
+	#move_and_slide()
+	#keys_motion = Vector2()
 
 	#PlayerPosition.create(owner_id, position).broadcast(Net.connection)
 	

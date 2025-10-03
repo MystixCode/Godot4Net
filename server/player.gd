@@ -4,7 +4,11 @@ var id: int
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var speed: float = 5.0
 var mouse_sensitivity : float = 0.0005
-var keys_motion : Vector2
+var is_moving_left: bool = false
+var is_moving_right: bool = false
+var is_moving_forward: bool = false
+var is_moving_backward: bool = false
+#var keys_motion : Vector2
 var mouse_motion : Vector2
 var movement_speed: float = 5.0
 var sprint_speed: float = 10.0
@@ -20,14 +24,22 @@ var old_position: Vector3
 @onready var camera_arm: SpringArm3D =  $CameraArm
 
 func _enter_tree() -> void:
-	Net.on_keys_motion_packet.connect(on_keys_motion_packet)
+	Net.on_is_moving_left_packet.connect(on_is_moving_left_packet)
+	Net.on_is_moving_right_packet.connect(on_is_moving_right_packet)
+	Net.on_is_moving_forward_packet.connect(on_is_moving_forward_packet)
+	Net.on_is_moving_backward_packet.connect(on_is_moving_backward_packet)
+	# Net.on_keys_motion_packet.connect(on_keys_motion_packet)
 	Net.on_mouse_motion_packet.connect(on_mouse_motion_packet)
 	Net.on_is_sprinting_packet.connect(on_is_sprinting_packet)
 	Net.on_is_jumping_packet.connect(on_is_jumping_packet)
 	Net.on_is_shooting_packet.connect(on_is_shooting_packet)
 
 func _exit_tree() -> void:
-	Net.on_keys_motion_packet.disconnect(on_keys_motion_packet)
+	Net.on_is_moving_left_packet.disconnect(on_is_moving_left_packet)
+	Net.on_is_moving_right_packet.disconnect(on_is_moving_right_packet)
+	Net.on_is_moving_forward_packet.disconnect(on_is_moving_forward_packet)
+	Net.on_is_moving_backward_packet.disconnect(on_is_moving_backward_packet)
+	#Net.on_keys_motion_packet.disconnect(on_keys_motion_packet)
 	Net.on_mouse_motion_packet.disconnect(on_mouse_motion_packet)
 	Net.on_is_sprinting_packet.disconnect(on_is_sprinting_packet)
 	Net.on_is_jumping_packet.disconnect(on_is_jumping_packet)
@@ -60,7 +72,7 @@ func handle_gravity(delta: float) -> void:
 		velocity.y -= gravity * delta
 
 func handle_sprint() -> void:
-	if is_sprinting and is_on_floor() and keys_motion != Vector2(0,0):
+	if is_sprinting and is_on_floor() and (is_moving_left or is_moving_right or is_moving_forward or is_moving_backward): # keys_motion != Vector2(0,0):
 		if stamina >= 1:
 			speed = sprint_speed
 			stamina-=1
@@ -81,7 +93,20 @@ func handle_shoot() -> void:
 
 func handle_motion() -> void:
 	old_position = position
-	var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
+	
+	var input_direction := Vector2()
+	if is_moving_right:
+		input_direction.x += 1
+	if is_moving_left:
+		input_direction.x -= 1
+	if is_moving_forward:
+		input_direction.y -= 1  # Forward is negative Z in 3D
+	if is_moving_backward:
+		input_direction.y += 1  # Backward is positive Z in 3D
+
+	# Transform the input direction into 3D space and normalize
+	var direction := (transform.basis * Vector3(input_direction.x, 0, input_direction.y)).normalized()
+
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
@@ -89,7 +114,16 @@ func handle_motion() -> void:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 	move_and_slide()
-	keys_motion = Vector2()
+	
+	#var direction := (transform.basis * Vector3(keys_motion.x, 0, keys_motion.y)).normalized()
+	#if direction:
+		#velocity.x = direction.x * speed
+		#velocity.z = direction.z * speed
+	#else:
+		#velocity.x = move_toward(velocity.x, 0, speed)
+		#velocity.z = move_toward(velocity.z, 0, speed)
+	#move_and_slide()
+	#keys_motion = Vector2()
 	
 	if position != old_position:
 		var data: Dictionary = {
@@ -119,11 +153,27 @@ func handle_rotation(delta: float) -> void:
 	}
 	MystixPacket.broadcast(Net.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.CA_ROTATION_X, data)
 
-func on_keys_motion_packet(peer_id: int, _keys_motion: Dictionary) -> void:
+func on_is_moving_left_packet(peer_id: int, _is_moving_left: Dictionary) -> void:
 	if id != peer_id: return
+	is_moving_left = _is_moving_left.is_moving_left
 
-	#print("keys_motion: ", _keys_motion.keys_motion)
-	keys_motion = _keys_motion.keys_motion
+func on_is_moving_right_packet(peer_id: int, _is_moving_right: Dictionary) -> void:
+	if id != peer_id: return
+	is_moving_right = _is_moving_right.is_moving_right
+
+func on_is_moving_forward_packet(peer_id: int, _is_moving_forward: Dictionary) -> void:
+	if id != peer_id: return
+	is_moving_forward = _is_moving_forward.is_moving_forward
+
+func on_is_moving_backward_packet(peer_id: int, _is_moving_backward: Dictionary) -> void:
+	if id != peer_id: return
+	is_moving_backward = _is_moving_backward.is_moving_backward
+
+#func on_keys_motion_packet(peer_id: int, _keys_motion: Dictionary) -> void:
+	#if id != peer_id: return
+#
+	##print("keys_motion: ", _keys_motion.keys_motion)
+	#keys_motion = _keys_motion.keys_motion
 
 func on_mouse_motion_packet(peer_id: int, _mouse_motion: Dictionary) -> void:
 	if id != peer_id: return

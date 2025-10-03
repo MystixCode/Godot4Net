@@ -4,7 +4,11 @@ extends Node
 signal on_peer_connected(peer_id: int)
 signal on_peer_disconnected(peer_id: int)
 
-signal on_keys_motion_packet(peer_id: int, keys_motion: Dictionary)
+signal on_is_moving_left_packet(peer_id: int, is_moving_left: Dictionary)
+signal on_is_moving_right_packet(peer_id: int, is_moving_right: Dictionary)
+signal on_is_moving_forward_packet(peer_id: int, is_moving_forward: Dictionary)
+signal on_is_moving_backward_packet(peer_id: int, is_moving_backward: Dictionary)
+#signal on_keys_motion_packet(peer_id: int, keys_motion: Dictionary)
 signal on_mouse_motion_packet(peer_id: int, mouse_motion: Dictionary)
 signal on_is_sprinting_packet(peer_id: int, is_sprinting: Dictionary)
 signal on_is_jumping_packet(peer_id: int, is_jumping: Dictionary)
@@ -90,8 +94,8 @@ func peer_disconnected(peer: ENetPacketPeer) -> void:
 
 func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
 	match data[0]:
-		MystixPacket.PACKET_TYPE.KEYS_MOTION:
-			on_keys_motion_packet.emit(peer_id, MystixPacket.decode(data))
+		#MystixPacket.PACKET_TYPE.KEYS_MOTION:
+			#on_keys_motion_packet.emit(peer_id, MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.MOUSE_MOTION:
 			on_mouse_motion_packet.emit(peer_id, MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_SPRINTING:
@@ -100,5 +104,13 @@ func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
 			on_is_jumping_packet.emit(peer_id, MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_SHOOTING:
 			on_is_shooting_packet.emit(peer_id, MystixPacket.decode(data))
+		MystixPacket.PACKET_TYPE.IS_MOVING_LEFT:
+			on_is_moving_left_packet.emit(peer_id, MystixPacket.decode(data))
+		MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT:
+			on_is_moving_right_packet.emit(peer_id, MystixPacket.decode(data))
+		MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD:
+			on_is_moving_forward_packet.emit(peer_id, MystixPacket.decode(data))
+		MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD:
+			on_is_moving_backward_packet.emit(peer_id, MystixPacket.decode(data))
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")

@@ -6,7 +6,11 @@ class_name MystixPacket
 enum PACKET_TYPE {
 	ID_ASSIGNMENT = 0,      ## Assigns client ID with remote IDs
 	ID_DEASSIGNMENT = 1,    ## Deassigns client ID
-	KEYS_MOTION = 11,       ## Keyboard movement (Vector2)
+	IS_MOVING_LEFT = 2,     ## Keyboard movement left (bool)
+	IS_MOVING_RIGHT = 3,    ## Keyboard movement right (bool)
+	IS_MOVING_FORWARD = 4,  ## Keyboard movement forward (bool)
+	IS_MOVING_BACKWARD = 5, ## Keyboard movement backward (bool)
+	# KEYS_MOTION = 11,       ## Keyboard movement (Vector2)
 	MOUSE_MOTION = 12,      ## Mouse motion (Vector2)
 	IS_SPRINTING = 13,      ## Sprinting state (bool)
 	IS_JUMPING = 14,        ## Jumping state (bool)
@@ -31,6 +35,12 @@ static func _encode_float(buffer: PackedByteArray, offset: int, value: float) ->
 static func _encode_vector2(buffer: PackedByteArray, offset: int, vector: Vector2) -> void:
 	_encode_float(buffer, offset, vector.x)
 	_encode_float(buffer, offset + 4, vector.y)
+
+## Encodes a Vector2 into a buffer at the specified offset.
+#static func _encode_vector2_half(buffer: PackedByteArray, offset: int, vector: Vector2) -> void:
+	#buffer.encode_half(offset, vector.x)
+	#buffer.encode_half(offset +2, vector.y)
+
 
 ## Encodes a Vector3 into a buffer at the specified offset.
 static func _encode_vector3(buffer: PackedByteArray, offset: int, vector: Vector3) -> void:
@@ -87,6 +97,8 @@ static func _validate_data(data: Dictionary, required_keys: Array[String], packe
 ## Encodes a packet based on the provided type and data.
 ## Returns a PackedByteArray or empty if invalid.
 static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArray:
+
+	
 	if not packet_type in PACKET_TYPE.values():
 		push_error("Invalid packet type: %d" % packet_type)
 		return PackedByteArray()
@@ -115,12 +127,40 @@ static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArra
 			buffer.resize(2)
 			_encode_uint8(buffer, 1, data["id"])
 
-		PACKET_TYPE.KEYS_MOTION:
-			if not _validate_data(data, ["id", "keys_motion"], packet_type):
+		PACKET_TYPE.IS_MOVING_LEFT:
+			if not _validate_data(data, ["id", "is_moving_left"], packet_type):
 				return PackedByteArray()
-			buffer.resize(10)
+			buffer.resize(3)
 			_encode_uint8(buffer, 1, data["id"])
-			_encode_vector2(buffer, 2, data["keys_motion"])
+			_encode_uint8(buffer, 2, data["is_moving_left"])
+
+		PACKET_TYPE.IS_MOVING_RIGHT:
+			if not _validate_data(data, ["id", "is_moving_right"], packet_type):
+				return PackedByteArray()
+			buffer.resize(3)
+			_encode_uint8(buffer, 1, data["id"])
+			_encode_uint8(buffer, 2, data["is_moving_right"])
+
+		PACKET_TYPE.IS_MOVING_FORWARD:
+			if not _validate_data(data, ["id", "is_moving_forward"], packet_type):
+				return PackedByteArray()
+			buffer.resize(3)
+			_encode_uint8(buffer, 1, data["id"])
+			_encode_uint8(buffer, 2, data["is_moving_forward"])
+
+		PACKET_TYPE.IS_MOVING_BACKWARD:
+			if not _validate_data(data, ["id", "is_moving_backward"], packet_type):
+				return PackedByteArray()
+			buffer.resize(3)
+			_encode_uint8(buffer, 1, data["id"])
+			_encode_uint8(buffer, 2, data["is_moving_backward"])
+			
+		#PACKET_TYPE.KEYS_MOTION:
+			#if not _validate_data(data, ["id", "keys_motion"], packet_type):
+				#return PackedByteArray()
+			#buffer.resize(10)
+			#_encode_uint8(buffer, 1, data["id"])
+			#_encode_vector2(buffer, 2, data["keys_motion"])
 
 		PACKET_TYPE.MOUSE_MOTION:
 			if not _validate_data(data, ["id", "mouse_motion"], packet_type):
@@ -134,21 +174,21 @@ static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArra
 				return PackedByteArray()
 			buffer.resize(3)
 			_encode_uint8(buffer, 1, data["id"])
-			_encode_uint8(buffer, 2, 1 if data["is_sprinting"] else 0)
+			_encode_uint8(buffer, 2, data["is_sprinting"])
 
 		PACKET_TYPE.IS_JUMPING:
 			if not _validate_data(data, ["id", "is_jumping"], packet_type):
 				return PackedByteArray()
 			buffer.resize(3)
 			_encode_uint8(buffer, 1, data["id"])
-			_encode_uint8(buffer, 2, 1 if data["is_jumping"] else 0)
+			_encode_uint8(buffer, 2, data["is_jumping"])
 
 		PACKET_TYPE.IS_SHOOTING:
 			if not _validate_data(data, ["id", "is_shooting"], packet_type):
 				return PackedByteArray()
 			buffer.resize(3)
 			_encode_uint8(buffer, 1, data["id"])
-			_encode_uint8(buffer, 2, 1 if data["is_shooting"] else 0)
+			_encode_uint8(buffer, 2, data["is_shooting"])
 
 		PACKET_TYPE.PLAYER_POSITION:
 			if not _validate_data(data, ["id", "position"], packet_type):
@@ -234,14 +274,50 @@ static func decode(data: PackedByteArray) -> Dictionary:
 				return {}
 			result = {"id": _decode_uint8(data, 1)}
 
-		PACKET_TYPE.KEYS_MOTION:
-			if data.size() < 10:
-				push_error("Invalid KEYS_MOTION packet size: %d, expected >= 10" % data.size())
+		PACKET_TYPE.IS_MOVING_LEFT:
+			if data.size() < 3:
+				push_error("Invalid IS_MOVING_LEFT packet size: %d, expected >= 3" % data.size())
 				return {}
 			result = {
 				"id": _decode_uint8(data, 1),
-				"keys_motion": _decode_vector2(data, 2)
+				"is_moving_left": _decode_uint8(data, 2) == 1
 			}
+
+		PACKET_TYPE.IS_MOVING_RIGHT:
+			if data.size() < 3:
+				push_error("Invalid IS_MOVING_RIGHT packet size: %d, expected >= 3" % data.size())
+				return {}
+			result = {
+				"id": _decode_uint8(data, 1),
+				"is_moving_right": _decode_uint8(data, 2) == 1
+			}
+
+		PACKET_TYPE.IS_MOVING_FORWARD:
+			if data.size() < 3:
+				push_error("Invalid IS_MOVING_FORWARD packet size: %d, expected >= 3" % data.size())
+				return {}
+			result = {
+				"id": _decode_uint8(data, 1),
+				"is_moving_forward": _decode_uint8(data, 2) == 1
+			}
+
+		PACKET_TYPE.IS_MOVING_BACKWARD:
+			if data.size() < 3:
+				push_error("Invalid IS_MOVING_BACKWARD packet size: %d, expected >= 3" % data.size())
+				return {}
+			result = {
+				"id": _decode_uint8(data, 1),
+				"is_moving_backward": _decode_uint8(data, 2) == 1
+			}
+
+		#PACKET_TYPE.KEYS_MOTION:
+			#if data.size() < 10:
+				#push_error("Invalid KEYS_MOTION packet size: %d, expected >= 10" % data.size())
+				#return {}
+			#result = {
+				#"id": _decode_uint8(data, 1),
+				#"keys_motion": _decode_vector2(data, 2)
+			#}
 
 		PACKET_TYPE.MOUSE_MOTION:
 			if data.size() < 10:
