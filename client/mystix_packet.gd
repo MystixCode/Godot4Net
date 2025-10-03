@@ -1,82 +1,58 @@
-# Class for network packet handling using ENet low-level API
-# All methods are static, no instantiation required
+## Class for network packet handling using ENet low-level API.
+## All methods are static, no instantiation required.
 class_name MystixPacket
 
-# Packet types for network communication
+## Custom packet types for network communication
 enum PACKET_TYPE {
-	ID_ASSIGNMENT = 0,      # Assigns client ID with remote IDs
-	ID_DEASSIGNMENT = 1,    # Deassigns client ID
-	KEYS_MOTION = 11,       # Keyboard movement (Vector2)
-	MOUSE_MOTION = 12,      # Mouse motion (Vector2)
-	IS_SPRINTING = 13,      # Sprinting state (bool)
-	IS_JUMPING = 14,        # Jumping state (bool)
-	IS_SHOOTING = 15,       # Shooting state (bool)
-	PLAYER_POSITION = 16,   # Player position (Vector3)
-	PLAYER_ROTATION_Y = 17, # Player Y rotation (float)
-	CA_ROTATION_X = 18,     # Camera X rotation (float)
-	BULLET_SPAWN = 19,      # Bullet spawn position (Vector3)
-	BULLET_DESPAWN = 20,    # Bullet despawn by ID
-	BULLET_POSITION = 21    # Bullet position (Vector3)
+	ID_ASSIGNMENT = 0,      ## Assigns client ID with remote IDs
+	ID_DEASSIGNMENT = 1,    ## Deassigns client ID
+	KEYS_MOTION = 11,       ## Keyboard movement (Vector2)
+	MOUSE_MOTION = 12,      ## Mouse motion (Vector2)
+	IS_SPRINTING = 13,      ## Sprinting state (bool)
+	IS_JUMPING = 14,        ## Jumping state (bool)
+	IS_SHOOTING = 15,       ## Shooting state (bool)
+	PLAYER_POSITION = 16,   ## Player position (Vector3)
+	PLAYER_ROTATION_Y = 17, ## Player Y rotation (float)
+	CA_ROTATION_X = 18,     ## Camera X rotation (float)
+	BULLET_SPAWN = 19,      ## Bullet spawn position (Vector3)
+	BULLET_DESPAWN = 20,    ## Bullet despawn by ID
+	BULLET_POSITION = 21    ## Bullet position (Vector3)
 }
 
-## Encodes an 8-bit unsigned integer into a buffer at the specified offset.[br]
-## [param buffer]: The PackedByteArray to encode into.[br]
-## [param offset]: The byte offset in the buffer.[br]
-## [param value]: The integer value to encode.[br]
-## No return value.
+## Encodes an 8-bit unsigned integer into a buffer at the specified offset.
 static func _encode_uint8(buffer: PackedByteArray, offset: int, value: int) -> void:
 	buffer.encode_u8(offset, value)
 
-## Encodes a float into a buffer at the specified offset.[br]
-## [param buffer]: The PackedByteArray to encode into.[br]
-## [param offset]: The byte offset in the buffer.[br]
-## [param value]: The float value to encode.[br]
-## No return value.
+## Encodes a float into a buffer at the specified offset.
 static func _encode_float(buffer: PackedByteArray, offset: int, value: float) -> void:
 	buffer.encode_float(offset, value)
 
-## Encodes a Vector2 into a buffer at the specified offset.[br]
-## [param buffer]: The PackedByteArray to encode into.[br]
-## [param offset]: The byte offset in the buffer.[br]
-## [param vector]: The Vector2 to encode.[br]
-## No return value.
+## Encodes a Vector2 into a buffer at the specified offset.
 static func _encode_vector2(buffer: PackedByteArray, offset: int, vector: Vector2) -> void:
 	_encode_float(buffer, offset, vector.x)
 	_encode_float(buffer, offset + 4, vector.y)
 
-## Encodes a Vector3 into a buffer at the specified offset.[br]
-## [param buffer]: The PackedByteArray to encode into.[br]
-## [param offset]: The byte offset in the buffer.[br]
-## [param vector]: The Vector3 to encode.[br]
-## No return value.
+## Encodes a Vector3 into a buffer at the specified offset.
 static func _encode_vector3(buffer: PackedByteArray, offset: int, vector: Vector3) -> void:
 	_encode_float(buffer, offset, vector.x)
 	_encode_float(buffer, offset + 4, vector.y)
 	_encode_float(buffer, offset + 8, vector.z)
 
-## Decodes an 8-bit unsigned integer from a buffer at the specified offset.[br]
-## [param buffer]: The PackedByteArray to decode from.[br]
-## [param offset]: The byte offset in the buffer.[br]
-## Returns the decoded integer or 0 if invalid.
+## Decodes an 8-bit unsigned integer from a buffer at the specified offset.
 static func _decode_uint8(buffer: PackedByteArray, offset: int) -> int:
 	if offset < 0 or offset >= buffer.size():
 		push_error("Invalid uint8 decode offset: %d, buffer size: %d" % [offset, buffer.size()])
 		return 0
 	return buffer.decode_u8(offset)
 
-## Decodes a float from a buffer at the specified offset.[br]
-## [param buffer]: The PackedByteArray to decode from.[br]
-## [param offset]: The byte offset in the buffer.[br]
-## Returns the decoded float or 0.0 if invalid.
+## Decodes a float from a buffer at the specified offset.
 static func _decode_float(buffer: PackedByteArray, offset: int) -> float:
 	if offset < 0 or offset > (buffer.size() - 4):
 		push_error("Invalid float decode offset: %d, buffer size: %d" % [offset, buffer.size()])
 		return 0.0
 	return buffer.decode_float(offset)
 
-## Decodes a Vector2 from a buffer at the specified offset.[br]
-## [param buffer]: The PackedByteArray to decode from.[br]
-## [param offset]: The byte offset in the buffer.[br]
+## Decodes a Vector2 from a buffer at the specified offset.
 ## Returns the decoded Vector2 or Vector2.ZERO if invalid.
 static func _decode_vector2(buffer: PackedByteArray, offset: int) -> Vector2:
 	if offset < 0 or offset > (buffer.size() - 8):
@@ -87,9 +63,7 @@ static func _decode_vector2(buffer: PackedByteArray, offset: int) -> Vector2:
 		_decode_float(buffer, offset + 4)
 	)
 
-## Decodes a Vector3 from a buffer at the specified offset.[br]
-## [param buffer]: The PackedByteArray to decode from.[br]
-## [param offset]: The byte offset in the buffer.[br]
+## Decodes a Vector3 from a buffer at the specified offset.
 ## Returns the decoded Vector3 or Vector3.ZERO if invalid.
 static func _decode_vector3(buffer: PackedByteArray, offset: int) -> Vector3:
 	if offset < 0 or offset > (buffer.size() - 12):
@@ -101,10 +75,7 @@ static func _decode_vector3(buffer: PackedByteArray, offset: int) -> Vector3:
 		_decode_float(buffer, offset + 8)
 	)
 
-## Validates required keys in a data dictionary.[br]
-## [param data]: The Dictionary to validate.[br]
-## [param required_keys]: Array of required key names.[br]
-## [param packet_type]: The PACKET_TYPE enum value.[br]
+## Validates required keys in a data dictionary.
 ## Returns true if all keys are present, false otherwise.
 static func _validate_data(data: Dictionary, required_keys: Array[String], packet_type: PACKET_TYPE) -> bool:
 	for key in required_keys:
@@ -113,9 +84,7 @@ static func _validate_data(data: Dictionary, required_keys: Array[String], packe
 			return false
 	return true
 
-## Encodes a packet based on the provided type and data.[br]
-## [param packet_type]: The type of packet from the PACKET_TYPE enum.[br]
-## [param data]: Dictionary containing the packet data.[br]
+## Encodes a packet based on the provided type and data.
 ## Returns a PackedByteArray or empty if invalid.
 static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArray:
 	if not packet_type in PACKET_TYPE.values():
@@ -230,8 +199,7 @@ static func encode(packet_type: PACKET_TYPE, data: Dictionary) -> PackedByteArra
 	print("Encoded packet size: %d, data: %s" % [buffer.size(), buffer.hex_encode()])
 	return buffer
 
-## Decodes a packet from the provided data.[br]
-## [param data]: PackedByteArray containing the packet data.[br]
+## Decodes a packet from the provided data.
 ## Returns a Dictionary with decoded data or empty if invalid.
 static func decode(data: PackedByteArray) -> Dictionary:
 	if data.is_empty():
@@ -368,23 +336,15 @@ static func decode(data: PackedByteArray) -> Dictionary:
 
 	return result
 
-## Sends a packet to a specific peer.[br]
-## [param target_peer]: The ENetPacketPeer to send the packet to.[br]
-## [param transfer_mode]: The ENet transfer mode (e.g., [code]ENetPacketPeer.FLAG_RELIABLE[/code], [code]ENetPacketPeer.FLAG_UNSEQUENCED[/code]).[br]
-## [param packet_type]: The type of packet from the PACKET_TYPE enum.[br]
-## [param data]: Dictionary containing the packet data.[br]
-## No return value.
+## Sends a packet to a specific peer.
+## [param transfer_mode]: [code]ENetPacketPeer.FLAG_RELIABLE[/code], [code]ENetPacketPeer.FLAG_UNSEQUENCED[/code].
 static func send(target_peer: ENetPacketPeer, transfer_mode: int, packet_type: PACKET_TYPE, data: Dictionary) -> void:
 	var encoded := encode(packet_type, data)
 	if not encoded.is_empty():
 		target_peer.send(0, encoded, transfer_mode)
 
-## Broadcasts a packet to all clients.[br]
-## [param connection]: The ENetConnection to broadcast through.[br]
-## [param transfer_mode]: The ENet transfer mode (e.g., [code]ENetPacketPeer.FLAG_RELIABLE[/code], [code]ENetPacketPeer.FLAG_UNSEQUENCED[/code]).[br]
-## [param packet_type]: The type of packet from the PACKET_TYPE enum.[br]
-## [param data]: Dictionary containing the packet data.[br]
-## No return value.
+## Broadcasts a packet to all clients.
+## [param transfer_mode]: [code]ENetPacketPeer.FLAG_RELIABLE[/code], [code]ENetPacketPeer.FLAG_UNSEQUENCED[/code].
 static func broadcast(connection: ENetConnection, transfer_mode: int, packet_type: PACKET_TYPE, data: Dictionary) -> void:
 	var encoded := encode(packet_type, data)
 	if not encoded.is_empty():
