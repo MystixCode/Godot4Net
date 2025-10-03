@@ -13,6 +13,8 @@ you can run the server headless
 ```bash
 godot --display-driver headless --path git/Godot4Net/server/
 ```
+## Custom class for low-level ENet UDP packets
+<img src="MystixPacket.png" width="100%" height="100%">
 
 ## Tested on
 
