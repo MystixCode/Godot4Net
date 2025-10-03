@@ -5,7 +5,7 @@ Server and client are separated into two projects and its 3D thirdperson.
 
 Any help is appreciated <3
 
-<img src="screenshot.png" width="50%" height="50%">
+<img src="screenshot.png" width="100%" height="100%">
 
 ## Headless server mode
 you can run the server headless
