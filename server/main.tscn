@@ -1,24 +1,30 @@
 [gd_scene load_steps=5 format=3 uid="uid://befo12637qm5r"]
 
-[ext_resource type="Script" uid="uid://1efltmg3b563" path="res://button.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://1efltmg3b563" path="res://launcher.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b3mfe3lapk0u1" path="res://player_spawner.gd" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dump2c64ctf0a" path="res://debug_world.tscn" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://xr8kf2asqpu5" path="res://bullet_spawner.gd" id="4_1bvp3"]
 
 [node name="Main" type="Node"]
 
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="UI" type="Node" parent="."]
 
-[node name="Button" type="Button" parent="UI"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Start Server"
+[node name="Launcher" type="CanvasLayer" parent="UI"]
 script = ExtResource("1_ig7tw")
+
+[node name="Button" type="Button" parent="UI/Launcher"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -15.5
+offset_right = 50.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Start Server"
 
 [node name="PlayerSpawner" type="Node" parent="."]
 script = ExtResource("2_0xm2m")

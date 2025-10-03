@@ -1,24 +1,39 @@
 [gd_scene load_steps=5 format=3 uid="uid://do723hs613s4o"]
 
-[ext_resource type="Script" uid="uid://ckxivojfronf" path="res://button.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://c0nr67m75epy7" path="res://launcher.gd" id="1_1bvp3"]
 [ext_resource type="Script" uid="uid://i47voa6rx66h" path="res://player_spawner.gd" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dump2c64ctf0a" path="res://debug_world.tscn" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://no76l35sst41" path="res://bullet_spawner.gd" id="4_1bvp3"]
 
 [node name="Main" type="Node"]
 
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="UI" type="Node" parent="."]
 
-[node name="Button" type="Button" parent="UI"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="Launcher" type="CanvasLayer" parent="UI"]
+script = ExtResource("1_1bvp3")
+
+[node name="VBox" type="VBoxContainer" parent="UI/Launcher"]
+offset_left = 528.0
+offset_top = 273.0
+offset_right = 623.0
+offset_bottom = 374.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Address" type="LineEdit" parent="UI/Launcher/VBox"]
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "Address"
+
+[node name="Port" type="SpinBox" parent="UI/Launcher/VBox"]
+layout_mode = 2
+min_value = 1.0
+max_value = 65535.0
+value = 42069.0
+
+[node name="Button" type="Button" parent="UI/Launcher/VBox"]
+layout_mode = 2
 text = "Start Client"
-script = ExtResource("1_ig7tw")
 
 [node name="PlayerSpawner" type="Node" parent="."]
 script = ExtResource("2_0xm2m")
