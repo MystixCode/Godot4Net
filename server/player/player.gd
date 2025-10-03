@@ -20,6 +20,9 @@ var stamina : int = 200
 var jump_force: int = 6
 var old_position: Vector3
 
+var position_timer := 0.0
+@export var position_interval := 0.005
+
 @onready var camera_arm: SpringArm3D =  $CameraArm
 
 func _enter_tree() -> void:
@@ -48,7 +51,7 @@ func _physics_process(delta: float) -> void:
 	handle_jump()
 	handle_shoot()
 	handle_rotation(delta)
-	handle_motion()
+	handle_motion(delta)
 	is_jumping = false
 	is_shooting = false
 
@@ -88,7 +91,7 @@ func handle_shoot() -> void:
 			get_node("/root/Main/BulletSpawner").spawn(id)
 			mana-=10
 
-func handle_motion() -> void:
+func handle_motion(delta: float) -> void:
 	old_position = position
 	
 	var input_direction := Vector2()
@@ -112,12 +115,13 @@ func handle_motion() -> void:
 		velocity.z = move_toward(velocity.z, 0, speed)
 	move_and_slide()
 
-	if position != old_position:
-		var data: Dictionary = {
-			"id": id,
-			"position": position
-		}
+
+	# Rate limit position
+	position_timer += delta
+	if position != old_position and position_timer >= position_interval:
+		var data: Dictionary = {"id": id, "position": position}
 		MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
+		position_timer = 0.0
 
 func handle_rotation(delta: float) -> void:
 	if mouse_motion == Vector2.ZERO:

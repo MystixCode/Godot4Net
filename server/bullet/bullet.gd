@@ -9,6 +9,9 @@ var direction: Vector3 = Vector3.ZERO
 var timer: Timer
 var audio_player: AudioStreamPlayer3D
 
+var position_timer := 0.0
+@export var position_interval := 0.01
+
 func _ready() -> void:
 	if not from_player:
 		push_warning("from_player not assigned!")
@@ -34,8 +37,8 @@ func _ready() -> void:
 	var result: Dictionary = space_state.intersect_ray(query)
 	var target_position: Vector3 = result.position if result else camera_ray_origin + camera_ray_normal * ray_length
 
-	global_transform.origin = shoot_from.global_transform.origin
-	direction = (target_position - global_transform.origin).normalized()
+	position = shoot_from.global_transform.origin
+	direction = (target_position - position).normalized()
 
 	timer = Timer.new()
 	add_child(timer)
@@ -47,12 +50,13 @@ func _ready() -> void:
 	connect("body_entered", Callable(self, "_on_body_entered"))
 
 func _physics_process(delta: float) -> void:
-	global_transform.origin += direction * speed * delta
-	var data: Dictionary = {
-		"id": name.to_int(),
-		"position": position
-	}
-	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_POSITION, data)
+	position += direction * speed * delta
+	# Rate limit position
+	position_timer += delta
+	if position_timer >= position_interval:
+		var data: Dictionary = { "id": name.to_int(), "position": position }
+		MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_POSITION, data)
+		position_timer = 0.0
 
 func _on_body_entered(body: Variant) -> void:
 	if body.has_method("damage"):

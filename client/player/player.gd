@@ -19,7 +19,7 @@ var is_moving_left: bool = false
 var is_moving_right: bool = false
 var is_moving_forward: bool = false
 var is_moving_backward: bool = false
-var mouse_motion: Vector2
+var mouse_motion: Vector2 = Vector2.ZERO
 var client_prediction: bool = false
 var interpolation: bool = false
 var interpolation_speed: float = 10.0
@@ -27,6 +27,9 @@ var server_position: Vector3
 var is_sprinting: bool = false
 var is_jumping: bool = false
 var is_shooting: bool = false
+
+var mouse_motion_timer := 0.0
+var mouse_motion_interval := 0.01  # Adjust as desired
 
 func _enter_tree() -> void:
 	Network.on_player_position_packet.connect(on_player_position_packet)
@@ -55,15 +58,24 @@ func _physics_process(delta: float) -> void:
 	is_jumping=false
 	is_shooting=false
 
-
+	mouse_motion_timer += delta
 	mouse_motion = Input.get_last_mouse_velocity()
-	if mouse_motion != Vector2.ZERO:
+	if mouse_motion != Vector2.ZERO and mouse_motion_timer >= mouse_motion_interval:
 		var data: Dictionary = {
 			"id": id,
 			"mouse_motion": mouse_motion
 		}
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
 		mouse_motion = Vector2.ZERO
+		mouse_motion_timer = 0.0
+	#mouse_motion = Input.get_last_mouse_velocity()
+	#if mouse_motion != Vector2.ZERO:
+		#var data: Dictionary = {
+			#"id": id,
+			#"mouse_motion": mouse_motion
+		#}
+		#MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
+		#mouse_motion = Vector2.ZERO
 
 
 	if Input.is_action_just_pressed("move_left"):
