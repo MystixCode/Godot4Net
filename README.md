@@ -5,16 +5,13 @@ Server and client are separated into two projects and its 3D thirdperson.
 
 Any help is appreciated <3
 
-## early pre-alpha state, not ready yet!
-Still working on basic ideas how to structure code etc. Just a poc so far.
+<img src="screenshot.png" width="50%" height="50%">
 
 ## Headless server mode
 you can run the server headless
 ```bash
 godot --display-driver headless --path git/Godot4Net/server/
 ```
-## Custom class for low-level ENet UDP packets
-<img src="MystixPacket.png" width="100%" height="100%">
 
 ## Tested on
 
