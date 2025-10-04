@@ -117,7 +117,7 @@ func handle_motion(delta: float) -> void:
 
 	position_timer += delta
 	if position != old_position and position_timer >= position_interval:
-		var data: Dictionary = {"id": id, "position": position}
+		var data: Array = [ id, position]
 		MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_POSITION, data)
 		position_timer = 0.0
 
@@ -130,40 +130,40 @@ func handle_rotation(delta: float) -> void:
 	$CameraArm.rotation.x = clamp($CameraArm.rotation.x - rot.x, deg_to_rad(-70.0), deg_to_rad(50.0))
 	mouse_motion = Vector2.ZERO
 
-	var data: Dictionary = { "id": id, "rotation_y": rotation.y }
+	var data: Array = [ id, rotation.y ]
 	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.PLAYER_ROTATION_Y, data)
 
-	data = { "id": id, "ca_rotation_x": $CameraArm.rotation.x }
+	data = [ id, $CameraArm.rotation.x ]
 	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.CA_ROTATION_X, data)
 
-func on_is_moving_left_packet(peer_id: int, _is_moving_left: Dictionary) -> void:
-	if id != peer_id: return
-	is_moving_left = _is_moving_left.is_moving_left
+func on_is_moving_left_packet(data: Array) -> void:
+	if id != data[0]: return
+	is_moving_left = data[1]
 
-func on_is_moving_right_packet(peer_id: int, _is_moving_right: Dictionary) -> void:
-	if id != peer_id: return
-	is_moving_right = _is_moving_right.is_moving_right
+func on_is_moving_right_packet(_is_moving_right: Array) -> void:
+	if id != _is_moving_right[0]: return
+	is_moving_right = _is_moving_right[1]
 
-func on_is_moving_forward_packet(peer_id: int, _is_moving_forward: Dictionary) -> void:
-	if id != peer_id: return
-	is_moving_forward = _is_moving_forward.is_moving_forward
+func on_is_moving_forward_packet( _is_moving_forward: Array) -> void:
+	if id != _is_moving_forward[0]: return
+	is_moving_forward = _is_moving_forward[1]
 
-func on_is_moving_backward_packet(peer_id: int, _is_moving_backward: Dictionary) -> void:
-	if id != peer_id: return
-	is_moving_backward = _is_moving_backward.is_moving_backward
+func on_is_moving_backward_packet(_is_moving_backward: Array) -> void:
+	if id != _is_moving_backward[0]: return
+	is_moving_backward = _is_moving_backward[1]
 
-func on_mouse_motion_packet(peer_id: int, _mouse_motion: Dictionary) -> void:
-	if id != peer_id: return
-	mouse_motion = _mouse_motion.mouse_motion
+func on_mouse_motion_packet(_mouse_motion: Array) -> void:
+	if id != _mouse_motion[0]: return
+	mouse_motion = _mouse_motion[1]
 
-func on_is_sprinting_packet(peer_id: int, _is_sprinting: Dictionary) -> void:
-	if id != peer_id: return
-	is_sprinting = _is_sprinting.is_sprinting
+func on_is_sprinting_packet(_is_sprinting: Array) -> void:
+	if id != _is_sprinting[0]: return
+	is_sprinting = _is_sprinting[1]
 
-func on_is_jumping_packet(peer_id: int, _is_jumping: Dictionary) -> void:
-	if id != peer_id: return
-	is_jumping = _is_jumping.is_jumping
+func on_is_jumping_packet(_is_jumping: Array) -> void:
+	if id != _is_jumping[0]: return
+	is_jumping = _is_jumping[1]
 
-func on_is_shooting_packet(peer_id: int, _is_shooting: Dictionary) -> void:
-	if id != peer_id: return
-	is_shooting = _is_shooting.is_shooting
+func on_is_shooting_packet(_is_shooting: Array) -> void:
+	if id != _is_shooting[0]: return
+	is_shooting = _is_shooting[1]

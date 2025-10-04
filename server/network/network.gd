@@ -3,14 +3,14 @@ extends Node
 signal on_peer_connected(peer_id: int)
 signal on_peer_disconnected(peer_id: int)
 
-signal on_is_moving_left_packet(peer_id: int, is_moving_left: Dictionary)
-signal on_is_moving_right_packet(peer_id: int, is_moving_right: Dictionary)
-signal on_is_moving_forward_packet(peer_id: int, is_moving_forward: Dictionary)
-signal on_is_moving_backward_packet(peer_id: int, is_moving_backward: Dictionary)
-signal on_mouse_motion_packet(peer_id: int, mouse_motion: Dictionary)
-signal on_is_sprinting_packet(peer_id: int, is_sprinting: Dictionary)
-signal on_is_jumping_packet(peer_id: int, is_jumping: Dictionary)
-signal on_is_shooting_packet(peer_id: int, is_shooting: Dictionary)
+signal on_is_moving_left_packet(is_moving_left: Array)
+signal on_is_moving_right_packet(is_moving_right: Array)
+signal on_is_moving_forward_packet(is_moving_forward: Array)
+signal on_is_moving_backward_packet(is_moving_backward: Array)
+signal on_mouse_motion_packet(mouse_motion: Array)
+signal on_is_sprinting_packet(is_sprinting: Array)
+signal on_is_jumping_packet(is_jumping: Array)
+signal on_is_shooting_packet(is_shooting: Array)
 
 var connection: ENetConnection
 var available_peer_ids: Array = range(255, 1, -1) # 2-255
@@ -47,7 +47,7 @@ func handle_events() -> void:
 				ENetConnection.EVENT_DISCONNECT:
 					peer_disconnected(peer)
 				ENetConnection.EVENT_RECEIVE:
-					on_packet_received(peer.get_meta("id"), peer.get_packet())
+					on_packet_received(peer.get_packet())
 
 			# Call service() again to handle remaining packets in current while loop
 			packet_event = connection.service()
@@ -63,7 +63,7 @@ func peer_connected(peer: ENetPacketPeer) -> void:
 	
 	peer_ids.append(peer_id)
 
-	var data: Dictionary = { "id": peer_id, "remote_ids": peer_ids }
+	var data: Array = [ peer_id, peer_ids ]
 	MystixPacket.broadcast(connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.ID_ASSIGNMENT, data)
 
 func peer_disconnected(peer: ENetPacketPeer) -> void:
@@ -73,28 +73,28 @@ func peer_disconnected(peer: ENetPacketPeer) -> void:
 	print("Peer disconnected: ", peer_id)
 	on_peer_disconnected.emit(peer_id) # used in despawn player
 
-	var data: Dictionary = { "id": peer_id }
+	var data: Array = [ peer_id ]
 	MystixPacket.broadcast(connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.ID_DEASSIGNMENT, data)
 
 	available_peer_ids.push_back(peer_id)
 
-func on_packet_received(peer_id: int, data: PackedByteArray) -> void:
+func on_packet_received(data: PackedByteArray) -> void:
 	match data[0]:
 		MystixPacket.PACKET_TYPE.MOUSE_MOTION:
-			on_mouse_motion_packet.emit(peer_id, MystixPacket.decode(data))
+			on_mouse_motion_packet.emit(MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_SPRINTING:
-			on_is_sprinting_packet.emit(peer_id, MystixPacket.decode(data))
+			on_is_sprinting_packet.emit(MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_JUMPING:
-			on_is_jumping_packet.emit(peer_id, MystixPacket.decode(data))
+			on_is_jumping_packet.emit(MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_SHOOTING:
-			on_is_shooting_packet.emit(peer_id, MystixPacket.decode(data))
+			on_is_shooting_packet.emit(MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_MOVING_LEFT:
-			on_is_moving_left_packet.emit(peer_id, MystixPacket.decode(data))
+			on_is_moving_left_packet.emit(MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT:
-			on_is_moving_right_packet.emit(peer_id, MystixPacket.decode(data))
+			on_is_moving_right_packet.emit(MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD:
-			on_is_moving_forward_packet.emit(peer_id, MystixPacket.decode(data))
+			on_is_moving_forward_packet.emit(MystixPacket.decode(data))
 		MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD:
-			on_is_moving_backward_packet.emit(peer_id, MystixPacket.decode(data))
+			on_is_moving_backward_packet.emit(MystixPacket.decode(data))
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")

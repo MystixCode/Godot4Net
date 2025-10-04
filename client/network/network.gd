@@ -92,21 +92,20 @@ func on_packet_received(data: PackedByteArray) -> void:
 		_:
 			push_error("Packet type with index ", data[0], " unhandled!")
 
-func add_ids(data: Dictionary) -> void:
+func add_ids(data: Array) -> void:
 	if id == 1: # When id == 1, the id sent by the server is for us
-		id = data.id
+		id = data[0] # Use data[0] for local id
 		print("New remote ids for player: ", str(id))
-		handle_local_id_assignment.emit(data.id)
+		handle_local_id_assignment.emit(data[0])
 
-		remote_ids = data.remote_ids
+		remote_ids = data[1] # Use data[1] for remote_ids array
 		for remote_id in remote_ids:
 			if remote_id == id: continue
 			handle_remote_id_assignment.emit(remote_id)
+	else: # When id != 1, we already own an id, and just append the new id
+		remote_ids.append(data[0]) # Append new remote id from data[0]
+		handle_remote_id_assignment.emit(data[0])
 
-	else: # When id != 1, we already own an id, and just append the remote ids by the sent id
-		remote_ids.append(data.id)
-		handle_remote_id_assignment.emit(data.id)
-
-func remove_id(data: Dictionary) -> void:
-	remote_ids.erase(data.id)
-	handle_remote_id_deassignment.emit(data.id)
+func remove_id(data: Array) -> void:
+	remote_ids.erase(data[0]) # Use data[0] for id to remove
+	handle_remote_id_deassignment.emit(data[0])

@@ -54,7 +54,7 @@ func _physics_process(delta: float) -> void:
 
 	position_timer += delta
 	if position_timer >= position_interval:
-		var data: Dictionary = { "id": name.to_int(), "position": position }
+		var data: Array = [ name.to_int(), position ]
 		MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_POSITION, data)
 		position_timer = 0.0
 

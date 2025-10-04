@@ -12,5 +12,5 @@ func _exit_tree() -> void:
 	#print("hello world from: " + str(name))
 #	$AudioStreamPlayer3d.play()
 
-func on_bullet_position_packet(bullet_position: Dictionary) -> void:
-	get_node("/root/Main/BulletSpawner/"+str(bullet_position.id)).position = bullet_position.position
+func on_bullet_position_packet(bullet_position: Array) -> void:
+	get_node("/root/Main/BulletSpawner/"+str(bullet_position[0])).position = bullet_position[1]

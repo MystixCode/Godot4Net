@@ -10,11 +10,12 @@ func _exit_tree() -> void:
 	Network.on_bullet_spawn_packet.disconnect(on_bullet_spawn_packet)
 	Network.on_bullet_despawn_packet.disconnect(on_bullet_despawn_packet)
 
-func on_bullet_spawn_packet(bullet_spawn: Dictionary) -> void:
+func on_bullet_spawn_packet(bullet_spawn: Array) -> void:
 	var b := b_res.instantiate()
-	b.name = str(bullet_spawn.id)
-	b.position = bullet_spawn.position
+	b.name = str(bullet_spawn[0])
+	b.position = bullet_spawn[1]
 	get_node("/root/Main/BulletSpawner").add_child(b, true)
 
-func on_bullet_despawn_packet(bullet_despawn: Dictionary) -> void:
-	get_node("/root/Main/BulletSpawner/"+str(bullet_despawn.id)).queue_free()
+func on_bullet_despawn_packet(bullet_despawn: Array) -> void:
+	if get_node("/root/Main/BulletSpawner").has_node(str(bullet_despawn[0])):
+		get_node("/root/Main/BulletSpawner/"+str(bullet_despawn[0])).queue_free()

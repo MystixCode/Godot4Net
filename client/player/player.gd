@@ -61,70 +61,70 @@ func _physics_process(delta: float) -> void:
 	mouse_motion = Input.get_last_mouse_velocity()
 
 	if mouse_motion != Vector2.ZERO and mouse_motion_timer >= mouse_motion_interval:
-		var data: Dictionary = { "id": id, "mouse_motion": mouse_motion }
+		var data: Array = [ id, mouse_motion ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.MOUSE_MOTION, data)
 		mouse_motion = Vector2.ZERO
 		mouse_motion_timer = 0.0
 
 	if Input.is_action_just_pressed("move_left"):
 		is_moving_left=true
-		var data: Dictionary = { "id": id, "is_moving_left": is_moving_left }
+		var data: Array = [ id, is_moving_left ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_LEFT, data)
 	if Input.is_action_just_released("move_left"):
 		is_moving_left=false
-		var data: Dictionary = { "id": id, "is_moving_left": is_moving_left }
+		var data: Array = [id, is_moving_left ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_LEFT, data)
 		
 	if Input.is_action_just_pressed("move_right"):
 		is_moving_right=true
-		var data: Dictionary = { "id": id, "is_moving_right": is_moving_right }
+		var data: Array = [ id, is_moving_right ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT, data)
 		
 	if Input.is_action_just_released("move_right"):
 		is_moving_right=false
-		var data: Dictionary = { "id": id, "is_moving_right": is_moving_right }
+		var data: Array = [ id, is_moving_right ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_RIGHT, data)
 		
 	if Input.is_action_just_pressed("move_fw"):
 		is_moving_forward=true
-		var data: Dictionary = { "id": id, "is_moving_forward": is_moving_forward }
+		var data: Array = [ id, is_moving_forward ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD, data)
 		
 	if Input.is_action_just_released("move_fw"):
 		is_moving_forward=false
-		var data: Dictionary = { "id": id, "is_moving_forward": is_moving_forward }
+		var data: Array = [ id, is_moving_forward ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_FORWARD, data)
 
 	if Input.is_action_just_pressed("move_bw"):
 		is_moving_backward=true
-		var data: Dictionary = { "id": id, "is_moving_backward": is_moving_backward }
+		var data: Array = [ id, is_moving_backward ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD, data)
 		
 	if Input.is_action_just_released("move_bw"):
 		is_moving_backward=false
-		var data: Dictionary = { "id": id, "is_moving_backward": is_moving_backward }
+		var data: Array = [ id, is_moving_backward ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_MOVING_BACKWARD, data)
 
 	if Input.is_action_just_pressed("sprint"):
 		# TODO: only if stamina > 0
 		is_sprinting=true
-		var data: Dictionary = { "id": id, "is_sprinting": is_sprinting }
+		var data: Array = [ id, is_sprinting ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SPRINTING, data)
 
 	if Input.is_action_just_released("sprint"):
 		is_sprinting=false
-		var data: Dictionary = { "id": id, "is_sprinting": is_sprinting }
+		var data: Array = [ id, is_sprinting ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SPRINTING, data)
 		
 	if Input.is_action_just_pressed("jump"):
 		is_jumping=true
-		var data: Dictionary = { "id": id, "is_jumping": is_jumping }
+		var data: Array = [ id, is_jumping ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_JUMPING, data)
 
 	if Input.is_action_just_pressed("shoot"):
 		# TODO: only if mana > shoot mana cost
 		is_shooting=true
-		var data: Dictionary = { "id": id, "is_shooting": is_shooting }
+		var data: Array = [ id, is_shooting ]
 		MystixPacket.send(Network.server_peer, ENetPacketPeer.FLAG_UNSEQUENCED, MystixPacket.PACKET_TYPE.IS_SHOOTING, data)
 
 	if client_prediction:
@@ -177,17 +177,17 @@ func handle_rotation(delta: float) -> void:
 	rotation.y += -mouse_motion.x * mouse_sensitivity * delta
 	mouse_motion = Vector2.ZERO
 
-func on_player_position_packet(player_position: Dictionary) -> void:
-	if id != player_position.id: return
+func on_player_position_packet(player_position: Array) -> void:
+	if id != player_position[0]: return
 	if interpolation:
-		server_position = player_position.position
+		server_position = player_position[1]
 	else:
-		position = player_position.position
+		position = player_position[1]
 
-func on_player_rotation_y_packet(player_rotation_y: Dictionary) -> void:
-	if id != player_rotation_y.id: return
-	rotation.y = player_rotation_y.rotation_y
+func on_player_rotation_y_packet(player_rotation_y: Array) -> void:
+	if id != player_rotation_y[0]: return
+	rotation.y = player_rotation_y[1]
 
-func on_ca_rotation_x_packet(ca_rotation_x: Dictionary) -> void:
-	if id != ca_rotation_x.id: return
-	$CameraArm.rotation.x = ca_rotation_x.ca_rotation_x
+func on_ca_rotation_x_packet(ca_rotation_x: Array) -> void:
+	if id != ca_rotation_x[0]: return
+	$CameraArm.rotation.x = ca_rotation_x[1]

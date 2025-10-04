@@ -25,4 +25,4 @@ gdscript/warnings/untyped_declaration=1
 
 [physics]
 
-common/physics_jitter_fix=0.0
+common/physics_interpolation=true

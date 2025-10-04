@@ -20,10 +20,7 @@ func spawn(player_id: int) -> void:
 	get_node("/root/Main/BulletSpawner").add_child(b, true)
 	bullet_ids.append(bullet_id)
 
-	var data: Dictionary = {
-		"id": bullet_id,
-		"position": b.position
-	}
+	var data: Array = [ bullet_id, b.position ]
 	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_SPAWN, data)
 
 func despawn(bullet_id: int) -> void:	
@@ -31,7 +28,5 @@ func despawn(bullet_id: int) -> void:
 	get_node("/root/Main/BulletSpawner/"+str(bullet_id)).queue_free()
 	available_bullet_ids.push_back(bullet_id)
 
-	var data: Dictionary = {
-		"id":bullet_id	
-	}
+	var data: Array = [ bullet_id ]
 	MystixPacket.broadcast(Network.connection, ENetPacketPeer.FLAG_RELIABLE, MystixPacket.PACKET_TYPE.BULLET_DESPAWN, data)
